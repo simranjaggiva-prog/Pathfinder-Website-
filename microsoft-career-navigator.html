@@ -1,0 +1,2066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pathfinder — Find Your Microsoft Tech Career</title>
+  <style>
+    /* ─── Design tokens ─────────────────────────────── */
+    :root {
+      --blue:   #1c3d6e;
+      --dark:   #1a1410;
+      --mid:    #2a4878;
+      --light:  #ece7db;
+      --green:  #2a5424;
+      --teal:   #1a5450;
+      --orange: #7a3e0a;
+      --purple: #3c1e68;
+      --yellow: #b08824;
+      --red:    #6e1e22;
+      --pink:   #721840;
+      --r: 16px;
+      --sh: 0 2px 20px rgba(0,0,0,.08);
+      --sh-lg: 0 8px 40px rgba(0,0,0,.12);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #ede8dc;
+      color: #1e1a14;
+      min-height: 100vh;
+    }
+
+    /* ─── Header ──────────────────────────────────── */
+    header {
+      background: #162040;
+      background-image:
+        radial-gradient(ellipse 80% 60% at 20% -10%, rgba(176,136,36,.38) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 110%, rgba(60,30,104,.28) 0%, transparent 60%);
+      color: #fff;
+      padding: 52px 24px 44px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .header-inner { position: relative; z-index: 1; }
+    .header-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.2);
+      backdrop-filter: blur(8px);
+      border-radius: 99px;
+      padding: 4px 14px;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.8);
+      margin-bottom: 18px;
+    }
+    header h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -.02em;
+      background: linear-gradient(135deg, #fff 30%, #e8d49a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    header .tagline {
+      margin-top: 14px;
+      font-size: 1.05rem;
+      color: rgba(255,255,255,.72);
+      max-width: 520px;
+      margin-inline: auto;
+      line-height: 1.6;
+    }
+
+    /* ─── Step nav ─────────────────────────────────── */
+    .step-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      margin-top: 32px;
+    }
+    .step-dot {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.12);
+      border: 2px solid rgba(255,255,255,.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .75rem; font-weight: 700; color: rgba(255,255,255,.5);
+      transition: all .35s;
+      position: relative; z-index: 1;
+    }
+    .step-dot.active { background: var(--yellow); border-color: var(--yellow); color: #1a1410; }
+    .step-dot.done { background: #2a5424; border-color: #2a5424; color: #fff; }
+    .step-line {
+      width: 60px; height: 2px;
+      background: rgba(255,255,255,.15);
+      position: relative;
+    }
+    .step-line::after {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      background: #2a5424;
+      width: 0%;
+      transition: width .45s ease;
+    }
+    .step-line.done::after { width: 100%; }
+    .step-label-row {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      margin-top: 8px;
+    }
+    .step-label-item {
+      width: 32px;
+      text-align: center;
+      font-size: .65rem;
+      color: rgba(255,255,255,.45);
+      font-weight: 600;
+    }
+    .step-label-gap { width: 60px; }
+
+    /* ─── Main ─────────────────────────────────────── */
+    main { max-width: 880px; margin: 0 auto; padding: 36px 20px 80px; }
+
+    /* ─── Screens ──────────────────────────────────── */
+    .screen { display: none; }
+    .screen.active { display: block; animation: fadeUp .4s ease; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes slideInBadge { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
+    /* ─── Welcome screen ───────────────────────────── */
+    .welcome-card {
+      background: #fdf9f4;
+      border-radius: 24px;
+      box-shadow: var(--sh-lg);
+      padding: 48px 44px;
+      text-align: center;
+      border: 1.5px solid #d6cfc3;
+    }
+    @media (max-width: 520px) { .welcome-card { padding: 32px 20px; } }
+    .welcome-icon { font-size: 4rem; margin-bottom: 20px; }
+    .welcome-card h2 { font-size: 1.9rem; font-weight: 800; color: var(--dark); letter-spacing: -.02em; }
+    .welcome-card .sub { font-size: 1rem; color: #5a5048; margin: 12px auto 32px; max-width: 480px; line-height: 1.65; }
+    .pill-grid {
+      display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 36px;
+    }
+    .pill {
+      background: #ece7db;
+      color: var(--mid);
+      border-radius: 99px;
+      padding: 7px 16px;
+      font-size: .82rem;
+      font-weight: 600;
+      border: 1.5px solid #d6cfc3;
+    }
+
+    /* ─── Chatbot widget ───────────────────────────── */
+    .chat-divider {
+      display: flex; align-items: center; gap: 12px;
+      margin: 28px 0 20px; color: #8a8070;
+    }
+    .chat-divider::before, .chat-divider::after {
+      content: ''; flex: 1; height: 1px; background: #d6cfc3;
+    }
+    .chat-divider span { font-size: .78rem; font-weight: 600; white-space: nowrap; }
+    .chatbot-widget {
+      background: #f5f1ea;
+      border: 1.5px solid #d6cfc3;
+      border-radius: 18px;
+      overflow: hidden;
+      text-align: left;
+    }
+    .chat-header {
+      display: flex; align-items: center; gap: 10px;
+      background: #1c3d6e;
+      padding: 11px 16px;
+    }
+    .chat-header-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: #4caf8a;
+      box-shadow: 0 0 0 2px rgba(76,175,138,.3);
+    }
+    .chat-header span { font-size: .82rem; font-weight: 700; color: rgba(255,255,255,.9); }
+    .chat-messages {
+      padding: 16px 14px 8px;
+      display: flex; flex-direction: column; gap: 10px;
+      max-height: 320px; overflow-y: auto; scroll-behavior: smooth;
+    }
+    .chat-msg { display: flex; align-items: flex-end; gap: 8px; }
+    .chat-msg.user { flex-direction: row-reverse; }
+    .chat-avatar {
+      width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .7rem; font-weight: 900;
+      background: #1c3d6e; color: #fff;
+    }
+    .chat-msg.user .chat-avatar { background: #8b2020; }
+    .chat-bubble {
+      max-width: 78%; padding: 9px 13px;
+      border-radius: 14px 14px 14px 4px;
+      font-size: .84rem; line-height: 1.5; color: #1e1a14;
+      background: #fff; border: 1px solid #e0d9cc;
+      animation: slideInBadge .25s ease backwards;
+    }
+    .chat-msg.user .chat-bubble {
+      background: #1c3d6e; color: #fff; border-color: transparent;
+      border-radius: 14px 14px 4px 14px;
+    }
+    .chat-match-card {
+      background: #fdf9f4; border: 1.5px solid #d6cfc3;
+      border-radius: 12px; padding: 12px 14px; margin-top: 4px;
+    }
+    .chat-match-title {
+      font-size: .9rem; font-weight: 800; color: #1c3d6e;
+      display: flex; align-items: center; gap: 7px; margin-bottom: 5px;
+    }
+    .chat-match-desc { font-size: .78rem; color: #5a5048; line-height: 1.5; }
+    .chat-typing-dots {
+      display: inline-flex; gap: 4px; align-items: center; padding: 2px 0;
+    }
+    .chat-typing-dots span {
+      width: 6px; height: 6px; border-radius: 50%; background: #aaa;
+      animation: chatDot .9s infinite ease-in-out;
+    }
+    .chat-typing-dots span:nth-child(2) { animation-delay: .2s; }
+    .chat-typing-dots span:nth-child(3) { animation-delay: .4s; }
+    @keyframes chatDot { 0%,80%,100% { transform: scale(0.6); opacity:.4; } 40% { transform: scale(1); opacity:1; } }
+    .chat-chips {
+      display: flex; flex-wrap: wrap; gap: 7px;
+      padding: 4px 14px 12px;
+    }
+    .chat-chip {
+      background: #fff; border: 1.5px solid #c8bfb0;
+      border-radius: 99px; padding: 6px 14px;
+      font-size: .78rem; font-weight: 700; color: #1c3d6e;
+      cursor: pointer; transition: all .16s;
+      white-space: nowrap;
+    }
+    .chat-chip:hover { background: #1c3d6e; color: #fff; border-color: #1c3d6e; }
+    .chat-chip.primary { background: #1c3d6e; color: #fff; border-color: #1c3d6e; }
+    .chat-chip.primary:hover { background: #122a52; }
+    .chat-input-row {
+      display: flex; gap: 0;
+      border-top: 1px solid #d6cfc3;
+      background: #fff;
+    }
+    .chat-input {
+      flex: 1; border: none; outline: none;
+      padding: 12px 14px; font-size: .85rem;
+      font-family: inherit; background: transparent; color: #1e1a14;
+      resize: none;
+    }
+    .chat-send-btn {
+      padding: 0 18px; border: none;
+      background: #1c3d6e; color: #fff;
+      font-size: 1rem; font-weight: 700;
+      cursor: pointer; transition: background .16s;
+      flex-shrink: 0;
+    }
+    .chat-send-btn:hover { background: #122a52; }
+    .chat-send-btn:disabled { background: #c8bfb0; cursor: not-allowed; }
+    .chat-reset-btn {
+      margin-left: auto; flex-shrink: 0;
+      background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.24);
+      color: rgba(255,255,255,.85); border-radius: 6px;
+      padding: 4px 11px; font-size: .72rem; font-weight: 700;
+      cursor: pointer; transition: background .16s; letter-spacing: .03em;
+      font-family: inherit;
+    }
+    .chat-reset-btn:hover { background: rgba(255,255,255,.28); }
+
+    /* ─── Chat roadmap ──────────────────────────────── */
+    .chat-bubble.wide { max-width: 96%; }
+    .chat-roadmap {
+      margin-top: 10px;
+      background: #fdf9f4; border: 1.5px solid #d6cfc3;
+      border-radius: 14px; padding: 14px 14px 12px;
+    }
+    .chat-roadmap-header {
+      display: flex; align-items: center; gap: 8px;
+      font-size: .88rem; font-weight: 800; color: #1c3d6e;
+      padding-bottom: 10px; margin-bottom: 12px;
+      border-bottom: 1px solid #e8e3da;
+    }
+    .chat-roadmap-phases { position: relative; padding-left: 28px; }
+    .chat-roadmap-phases::before {
+      content: ''; position: absolute; left: 9px; top: 12px; bottom: 12px;
+      width: 2px;
+      background: linear-gradient(to bottom, #1c3d6e 0%, #8b2020 100%);
+      border-radius: 2px;
+    }
+    .chat-roadmap-phase { position: relative; margin-bottom: 14px; }
+    .chat-roadmap-phase:last-child { margin-bottom: 0; }
+    .chat-roadmap-dot {
+      position: absolute; left: -28px; top: 1px;
+      width: 20px; height: 20px;
+      background: #1c3d6e; color: #fff;
+      border-radius: 50%; border: 2px solid #fdf9f4;
+      box-shadow: 0 0 0 2px #1c3d6e;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .6rem; font-weight: 900;
+    }
+    .chat-roadmap-phase:nth-child(2) .chat-roadmap-dot { background: #2a5a80; box-shadow: 0 0 0 2px #2a5a80; }
+    .chat-roadmap-phase:nth-child(3) .chat-roadmap-dot { background: #8b2020; box-shadow: 0 0 0 2px #8b2020; }
+    .chat-roadmap-period {
+      font-size: .65rem; font-weight: 700; color: #9a8878;
+      text-transform: uppercase; letter-spacing: .07em; margin-bottom: 2px;
+    }
+    .chat-roadmap-title { font-size: .82rem; font-weight: 800; color: #1e1a14; margin-bottom: 3px; }
+    .chat-roadmap-desc { font-size: .75rem; color: #5a5048; line-height: 1.5; }
+    .chat-roadmap-label {
+      font-size: .65rem; font-weight: 700; color: #9a8878;
+      text-transform: uppercase; letter-spacing: .07em;
+      margin: 12px 0 7px;
+    }
+    .chat-roadmap-certs { display: flex; flex-wrap: wrap; gap: 5px; }
+    .chat-roadmap-cert {
+      background: #e8eef6; border: 1px solid #b8c8da;
+      border-radius: 6px; padding: 4px 9px;
+      font-size: .7rem; font-weight: 700; color: #1c3d6e;
+      text-decoration: none; transition: all .15s;
+    }
+    .chat-roadmap-cert:hover { background: #1c3d6e; color: #fff; }
+    .chat-roadmap-jobs { display: flex; flex-wrap: wrap; gap: 5px; }
+    .chat-roadmap-job {
+      background: #f0ece4; border: 1px solid #d6cfc3;
+      border-radius: 6px; padding: 4px 9px;
+      font-size: .7rem; font-weight: 600; color: #4a3820;
+    }
+
+    /* ─── Cert path diagram ─────────────────────── */
+    .cert-path-diagram { display: flex; flex-direction: column; margin: 2px 0 6px; }
+    .cert-path-step {
+      display: flex; gap: 12px; align-items: flex-start;
+      position: relative; padding-bottom: 18px;
+    }
+    .cert-path-step:last-child { padding-bottom: 4px; }
+    .cert-path-step:not(:last-child)::before {
+      content: ''; position: absolute;
+      left: 11px; top: 26px; bottom: 0; width: 2px;
+      background: #d6cfc3;
+    }
+    .cert-path-dot {
+      width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .65rem; font-weight: 900; color: #fff; position: relative; z-index: 1;
+    }
+    .cert-path-dot.level-0 { background: #2a5424; }
+    .cert-path-dot.level-1 { background: #1c3d6e; }
+    .cert-path-dot.level-2 { background: #8b2020; }
+    .cert-path-dot.level-3 { background: #6e3a00; }
+    .cert-path-content { flex: 1; min-width: 0; padding-top: 1px; }
+    .cert-path-level {
+      font-size: .62rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: .07em; margin-bottom: 2px;
+    }
+    .cert-path-level.level-0 { color: #2a5424; }
+    .cert-path-level.level-1 { color: #1c3d6e; }
+    .cert-path-level.level-2 { color: #8b2020; }
+    .cert-path-level.level-3 { color: #6e3a00; }
+    .cert-path-link {
+      font-size: .82rem; font-weight: 700; color: #1e1a14;
+      text-decoration: none; line-height: 1.3; display: block;
+    }
+    .cert-path-link:hover { color: #1c3d6e; text-decoration: underline; }
+    .cert-path-tip { font-size: .72rem; color: #6a5a48; margin-top: 2px; line-height: 1.4; }
+
+    /* ─── Interest grid ────────────────────────────── */
+    .quiz-card {
+      background: #f9f8f6;
+      border-radius: 24px;
+      box-shadow: var(--sh-lg);
+      padding: 40px 40px 32px;
+      border: 1.5px solid #e8e3da;
+    }
+    @media (max-width: 520px) { .quiz-card { padding: 28px 18px 24px; } }
+    .quiz-card h2 { font-size: 1.6rem; font-weight: 900; color: var(--dark); margin-bottom: 6px; }
+    .quiz-card .sub { font-size: .93rem; color: #5a5048; margin-bottom: 6px; line-height: 1.5; }
+    .tile-counter { font-size: .82rem; font-weight: 600; color: #8a8070; margin-bottom: 22px; min-height: 1.2em; }
+    .tile-counter strong { color: #1c3d6e; font-size: .9rem; }
+
+    .interests-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .interest-tile {
+      border: 1.5px solid #d6cfc3;
+      border-radius: 16px;
+      padding: 22px 12px 16px;
+      cursor: pointer;
+      text-align: center;
+      transition: all .22s ease;
+      user-select: none;
+      background: #fdf9f4;
+      position: relative;
+      overflow: hidden;
+    }
+    .interest-tile::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: var(--tc, #5a6a80);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .24s ease;
+      border-radius: 16px 16px 0 0;
+    }
+    .interest-tile:hover::before,
+    .interest-tile.selected::before { transform: scaleX(1); }
+    .interest-tile:hover {
+      border-color: var(--tc, #5a6a80);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,.07);
+    }
+    .interest-tile.selected {
+      border-color: var(--tc, #5a6a80);
+      background: var(--tc-bg, #eef1f5);
+      box-shadow: 0 6px 20px rgba(0,0,0,.07);
+      transform: translateY(-2px);
+    }
+    .interest-tile .icon {
+      font-size: 1.75rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 54px; height: 54px;
+      border-radius: 50%;
+      background: var(--tc-bg, #e8eaec);
+      border: 2px solid transparent;
+      margin: 0 auto 12px;
+      transition: border-color .22s;
+    }
+    .interest-tile.selected .icon { border-color: var(--tc, #5a6a80); }
+    .interest-tile .label { font-weight: 700; font-size: .88rem; color: var(--dark); line-height: 1.3; }
+    .interest-tile .desc  { font-size: .73rem; color: #7a6e60; margin-top: 5px; }
+
+    /* ─── Buttons ──────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 28px;
+      border-radius: 10px;
+      border: none;
+      font-size: .95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .18s;
+      letter-spacing: -.01em;
+    }
+    .btn:active { transform: scale(.97); }
+    .btn-primary {
+      background: #1c3d6e;
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(28,61,110,.32);
+    }
+    .btn-primary:hover { background: #122a52; box-shadow: 0 6px 20px rgba(28,61,110,.42); transform: translateY(-1px); }
+    .btn-secondary { background: #ece7db; color: #2a2018; border: 1.5px solid #d6cfc3; }
+    .btn-secondary:hover { background: #e0d9cc; }
+    .btn:disabled { opacity: .4; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+
+    /* ─── Results layout ───────────────────────────── */
+    #screen-2 { max-width: 100%; }
+    .results-header { margin-bottom: 24px; }
+    .results-header h2 { font-size: 1.6rem; font-weight: 800; color: var(--dark); }
+    .results-header p { color: #5a5048; margin-top: 6px; font-size: .95rem; line-height: 1.55; }
+
+    #no-match { display: none; background: #fdf5dd; border: 2px solid var(--yellow); border-radius: 14px; padding: 20px 24px; margin-bottom: 20px; color: #5a3a08; }
+
+    .path-cards { display: flex; flex-direction: column; gap: 18px; }
+
+    /* ─── Career accordion card ────────────────────── */
+    .career-block {
+      background: #fdf9f4;
+      border-radius: 20px;
+      box-shadow: var(--sh);
+      overflow: hidden;
+      border: 1.5px solid #d6cfc3;
+      transition: box-shadow .2s;
+    }
+    .career-block:hover { box-shadow: var(--sh-lg); }
+
+    /* header bar (always visible) */
+    .career-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px 24px;
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+    }
+    .career-color-bar {
+      width: 6px;
+      border-radius: 99px;
+      align-self: stretch;
+      flex-shrink: 0;
+      min-height: 56px;
+    }
+    .c-blue   .career-color-bar { background: linear-gradient(180deg,#1c3d6e,#122a52); }
+    .c-purple .career-color-bar { background: linear-gradient(180deg,#3c1e68,#281248); }
+    .c-teal   .career-color-bar { background: linear-gradient(180deg,#1a5450,#0e3835); }
+    .c-green  .career-color-bar { background: linear-gradient(180deg,#2a5424,#1a3818); }
+    .c-orange .career-color-bar { background: linear-gradient(180deg,#7a3e0a,#563008); }
+    .c-red    .career-color-bar { background: linear-gradient(180deg,#6e1e22,#4e1418); }
+    .c-darkblue .career-color-bar { background: linear-gradient(180deg,#0e2444,#081830); }
+    .c-pink   .career-color-bar { background: linear-gradient(180deg,#721840,#4e1030); }
+
+    .career-icon-wrap {
+      width: 52px; height: 52px; flex-shrink: 0;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem;
+    }
+    .c-blue   .career-icon-wrap { background: #e8eef6; }
+    .c-purple .career-icon-wrap { background: #ede8f4; }
+    .c-teal   .career-icon-wrap { background: #e6f0ef; }
+    .c-green  .career-icon-wrap { background: #e6f0e5; }
+    .c-orange .career-icon-wrap { background: #f0e8e0; }
+    .c-red    .career-icon-wrap { background: #f0e6e6; }
+    .c-darkblue .career-icon-wrap { background: #e4eaf2; }
+    .c-pink   .career-icon-wrap { background: #f0e6ee; }
+
+    .career-header-text { flex: 1; min-width: 0; }
+    .career-header-text .match-badge {
+      font-size: .68rem; font-weight: 700; border-radius: 99px;
+      padding: 2px 10px; display: inline-block; margin-bottom: 5px;
+      letter-spacing: .3px;
+    }
+    .top-match-badge { background: #f5eecc; color: #5a3a08; }
+    .other-match-badge { background: #ece7db; color: #2a2018; }
+    .career-header-text h3 { font-size: 1.05rem; font-weight: 800; color: var(--dark); }
+    .career-header-text .tagline {
+      font-size: .82rem; color: #5a5048; margin-top: 3px; line-height: 1.4;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    .career-chevron {
+      font-size: 1.1rem; color: #9a8e80; margin-left: auto; flex-shrink: 0;
+      transition: transform .3s ease;
+    }
+    .career-block.open .career-chevron { transform: rotate(180deg); }
+
+    /* job pills row */
+    .career-jobs-row {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      padding: 0 24px 16px 98px;
+    }
+    .job-pill {
+      font-size: .72rem; font-weight: 600;
+      border-radius: 99px; padding: 3px 11px;
+      border: 1.5px solid #d6cfc3; color: #3a3028; background: #f5f0e8;
+    }
+
+    /* ─── Tab panel ────────────────────────────────── */
+    .career-body { display: none; border-top: 1.5px solid #ece7db; }
+    .career-block.open .career-body { display: block; }
+
+    .tab-bar {
+      display: flex;
+      overflow-x: auto;
+      padding: 0 20px;
+      border-bottom: 1.5px solid #ece7db;
+      gap: 0;
+      scrollbar-width: none;
+    }
+    .tab-bar::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      flex-shrink: 0;
+      background: none; border: none; cursor: pointer;
+      padding: 13px 16px;
+      font-size: .8rem; font-weight: 700;
+      color: #7a6e60;
+      border-bottom: 2.5px solid transparent;
+      margin-bottom: -1.5px;
+      transition: color .18s, border-color .18s;
+      white-space: nowrap;
+    }
+    .tab-btn.active { color: #1c3d6e; border-bottom-color: #1c3d6e; }
+    .tab-btn:hover:not(.active) { color: var(--dark); }
+    .tab-btn-savill { color: #8b2020 !important; }
+    .tab-btn-savill.active { border-bottom-color: #8b2020 !important; color: #6e1818 !important; }
+    .tab-btn-savill:hover:not(.active) { color: #5a1a1a !important; }
+    .tab-btn-meetup { color: #b51a2f !important; }
+    .tab-btn-meetup.active { border-bottom-color: #b51a2f !important; color: #8a1020 !important; }
+    .tab-btn-meetup:hover:not(.active) { color: #8a1020 !important; }
+
+    .tab-pane { display: none; padding: 20px 24px 24px; }
+    .tab-pane.active { display: block; animation: fadeUp .25s ease; }
+
+    /* ─── Tab content — Certs ──────────────────────── */
+    .cert-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .cert-badge {
+      background: #e8eef6;
+      border: 1.5px solid #b8c8da;
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: .78rem; font-weight: 700;
+      color: #1c3d6e;
+      text-decoration: none;
+      transition: all .18s;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .cert-badge { display: inline-flex; align-items: center; gap: 6px; }
+    .cert-badge:hover { background: #d4e0f0; border-color: #1c3d6e; transform: translateY(-1px); }
+
+    /* ─── Tab content — 90-day plan ────────────────── */
+    .plan-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
+    .plan-step {
+      border-radius: 14px; padding: 16px 18px;
+      background: linear-gradient(135deg, #eef3ea, #dde8d8);
+      border: 1.5px solid #a8c4a0;
+      position: relative;
+    }
+    .step-badge {
+      display: inline-block; background: #2a5424; color: #fff;
+      font-size: .66rem; font-weight: 800; border-radius: 99px;
+      padding: 2px 10px; margin-bottom: 10px; letter-spacing: .5px;
+    }
+    .plan-step h5 { font-size: .88rem; color: #1a3818; font-weight: 800; margin-bottom: 6px; }
+    .plan-step p { font-size: .77rem; color: #2a2018; line-height: 1.5; }
+
+    /* ─── Tab content — MS resources ──────────────── */
+    .ms-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .ms-video-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 12px;
+    }
+    .ms-badge {
+      background: #fdf9f4;
+      border: 1.5px solid #d6cfc3;
+      border-radius: 14px;
+      padding: 0;
+      color: var(--dark);
+      text-decoration: none;
+      transition: all .22s;
+      display: flex; flex-direction: column;
+      overflow: hidden;
+    }
+    .ms-badge::before {
+      content: '';
+      display: block; height: 3px; flex-shrink: 0;
+      background: #1c3d6e;
+      transition: height .2s;
+    }
+    .ms-badge[data-tag="Show"]::before        { background: #1c3d6e; }
+    .ms-badge[data-tag="Series"]::before      { background: #8b2020; }
+    .ms-badge[data-tag="Video Series"]::before { background: #2a5424; }
+    .ms-badge-body { padding: 12px 14px 14px; flex: 1; display: flex; flex-direction: column; gap: 7px; }
+    .ms-badge-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+    .ms-badge-title { font-size: .82rem; font-weight: 800; color: #1e1a14; line-height: 1.35; flex: 1; }
+    .ms-badge .tag {
+      font-size: .6rem; font-weight: 800; flex-shrink: 0;
+      border-radius: 99px; padding: 2px 8px; margin-top: 1px;
+      white-space: nowrap;
+    }
+    .ms-badge[data-tag="Show"] .tag        { background: #e8eef6; color: #1c3d6e; }
+    .ms-badge[data-tag="Series"] .tag      { background: #f5ecec; color: #8b2020; }
+    .ms-badge[data-tag="Video Series"] .tag { background: #e8f0e8; color: #2a5424; }
+    .ms-badge-desc { font-size: .74rem; color: #5a5048; line-height: 1.5; font-weight: 400; }
+    .ms-badge:hover {
+      border-color: #1c3d6e;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(28,61,110,.12);
+      background: #f0ece2;
+    }
+    .ms-badge:hover::before { height: 5px; }
+
+    /* ─── Meetups section ───────────────────────── */
+    .meetup-intro { font-size: .82rem; color: #5a5048; margin-bottom: 18px; line-height: 1.6; }
+    .meetup-badge {
+      background: #f5f0e8; border: 1.5px solid #d6cfc3;
+      border-radius: 12px; padding: 14px 16px;
+      font-size: .88rem; font-weight: 700; color: var(--dark);
+      text-decoration: none; transition: all .22s;
+      display: flex; align-items: center; gap: 12px; line-height: 1.4;
+      animation: slideInBadge .38s ease backwards;
+    }
+    .meetup-badge::before {
+      content: 'M';
+      display: flex; align-items: center; justify-content: center;
+      width: 26px; height: 26px; flex-shrink: 0;
+      background: #b51a2f; color: #fff;
+      border-radius: 50%; font-size: .75rem; font-weight: 900;
+    }
+    .meetup-badge:hover { background: #ede8f4; border-color: #3c1e68; transform: translateX(3px) scale(1.005); box-shadow: 0 4px 16px rgba(60,30,104,.12); }
+    .ms-list .meetup-badge:nth-child(1) { animation-delay: .04s; }
+    .ms-list .meetup-badge:nth-child(2) { animation-delay: .12s; }
+    .ms-list .meetup-badge:nth-child(3) { animation-delay: .20s; }
+    .ms-list .meetup-badge:nth-child(4) { animation-delay: .28s; }
+    .meetup-badge .m-tag {
+      font-size: .62rem; font-weight: 800;
+      background: #b51a2f; color: #fff;
+      border-radius: 99px; padding: 2px 8px; margin-left: auto; flex-shrink: 0;
+    }
+    .meetup-find-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #b51a2f; color: #fff;
+      border-radius: 10px; padding: 12px 24px;
+      font-size: .88rem; font-weight: 800; text-decoration: none;
+      transition: background .18s, transform .18s; margin-top: 8px;
+    }
+    .meetup-find-btn:hover { background: #8a1020; transform: translateY(-1px); }
+
+    /* ─── Tab content — John Savill videos ──────────── */
+    .savill-profile {
+      display: flex; align-items: center; gap: 16px;
+      background: linear-gradient(135deg, #180a0a 0%, #5a1a1a 100%);
+      border-radius: 14px; padding: 16px 20px; margin-bottom: 16px;
+    }
+    .savill-avatar {
+      width: 52px; height: 52px; border-radius: 50%; flex-shrink: 0;
+      background: #8b2020;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; font-weight: 900; color: #fff;
+      border: 3px solid rgba(255,255,255,.25);
+      letter-spacing: -.02em;
+    }
+    .savill-profile-text { flex: 1; }
+    .savill-profile-text strong {
+      display: block; font-size: .95rem; font-weight: 800; color: #fff;
+      margin-bottom: 3px;
+    }
+    .savill-profile-text span {
+      font-size: .74rem; color: rgba(255,255,255,.65); line-height: 1.4;
+    }
+    .savill-yt-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #8b2020; color: #fff;
+      border-radius: 8px; padding: 7px 14px;
+      font-size: .75rem; font-weight: 800;
+      text-decoration: none; flex-shrink: 0;
+      transition: background .18s, transform .18s;
+      border: none;
+    }
+    .savill-yt-link:hover { background: #6e1818; transform: translateY(-1px); }
+    .savill-yt-link::before { content: '▶'; }
+    .savill-list {
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .savill-badge {
+      background: #fdf9f4;
+      border: 2px solid #c8a8a8;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: .82rem; font-weight: 700;
+      color: #5a1a1a;
+      text-decoration: none;
+      transition: all .22s;
+      display: flex; align-items: center; gap: 10px;
+      line-height: 1.35;
+      animation: slideInBadge .38s ease backwards;
+    }
+    .savill-badge::before {
+      content: '▶';
+      display: flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; flex-shrink: 0;
+      background: #8b2020; color: #fff;
+      border-radius: 50%; font-size: .65rem;
+    }
+    .savill-badge:hover {
+      background: #f5ecec; border-color: #a87070;
+      transform: translateX(4px) scale(1.01);
+      box-shadow: 0 4px 16px rgba(110,30,34,.18);
+    }
+    .savill-list .savill-badge:nth-child(1) { animation-delay: .04s; }
+    .savill-list .savill-badge:nth-child(2) { animation-delay: .12s; }
+    .savill-list .savill-badge:nth-child(3) { animation-delay: .20s; }
+    .savill-list .savill-badge:nth-child(4) { animation-delay: .28s; }
+    .savill-list .savill-badge:nth-child(5) { animation-delay: .36s; }
+    .savill-list .savill-badge:nth-child(6) { animation-delay: .44s; }
+
+    /* ─── Tab content — Start links ────────────────── */
+    .start-links { display: flex; flex-wrap: wrap; gap: 10px; }
+    .start-link-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 20px;
+      border-radius: 10px;
+      font-size: .85rem; font-weight: 700;
+      text-decoration: none;
+      transition: all .18s;
+      border: 2px solid transparent;
+    }
+    .start-link-primary {
+      background: #1c3d6e; color: #fff;
+      box-shadow: 0 4px 14px rgba(28,61,110,.28);
+    }
+    .start-link-primary:hover { background: #122a52; transform: translateY(-1px); }
+    .start-link-secondary {
+      background: #ece7db; color: var(--dark);
+      border-color: #d6cfc3;
+    }
+    .start-link-secondary:hover { background: #e0d9cc; }
+
+    /* ─── Savill CTA nudge ──────────────────────────── */
+    .savill-cta {
+      display: flex; align-items: center; gap: 14px;
+      background: linear-gradient(135deg, #180a0a, #5a1a1a);
+      border-radius: 12px; padding: 14px 18px; margin-top: 16px;
+      cursor: pointer; transition: opacity .18s; text-decoration: none;
+    }
+    .savill-cta:hover { opacity: .88; }
+    .savill-cta-avatar {
+      width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
+      background: #8b2020; color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .8rem; font-weight: 900;
+      border: 2px solid rgba(255,255,255,.25);
+    }
+    .savill-cta-text { flex: 1; }
+    .savill-cta-text strong {
+      display: block; font-size: .85rem; font-weight: 800; color: #fff;
+      margin-bottom: 2px;
+    }
+    .savill-cta-text p {
+      font-size: .78rem; color: rgba(255,255,255,.7);
+      margin: 0; line-height: 1.4;
+    }
+    .savill-cta-arrow {
+      font-size: 1.4rem; color: rgba(255,255,255,.55); flex-shrink: 0;
+    }
+
+    /* ─── Sticky career nav bar ─────────────────────── */
+    #career-nav {
+      display: none;
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(242,237,227,.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid #d6cfc3;
+      padding: 10px 20px;
+      overflow-x: auto;
+      white-space: nowrap;
+      scrollbar-width: none;
+    }
+    #career-nav::-webkit-scrollbar { display: none; }
+    #career-nav.visible { display: block; }
+    .nav-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: #ece7db; border: 1.5px solid #d6cfc3;
+      border-radius: 99px; padding: 5px 14px;
+      font-size: .75rem; font-weight: 700; color: #2a2018;
+      cursor: pointer; margin-right: 6px;
+      transition: all .18s; text-decoration: none;
+    }
+    .nav-pill:hover { background: #d4dce8; border-color: #1c3d6e; color: #1c3d6e; }
+    .nav-home-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: #1c3d6e; color: #fff;
+      border: none; border-radius: 99px;
+      padding: 5px 14px;
+      font-size: .75rem; font-weight: 700;
+      cursor: pointer; margin-right: 4px;
+      transition: all .18s; flex-shrink: 0; vertical-align: middle;
+      white-space: nowrap;
+    }
+    .nav-home-btn:hover { background: #122a52; transform: translateY(-1px); }
+    .nav-divider {
+      display: inline-block; width: 1px; height: 18px;
+      background: #c8c0b0; vertical-align: middle; margin-right: 8px;
+    }
+
+    /* ─── Communities section ───────────────────────── */
+    .community-section {
+      background: #fdf9f4;
+      border-radius: 20px;
+      box-shadow: var(--sh);
+      padding: 32px 28px;
+      margin-top: 32px;
+      border: 1.5px solid #d6cfc3;
+    }
+    .section-heading {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 1.15rem; font-weight: 800; color: var(--dark);
+      margin-bottom: 6px;
+    }
+    .section-heading .dot {
+      width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+    }
+    .community-intro { font-size: .85rem; color: #5a5048; line-height: 1.6; margin-bottom: 20px; }
+    .community-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 12px;
+    }
+    .community-card {
+      background: #f5f0e8;
+      border: 1.5px solid #d6cfc3;
+      border-radius: 14px;
+      padding: 16px 18px;
+      text-decoration: none;
+      color: inherit;
+      transition: all .18s;
+      display: block;
+    }
+    .community-card:hover {
+      border-color: #3c1e68;
+      background: #ede8f4;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(60,30,104,.10);
+    }
+    .community-card .c-icon { font-size: 1.4rem; margin-bottom: 8px; display: block; }
+    .community-card .c-name { font-size: .84rem; font-weight: 800; color: var(--dark); }
+    .community-card .c-tag {
+      font-size: .62rem; font-weight: 700;
+      background: #3c1e68; color: #fff;
+      border-radius: 99px; padding: 1px 8px;
+      margin-left: 6px; vertical-align: middle;
+    }
+    .community-card .c-desc { font-size: .75rem; color: #5a5048; line-height: 1.45; margin-top: 7px; }
+
+    /* ─── Footer ────────────────────────────────────── */
+    footer {
+      text-align: center; padding: 28px 20px;
+      color: #8a8070; font-size: .78rem;
+      border-top: 1px solid #d6cfc3;
+    }
+    footer a { color: #1c3d6e; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-badge">Microsoft Learn</div>
+    <h1>Pathfinder</h1>
+    <p class="tagline">Not sure which tech career is for you? Pick your interests and we'll match you to the right Microsoft path — free videos, certs, and a 90-day plan included.</p>
+    <nav class="step-nav" id="step-nav" aria-label="Progress">
+      <div class="step-dot active" id="sdot-0">1</div>
+      <div class="step-line" id="sline-0"></div>
+      <div class="step-dot" id="sdot-1">2</div>
+      <div class="step-line" id="sline-1"></div>
+      <div class="step-dot" id="sdot-2">✓</div>
+    </nav>
+  </div>
+</header>
+
+<!-- sticky jump-nav (visible only on results) -->
+<div id="career-nav">
+  <button class="nav-home-btn" onclick="goTo(0)" title="Back to home">&#8962; Home</button><span class="nav-divider"></span><span id="nav-pills"></span>
+</div>
+
+<main>
+
+  <!-- ══════════════ SCREEN 0: Welcome ══════════════ -->
+  <div class="screen active" id="screen-start">
+    <div class="welcome-card">
+      <h2>Welcome to Pathfinder</h2>
+      <p class="sub">Microsoft is behind some of the world's biggest tech — AI, cloud, security, data and more. This 2-minute quiz figures out which corner of that world suits you and what you could become.</p>
+      <div class="pill-grid">
+        <span class="pill">AI &amp; Machine Learning</span>
+        <span class="pill">Cloud &amp; Infrastructure</span>
+        <span class="pill">Data &amp; Analytics</span>
+        <span class="pill">Software Development</span>
+        <span class="pill">Cybersecurity</span>
+        <span class="pill">Low‑Code &amp; Business Apps</span>
+        <span class="pill">DevOps &amp; Automation</span>
+      </div>
+      <div class="actions" style="justify-content:center;">
+        <button class="btn btn-primary" onclick="goTo(1)">Take the quiz →</button>
+      </div>
+
+      <div class="chat-divider"><span>✦ or just tell me what you enjoy</span></div>
+      <div class="chatbot-widget" id="chatbot-widget">
+        <div class="chat-header">
+          <div class="chat-header-dot"></div>
+          <span>Pathfinder AI &mdash; Career Matcher</span>
+          <button class="chat-reset-btn" id="chat-reset-btn" aria-label="Reset chat">↺ Reset</button>
+        </div>
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="chat-chips" id="chat-chips"></div>
+        <div class="chat-input-row">
+          <input class="chat-input" id="chat-input"
+            placeholder="e.g. I love building apps, or I'm fascinated by data…"
+            maxlength="300" autocomplete="off" />
+          <button class="chat-send-btn" id="chat-send-btn" aria-label="Send">↑</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ SCREEN 1: Interests ══════════════ -->
+  <div class="screen" id="screen-1">
+    <div class="quiz-card">
+      <h2>What do you enjoy?</h2>
+      <p class="sub">Select <strong>everything</strong> that interests or excites you — pick as many as you like.</p>
+      <p class="tile-counter" id="tile-count">Pick at least one to continue</p>
+
+      <div class="interests-grid" id="interests-grid">
+
+        <div class="interest-tile" data-tags="dev,web,software" style="--tc:#3a5a8a;--tc-bg:#e8eef6">
+          <span class="icon">💻</span>
+          <span class="label">Writing code &amp; building apps</span>
+          <span class="desc">Turning ideas into software</span>
+        </div>
+
+        <div class="interest-tile" data-tags="ai,ml,data" style="--tc:#5a4080;--tc-bg:#ede8f4">
+          <span class="icon">🤖</span>
+          <span class="label">AI &amp; machine learning</span>
+          <span class="desc">Teaching computers to think</span>
+        </div>
+
+        <div class="interest-tile" data-tags="data,analytics,bi" style="--tc:#2a5a50;--tc-bg:#e6f0ef">
+          <span class="icon">📊</span>
+          <span class="label">Data &amp; making charts</span>
+          <span class="desc">Finding stories in numbers</span>
+        </div>
+
+        <div class="interest-tile" data-tags="cloud,infra,admin" style="--tc:#2a5070;--tc-bg:#e6eef4">
+          <span class="icon">☁️</span>
+          <span class="label">Cloud &amp; infrastructure</span>
+          <span class="desc">Powering apps at scale</span>
+        </div>
+
+        <div class="interest-tile" data-tags="security,cyber" style="--tc:#6a2828;--tc-bg:#f0e8e8">
+          <span class="icon">🔐</span>
+          <span class="label">Cybersecurity</span>
+          <span class="desc">Protecting systems from threats</span>
+        </div>
+
+        <div class="interest-tile" data-tags="devops,automation,cloud" style="--tc:#6a4020;--tc-bg:#f0e8e0">
+          <span class="icon">⚙️</span>
+          <span class="label">Automation &amp; DevOps</span>
+          <span class="desc">Pipelines &amp; CI/CD workflows</span>
+        </div>
+
+        <div class="interest-tile" data-tags="lowcode,bizapps,power" style="--tc:#483870;--tc-bg:#eae6f2">
+          <span class="icon">🧩</span>
+          <span class="label">Low‑code &amp; business apps</span>
+          <span class="desc">Power Platform, no‑code tools</span>
+        </div>
+
+        <div class="interest-tile" data-tags="data,engineering,pipeline" style="--tc:#2a4a60;--tc-bg:#e6eef4">
+          <span class="icon">🔧</span>
+          <span class="label">Building data pipelines</span>
+          <span class="desc">Moving &amp; transforming data</span>
+        </div>
+
+        <div class="interest-tile" data-tags="ai,dev,software" style="--tc:#6a2858;--tc-bg:#f0e6ee">
+          <span class="icon">💬</span>
+          <span class="label">Chatbots &amp; copilots</span>
+          <span class="desc">Conversational AI &amp; agents</span>
+        </div>
+
+        <div class="interest-tile" data-tags="cloud,architecture,design" style="--tc:#6a5020;--tc-bg:#f0ebe0">
+          <span class="icon">🏗️</span>
+          <span class="label">Designing big systems</span>
+          <span class="desc">Architecture &amp; system design</span>
+        </div>
+
+        <div class="interest-tile" data-tags="admin,cloud,infra" style="--tc:#404e5e;--tc-bg:#e8ecf0">
+          <span class="icon">🛠️</span>
+          <span class="label">Managing servers &amp; networks</span>
+          <span class="desc">IT operations &amp; configuration</span>
+        </div>
+
+        <div class="interest-tile" data-tags="ml,data,statistics" style="--tc:#285040;--tc-bg:#e4f0ea">
+          <span class="icon">📈</span>
+          <span class="label">Statistics &amp; modelling</span>
+          <span class="desc">Maths meets real‑world data</span>
+        </div>
+
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-secondary" onclick="goTo(0)">← Back</button>
+        <button class="btn btn-primary" id="btn-next-1" onclick="goTo(2)" disabled>See my careers →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-2">
+    <div class="results-header">
+      <h2 id="result-heading">Your recommended career paths</h2>
+      <p id="result-sub">Based on your interests, here are the Microsoft career paths that fit you best.</p>
+    </div>
+
+    <div id="no-match">
+      ⚠️ We couldn't find a specific match — try selecting a few more interests, or jump straight to <a href="https://learn.microsoft.com/en-us/training/career-paths/" target="_blank">Microsoft Learn Career Paths</a>.
+    </div>
+
+    <div class="path-cards" id="path-cards"></div>
+
+    <!-- ── Communities & Events ── -->
+    <div class="community-section">
+      <div class="section-heading">
+        <span class="dot" style="background:var(--purple)"></span>
+        Communities &amp; events to join as a student
+      </div>
+      <p class="community-intro">You don't need a job to be part of the Microsoft tech community. These are all free or low-cost and open to students — great for networking, building your CV, earning free credits, and meeting people who can help you land your first role.</p>
+      <div class="community-grid">
+
+        <a class="community-card" href="https://mvp.microsoft.com/studentambassadors" target="_blank">
+          <span class="c-icon">🎓</span>
+          <div><span class="c-name">Microsoft Student Ambassadors</span><span class="c-tag">Free</span></div>
+          <p class="c-desc">A global student community backed by Microsoft. Host events, earn milestone badges, get mentorship — no application, anyone can join.</p>
+        </a>
+
+        <a class="community-card" href="https://developer.microsoft.com/en-us/reactor/" target="_blank">
+          <span class="c-icon">⚡</span>
+          <div><span class="c-name">Microsoft Reactor</span><span class="c-tag">Free events</span></div>
+          <p class="c-desc">Live and on-demand developer events every week — AI, cloud, DevOps, data and more. All free, all online, run by real Microsoft engineers.</p>
+        </a>
+
+        <a class="community-card" href="https://imaginecup.microsoft.com/" target="_blank">
+          <span class="c-icon">🏆</span>
+          <div><span class="c-name">Imagine Cup</span><span class="c-tag">Competition</span></div>
+          <p class="c-desc">Microsoft's annual global student competition — build a startup idea using Microsoft tech and compete for cash prizes, mentorship, and a meeting with Satya Nadella.</p>
+        </a>
+
+        <a class="community-card" href="https://education.github.com/pack" target="_blank">
+          <span class="c-icon">🎒</span>
+          <div><span class="c-name">GitHub Student Developer Pack</span><span class="c-tag">Free tools</span></div>
+          <p class="c-desc">Free GitHub Pro, Azure credits, domain names and 100+ premium dev tools — just sign up with your university email address. Worth hundreds of dollars.</p>
+        </a>
+
+        <a class="community-card" href="https://azure.microsoft.com/free/students/" target="_blank">
+          <span class="c-icon">☁️</span>
+          <div><span class="c-name">Azure for Students</span><span class="c-tag">Free credits</span></div>
+          <p class="c-desc">$100 USD in free Azure cloud credits and access to 25+ free services — no credit card needed. Spin up real cloud apps while you're still studying.</p>
+        </a>
+
+        <a class="community-card" href="https://techcommunity.microsoft.com/" target="_blank">
+          <span class="c-icon">💬</span>
+          <div><span class="c-name">Microsoft Tech Community</span><span class="c-tag">Forum</span></div>
+          <p class="c-desc">Ask questions, read expert blogs and join discussions on Azure, AI, Power Platform, Security and everything Microsoft. Great for staying up to date.</p>
+        </a>
+
+        <a class="community-card" href="https://www.meetup.com/pro/microsoft-reactor/" target="_blank">
+          <span class="c-icon">🤝</span>
+          <div><span class="c-name">Azure &amp; Microsoft Meetups</span><span class="c-tag">Local events</span></div>
+          <p class="c-desc">Find local Azure and Microsoft tech meetups in your city. Real people, real networking — a great way to meet engineers and hear about job openings.</p>
+        </a>
+
+        <a class="community-card" href="https://learn.microsoft.com/en-us/training/student-hub/" target="_blank">
+          <span class="c-icon">🚀</span>
+          <div><span class="c-name">Microsoft Learn Student Hub</span><span class="c-tag">Resources</span></div>
+          <p class="c-desc">The official student landing page on Microsoft Learn — curated paths, free open-source curricula on GitHub, Imagine Cup info and Azure for Students, all in one spot.</p>
+        </a>
+
+      </div>
+    </div>
+
+    <div style="margin-top:28px;" class="actions">
+      <button class="btn btn-secondary" onclick="goTo(1)">← Change my answers</button>
+      <button class="btn btn-primary" onclick="goTo(0)">Start over</button>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Built for students exploring <a href="https://learn.microsoft.com/en-us/training/career-paths/" target="_blank">Microsoft Learn Career Paths</a> &nbsp;·&nbsp;
+  <a href="https://learn.microsoft.com/en-us/credentials/browse/" target="_blank">Browse all certifications</a>
+</footer>
+
+<script>
+// ─────────────────────────────────────────────
+//  DATA: career path definitions
+// ─────────────────────────────────────────────
+const CAREERS = [
+  {
+    id: "developer",
+    title: "Software Developer",
+    color: "c-blue",
+    icon: "💻",
+    tagline: "Build the apps, APIs, and services that power the modern world. Developers write code every day using .NET, Python, JavaScript and more.",
+    matchTags: ["dev","web","software","ai"],
+    jobs: ["Software Engineer","Web Developer","Backend Developer","Full-Stack Developer","API Developer"],
+    certifications: [
+      { name: "GitHub Foundations", url: "https://learn.microsoft.com/en-us/credentials/certifications/github-foundations/" },
+      { name: "AZ-204: Azure Developer Associate", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-developer/" },
+      { name: "GitHub Copilot Cert", url: "https://learn.microsoft.com/en-us/credentials/certifications/github-copilot/" },
+    ],
+    certPath: [
+      { level: "Foundation", name: "GitHub Foundations", url: "https://learn.microsoft.com/en-us/credentials/certifications/github-foundations/", tip: "Free certification — covers Git, GitHub, and collaborative code workflows" },
+      { level: "Associate", name: "AZ-204: Azure Developer Associate", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-developer/", tip: "Core Azure dev cert — proves you can build and deploy cloud applications" },
+      { level: "Specialist", name: "GitHub Copilot Cert", url: "https://learn.microsoft.com/en-us/credentials/certifications/github-copilot/", tip: "Validates AI-assisted development skills — increasingly expected by employers" },
+    ],
+    savillVideos: [
+      { name: "Azure Fundamentals Intro (great starting point!)", url: "https://youtu.be/V1Hk45XD6Qw" },
+      { name: "AZ-900 Study Cram — everything about cloud in one video", url: "https://youtu.be/tQp1YkB2Tgs" },
+    ],
+    plan90: [
+      { period: "Days 1–30", title: "Learn the basics of coding", desc: "Work through Microsoft Learn's free C# or Python beginner path. Build tiny programs — a calculator, a quiz, a to-do list. Don't worry about perfection, just write code every day." },
+      { period: "Days 31–60", title: "Build something real", desc: "Pick a simple project idea (a personal website, a fun app) and build it. Use GitHub to save your work — employers love seeing a portfolio of projects." },
+      { period: "Days 61–90", title: "Get your first cert & apply", desc: "Watch the AZ-900 Study Cram by John Savill and earn your GitHub Foundations cert for free. Apply for internships, hackathons, or student developer programmes." },
+    ],
+    msResources: [
+      { name: "C# for Beginners", tag: "Video Series", url: "https://learn.microsoft.com/en-us/shows/csharp-for-beginners/", desc: "19-episode series by Scott Hanselman — from Hello World to OOP" },
+      { name: "Python for Beginners", tag: "Video Series", url: "https://learn.microsoft.com/en-us/shows/intro-to-python-development/", desc: "44-episode free series — Python from absolute scratch" },
+      { name: "Azure Developers Show", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/azure-developers/", desc: "Real developer talks on building with Azure" },
+      { name: "Visual Studio Toolbox", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/visual-studio-toolbox/", desc: "Tips, tricks and features for Visual Studio" },
+    ],
+    learnStart: "https://learn.microsoft.com/en-us/training/paths/get-started-c-sharp-part-1/",
+    learnStartLabel: "Start: Write your first code in C#",
+    browse: "https://learn.microsoft.com/en-us/training/browse/?roles=developer",
+    meetupSearch: "https://www.meetup.com/find/?source=EVENTS&keywords=microsoft+azure+developer+dotnet",
+    meetups: [
+      { name: "Microsoft Global Community", tag: "Official", url: "https://www.meetup.com/pro/microsoftglobal/" },
+      { name: "Find Microsoft Reactor Events", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=microsoft+reactor" },
+      { name: "Find Azure Developer Groups", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=microsoft+azure+developer" },
+      { name: "Find .NET & GitHub Groups", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=dotnet+microsoft+github" },
+    ],
+  },
+  {
+    id: "ai_engineer",
+    title: "AI Engineer",
+    color: "c-purple",
+    icon: "🤖",
+    tagline: "Design and build intelligent systems — from vision APIs to large language models. AI Engineers turn research into real-world products.",
+    matchTags: ["ai","ml","dev","chatbots"],
+    jobs: ["AI Engineer","Machine Learning Engineer","Conversational AI Developer","Applied AI Scientist"],
+    certifications: [
+      { name: "AI-900: Azure AI Fundamentals", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-fundamentals/" },
+      { name: "AI-102: Azure AI Engineer Associate", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-engineer/" },
+      { name: "Applied Skills: Build a Gen AI App", url: "https://learn.microsoft.com/en-us/credentials/applied-skills/build-a-generative-ai-chat-app/" },
+    ],
+    certPath: [
+      { level: "Foundation", name: "AI-900: Azure AI Fundamentals", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-fundamentals/", tip: "Start here — covers AI, ML, and Azure AI services with no prior experience needed" },
+      { level: "Associate", name: "AI-102: Azure AI Engineer Associate", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-engineer/", tip: "Proves you can design and implement Azure AI solutions in production" },
+      { level: "Applied", name: "Applied Skills: Build a Gen AI App", url: "https://learn.microsoft.com/en-us/credentials/applied-skills/build-a-generative-ai-chat-app/", tip: "Hands-on credential — build a real generative AI app using Azure OpenAI" },
+    ],
+    savillVideos: [
+      { name: "AZ-900 Study Cram — cloud basics before diving into AI", url: "https://youtu.be/tQp1YkB2Tgs" },
+      { name: "AI-900 Study Cram v2 — AI & machine learning fundamentals", url: "https://youtu.be/bTkUTkXrqOQ" },
+    ],
+    plan90: [
+      { period: "Days 1–30", title: "Understand what AI actually is", desc: "Watch John Savill's AI-900 Study Cram — it explains AI, machine learning, and Azure AI services in plain English. No maths degree required. Follow along on Microsoft Learn's AI fundamentals path." },
+      { period: "Days 31–60", title: "Get hands-on with Azure AI", desc: "Create a free Azure account (students get free credits!) and try out a real AI service — build a chatbot with Copilot Studio, or use Azure AI Vision to analyse images. Break things, learn fast." },
+      { period: "Days 61–90", title: "Earn your first AI cert", desc: "Sit the AI-900 Azure AI Fundamentals exam (around $100 AUD — often free with student offers). Add it to your LinkedIn. It signals to employers you're serious about AI." },
+    ],
+    msResources: [
+      { name: "AI Show", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/ai-show/", desc: "Official Microsoft AI Show — demos, interviews & new AI features" },
+      { name: "AI Agents for Beginners", tag: "Series", url: "https://learn.microsoft.com/en-us/shows/ai-agents-for-beginners/", desc: "Brand new beginner series on building AI agents" },
+      { name: "RAG Time: AI Learning", tag: "Series", url: "https://learn.microsoft.com/en-us/shows/rag-time-ai-learning/", desc: "Learn Retrieval-Augmented Generation (RAG) step by step" },
+      { name: "Azure Essentials Show", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/azure-essentials-show/", desc: "Foundational Azure concepts explained simply" },
+    ],
+    learnStart: "https://learn.microsoft.com/en-us/training/paths/get-started-with-artificial-intelligence-on-azure/",
+    learnStartLabel: "Start: Get started with AI on Azure",
+    browse: "https://learn.microsoft.com/en-us/training/browse/?roles=ai-engineer",
+    meetupSearch: "https://www.meetup.com/find/?source=EVENTS&keywords=microsoft+azure+AI+copilot",
+    meetups: [
+      { name: "Microsoft Global Community", tag: "Official", url: "https://www.meetup.com/pro/microsoftglobal/" },
+      { name: "Find Azure AI & Copilot Groups", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=microsoft+azure+AI+copilot" },
+      { name: "Find Microsoft Reactor AI Events", tag: "Microsoft", url: "https://www.meetup.com/find/?source=EVENTS&keywords=microsoft+reactor+AI" },
+      { name: "Microsoft Azure Topic Hub", tag: "Microsoft", url: "https://www.meetup.com/topics/microsoft-azure/" },
+    ],
+  },
+  {
+    id: "data_analyst",
+    title: "Data Analyst",
+    color: "c-teal",
+    icon: "📊",
+    tagline: "Turn raw data into decisions. Data Analysts build dashboards, clean datasets and discover trends that drive business strategy.",
+    matchTags: ["data","analytics","bi","statistics"],
+    jobs: ["Data Analyst","Business Intelligence Analyst","Power BI Developer","Reporting Analyst"],
+    certifications: [
+      { name: "PL-300: Power BI Data Analyst", url: "https://learn.microsoft.com/en-us/credentials/certifications/power-bi-data-analyst-associate/" },
+      { name: "DP-900: Azure Data Fundamentals", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-data-fundamentals/" },
+      { name: "Fabric Analytics Engineer Associate", url: "https://learn.microsoft.com/en-us/credentials/certifications/fabric-analytics-engineer-associate/" },
+    ],
+    certPath: [
+      { level: "Foundation", name: "DP-900: Azure Data Fundamentals", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-data-fundamentals/", tip: "Beginner-level — understand data, databases, and analytics concepts on Azure" },
+      { level: "Associate", name: "PL-300: Power BI Data Analyst", url: "https://learn.microsoft.com/en-us/credentials/certifications/power-bi-data-analyst-associate/", tip: "The most valuable cert for data analysts — highly sought after by employers" },
+      { level: "Specialist", name: "Fabric Analytics Engineer Associate", url: "https://learn.microsoft.com/en-us/credentials/certifications/fabric-analytics-engineer-associate/", tip: "Advanced credential for Microsoft Fabric — the future of Microsoft data platforms" },
+    ],
+    savillVideos: [
+      { name: "DP-900 Study Cram — all about data & databases in the cloud", url: "https://youtu.be/0gtpasITVnk" },
+      { name: "AZ-900 Study Cram — cloud fundamentals first", url: "https://youtu.be/tQp1YkB2Tgs" },
+    ],
+    plan90: [
+      { period: "Days 1–30", title: "Learn Excel & basic data skills", desc: "If you haven't already, get comfortable with Excel or Google Sheets — filtering, pivot tables, basic formulas. Then start Microsoft Learn's 'Get started with data analytics' free path." },
+      { period: "Days 31–60", title: "Build your first Power BI dashboard", desc: "Download Power BI Desktop (free!) and connect it to a public dataset — sports stats, weather data, anything interesting to you. Build a dashboard and share a screenshot on LinkedIn." },
+      { period: "Days 61–90", title: "Earn the DP-900 cert", desc: "Watch John Savill's DP-900 Study Cram and sit the Azure Data Fundamentals exam. It's beginner-level and a great foot in the door. Then start working toward PL-300 Power BI Analyst." },
+    ],
+    msResources: [
+      { name: "Data Exposed", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/data-exposed/", desc: "Weekly show on SQL, Azure data services & analytics — ideal for data analysts" },
+      { name: "Fabric Tech Talk Fridays", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/fabric-tech-talk-fridays/", desc: "Microsoft Fabric deep dives — Power BI, lakehouses, pipelines & dashboards" },
+      { name: "Power BI Dev Camp", tag: "Series", url: "https://learn.microsoft.com/en-us/shows/power-bi-dev-camp/", desc: "Hands-on Power BI development — building reports, semantic models & custom visuals" },
+      { name: "Exam Readiness Zone", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/exam-readiness-zone/", desc: "Official exam prep for PL-300 Power BI Data Analyst & DP-900 Data Fundamentals" },
+    ],
+    learnStart: "https://learn.microsoft.com/en-us/training/paths/data-analytics-microsoft/",
+    learnStartLabel: "Start: Get started with Microsoft data analytics",
+    browse: "https://learn.microsoft.com/en-us/training/browse/?roles=data-analyst",
+    meetupSearch: "https://www.meetup.com/find/?source=EVENTS&keywords=microsoft+power+bi+fabric",
+    meetups: [
+      { name: "Microsoft Global Community", tag: "Official", url: "https://www.meetup.com/pro/microsoftglobal/" },
+      { name: "Find Power BI User Groups", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=microsoft+power+bi" },
+      { name: "Find Microsoft Fabric Groups", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=microsoft+fabric" },
+      { name: "Microsoft Azure Topic Hub", tag: "Microsoft", url: "https://www.meetup.com/topics/microsoft-azure/" },
+    ],
+  },
+  {
+    id: "data_scientist",
+    title: "Data Scientist",
+    color: "c-pink",
+    icon: "📈",
+    tagline: "Build predictive models and extract deep insights from data using Python, statistics, and Azure Machine Learning.",
+    matchTags: ["ml","data","statistics","ai"],
+    jobs: ["Data Scientist","ML Researcher","Quantitative Analyst","AI Researcher"],
+    certifications: [
+      { name: "DP-100: Azure Data Scientist Associate", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-data-scientist/" },
+      { name: "AI-900: Azure AI Fundamentals", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-fundamentals/" },
+    ],
+    certPath: [
+      { level: "Foundation", name: "AI-900: Azure AI Fundamentals", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-fundamentals/", tip: "Covers AI and machine learning concepts — a great confidence booster to start" },
+      { level: "Associate", name: "DP-100: Azure Data Scientist Associate", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-data-scientist/", tip: "Demonstrates you can design and run ML experiments using Azure Machine Learning" },
+    ],
+    savillVideos: [
+      { name: "AI-900 Study Cram v2 — AI & machine learning fundamentals", url: "https://youtu.be/bTkUTkXrqOQ" },
+      { name: "DP-900 Study Cram — data concepts & cloud databases", url: "https://youtu.be/0gtpasITVnk" },
+    ],
+    plan90: [
+      { period: "Days 1–30", title: "Get comfortable with Python & data", desc: "Learn Python basics using free resources (Microsoft Learn has a great Python path). Practice with real datasets from Kaggle — start with the Titanic or house prices datasets." },
+      { period: "Days 31–60", title: "Build your first ML model", desc: "Use Azure Machine Learning (free student tier) to train a simple prediction model — no PhD needed. Follow Microsoft Learn's 'Create machine learning models' path step by step." },
+      { period: "Days 61–90", title: "Get certified & build a portfolio", desc: "Earn the AI-900 cert to show foundational AI knowledge. Document your Kaggle projects on GitHub. A portfolio of 2–3 real experiments beats a blank CV every time." },
+    ],
+    msResources: [
+      { name: "AI Show", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/ai-show/", desc: "Official Microsoft AI Show — ML demos, research & tutorials" },
+      { name: "Python for Beginners", tag: "Series", url: "https://learn.microsoft.com/en-us/shows/intro-to-python-development/", desc: "Python is the #1 language for data science — start here" },
+      { name: "Data Exposed", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/data-exposed/", desc: "Data platform deep dives including Azure ML" },
+      { name: "RAG Time: AI Learning", tag: "Series", url: "https://learn.microsoft.com/en-us/shows/rag-time-ai-learning/", desc: "Practical AI patterns used in real-world products" },
+    ],
+    learnStart: "https://learn.microsoft.com/en-us/training/paths/create-machine-learn-models/",
+    learnStartLabel: "Start: Create machine learning models",
+    browse: "https://learn.microsoft.com/en-us/training/browse/?roles=data-scientist",
+    meetupSearch: "https://www.meetup.com/find/?source=EVENTS&keywords=microsoft+azure+machine+learning",
+    meetups: [
+      { name: "Microsoft Global Community", tag: "Official", url: "https://www.meetup.com/pro/microsoftglobal/" },
+      { name: "Find Azure Machine Learning Groups", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=azure+machine+learning+microsoft" },
+      { name: "Find Microsoft AI & Data Science Events", tag: "Microsoft", url: "https://www.meetup.com/find/?source=EVENTS&keywords=microsoft+AI+data+science" },
+      { name: "Microsoft Azure Topic Hub", tag: "Microsoft", url: "https://www.meetup.com/topics/microsoft-azure/" },
+    ],
+  },
+  {
+    id: "data_engineer",
+    title: "Data Engineer",
+    color: "c-green",
+    icon: "🔧",
+    tagline: "Design the plumbing of the data world — pipelines, lakehouses, and streaming architectures using Azure Synapse, Fabric and Databricks.",
+    matchTags: ["data","engineering","pipeline","cloud"],
+    jobs: ["Data Engineer","Platform Engineer","Analytics Engineer","Microsoft Fabric Engineer"],
+    certifications: [
+      { name: "DP-203: Azure Data Engineer Associate", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-data-engineer/" },
+      { name: "DP-700: Fabric Data Engineer Associate", url: "https://learn.microsoft.com/en-us/credentials/certifications/fabric-data-engineer-associate/" },
+      { name: "Applied Skills: Ingest Data with Fabric", url: "https://learn.microsoft.com/en-us/training/paths/ingest-data-with-microsoft-fabric/" },
+    ],
+    certPath: [
+      { level: "Foundation", name: "Applied Skills: Ingest Data with Fabric", url: "https://learn.microsoft.com/en-us/training/paths/ingest-data-with-microsoft-fabric/", tip: "Hands-on credential, no exam pressure — build a real Fabric pipeline to earn it" },
+      { level: "Associate", name: "DP-203: Azure Data Engineer Associate", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-data-engineer/", tip: "Core data engineering cert — covers pipelines, storage, and transformation at scale" },
+      { level: "Specialist", name: "DP-700: Fabric Data Engineer Associate", url: "https://learn.microsoft.com/en-us/credentials/certifications/fabric-data-engineer-associate/", tip: "Cutting-edge Fabric credential — future-proofs your skill set" },
+    ],
+    savillVideos: [
+      { name: "DP-900 Study Cram — data fundamentals in the cloud", url: "https://youtu.be/0gtpasITVnk" },
+      { name: "AZ-900 Study Cram — cloud basics to build on", url: "https://youtu.be/tQp1YkB2Tgs" },
+    ],
+    plan90: [
+      { period: "Days 1–30", title: "Understand data & the cloud", desc: "Watch John Savill's DP-900 and AZ-900 Study Crams — they cover databases, data pipelines, and cloud storage in a way that actually makes sense. Follow along with free Microsoft Learn paths." },
+      { period: "Days 31–60", title: "Get hands-on with Microsoft Fabric", desc: "Sign up for a free Microsoft Fabric trial and work through the 'Get started with Fabric' learning path. Build a simple data pipeline that loads, transforms, and displays data." },
+      { period: "Days 61–90", title: "Earn DP-900 & start your portfolio", desc: "Sit the DP-900 Azure Data Fundamentals exam. Then build a mini project — ingest a public dataset into Fabric, transform it, and create a report. Post it on GitHub and LinkedIn." },
+    ],
+    msResources: [
+      { name: "Fabric Tech Talk Fridays", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/fabric-tech-talk-fridays/", desc: "Microsoft Fabric tutorials — lakehouses, pipelines & dataflows" },
+      { name: "Data Exposed", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/data-exposed/", desc: "Azure data platform, Synapse & Fabric deep dives" },
+      { name: "Sip & Sync with Azure", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/sip-and-sync-with-azure/", desc: "Casual, beginner-friendly Azure data talks" },
+      { name: "Azure Friday", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/azure-friday/", desc: "Short expert sessions on Azure services — great for data engineers" },
+    ],
+    learnStart: "https://learn.microsoft.com/en-us/training/paths/get-started-fabric/",
+    learnStartLabel: "Start: Get started with Microsoft Fabric",
+    browse: "https://learn.microsoft.com/en-us/training/browse/?roles=data-engineer",
+    meetupSearch: "https://www.meetup.com/find/?source=EVENTS&keywords=microsoft+fabric+azure+data+engineering",
+    meetups: [
+      { name: "Microsoft Global Community", tag: "Official", url: "https://www.meetup.com/pro/microsoftglobal/" },
+      { name: "Find Microsoft Fabric Groups", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=microsoft+fabric+data+engineering" },
+      { name: "Find Azure Synapse & Data Groups", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=azure+synapse+microsoft+data" },
+      { name: "Microsoft Azure Topic Hub", tag: "Microsoft", url: "https://www.meetup.com/topics/microsoft-azure/" },
+    ],
+  },
+  {
+    id: "cloud_admin",
+    title: "Cloud / Azure Administrator",
+    color: "c-darkblue",
+    icon: "☁️",
+    tagline: "Keep cloud infrastructure running, secure, and cost-efficient. Administrators provision resources, set policies and manage access at scale.",
+    matchTags: ["cloud","infra","admin","admin"],
+    jobs: ["Cloud Administrator","Azure Administrator","Systems Administrator","IT Operations Engineer"],
+    certifications: [
+      { name: "AZ-900: Azure Fundamentals", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-fundamentals/" },
+      { name: "AZ-104: Azure Administrator Associate", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-administrator/" },
+      { name: "AZ-305: Azure Solutions Architect Expert", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-solutions-architect/" },
+    ],
+    certPath: [
+      { level: "Foundation", name: "AZ-900: Azure Fundamentals", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-fundamentals/", tip: "Start here — explains cloud computing and core Azure services in plain language" },
+      { level: "Associate", name: "AZ-104: Azure Administrator Associate", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-administrator/", tip: "The most in-demand Azure cert for IT roles — manage VMs, networks, and storage" },
+      { level: "Expert", name: "AZ-305: Azure Solutions Architect Expert", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-solutions-architect/", tip: "Top-tier Azure cert — opens doors to senior architecture and lead roles" },
+    ],
+    savillVideos: [
+      { name: "Azure Intro — where to begin your Azure journey", url: "https://youtu.be/V1Hk45XD6Qw" },
+      { name: "AZ-900 Study Cram — cloud fundamentals in one sitting", url: "https://youtu.be/tQp1YkB2Tgs" },
+      { name: "AZ-104 Study Cram v2 — become an Azure Administrator", url: "https://youtu.be/0Knf9nub4-k" },
+    ],
+    plan90: [
+      { period: "Days 1–30", title: "Learn what the cloud actually is", desc: "Watch John Savill's Azure intro and AZ-900 Study Cram. The cloud isn't magic — it's just someone else's computer. Once you get that, everything clicks. Earn the AZ-900 cert to prove it." },
+      { period: "Days 31–60", title: "Create your free Azure account & explore", desc: "Students get free Azure credits. Log in, create a virtual machine, set up a storage account, explore the portal. Breaking things in a free sandbox is the fastest way to learn." },
+      { period: "Days 61–90", title: "Aim for AZ-104", desc: "Work through the AZ-104 learning path on Microsoft Learn and watch John Savill's AZ-104 Study Cram. Sit the exam — AZ-104 Administrator Associate is highly valued by employers." },
+    ],
+    msResources: [
+      { name: "Azure Friday", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/azure-friday/", desc: "Short expert demo shows on every Azure service — addictive watching" },
+      { name: "Azure Essentials Show", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/azure-essentials-show/", desc: "Bite-sized videos covering core Azure concepts" },
+      { name: "Exam Readiness Zone", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/exam-readiness-zone/", desc: "Official Microsoft exam prep videos — AZ-900, AZ-104 & more" },
+      { name: "Sip & Sync with Azure", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/sip-and-sync-with-azure/", desc: "Relaxed but informative Azure admin sessions" },
+    ],
+    learnStart: "https://learn.microsoft.com/en-us/training/paths/az-104-administrator-prerequisites/",
+    learnStartLabel: "Start: Prerequisites for Azure Administrators",
+    browse: "https://learn.microsoft.com/en-us/training/browse/?roles=administrator",
+    meetupSearch: "https://www.meetup.com/find/?source=EVENTS&keywords=microsoft+azure+administrator",
+    meetups: [
+      { name: "Microsoft Global Community", tag: "Official", url: "https://www.meetup.com/pro/microsoftglobal/" },
+      { name: "Microsoft Azure Topic Hub", tag: "Microsoft", url: "https://www.meetup.com/topics/microsoft-azure/" },
+      { name: "Find Azure Administrator Groups", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=microsoft+azure+administrator" },
+      { name: "Find Microsoft Reactor Events", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=microsoft+reactor+azure" },
+    ],
+  },
+  {
+    id: "security",
+    title: "Cybersecurity / Security Engineer",
+    color: "c-red",
+    icon: "🔐",
+    tagline: "Defend organisations from cyber attacks, build secure architectures and respond to incidents — one of the fastest-growing tech disciplines.",
+    matchTags: ["security","cyber","cloud","admin"],
+    jobs: ["Security Analyst","Security Engineer","SOC Analyst","Penetration Tester","Cybersecurity Architect"],
+    certifications: [
+      { name: "SC-900: Security Fundamentals", url: "https://learn.microsoft.com/en-us/credentials/certifications/security-compliance-and-identity-fundamentals/" },
+      { name: "SC-200: Security Operations Analyst", url: "https://learn.microsoft.com/en-us/credentials/certifications/security-operations-analyst/" },
+      { name: "AZ-500: Azure Security Engineer", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-security-engineer/" },
+    ],
+    certPath: [
+      { level: "Foundation", name: "SC-900: Security Fundamentals", url: "https://learn.microsoft.com/en-us/credentials/certifications/security-compliance-and-identity-fundamentals/", tip: "Perfect starting point — covers security, compliance, and identity basics" },
+      { level: "Associate", name: "SC-200: Security Operations Analyst", url: "https://learn.microsoft.com/en-us/credentials/certifications/security-operations-analyst/", tip: "The core security role cert — covers threat detection, incidents, and Microsoft Sentinel" },
+      { level: "Expert", name: "AZ-500: Azure Security Engineer", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-security-engineer/", tip: "Advanced cloud security cert — proves you can secure Azure infrastructure end-to-end" },
+    ],
+    savillVideos: [
+      { name: "SC-900 Study Cram v2 — security, compliance & identity basics", url: "https://youtu.be/-FJqb60wPSY" },
+      { name: "AZ-500 Study Cram — Azure security in depth", url: "https://youtu.be/6vISzj-z8k4" },
+      { name: "SC-300 Study Cram — identity & access management", url: "https://youtu.be/LGpgqRVG65g" },
+    ],
+    plan90: [
+      { period: "Days 1–30", title: "Learn how hackers think", desc: "Watch John Savill's SC-900 Study Cram to understand the fundamentals of security, identity, and compliance. Then try Microsoft Learn's free security path — cybersecurity is one of the most in-demand fields right now." },
+      { period: "Days 31–60", title: "Practise in a safe environment", desc: "Sign up for Microsoft's free Security sandbox labs. Try setting up Azure policies, configuring firewalls, and reviewing security alerts. These are the exact tasks you'd do in a real job." },
+      { period: "Days 61–90", title: "Earn SC-900 & build toward SC-200", desc: "Sit the SC-900 Security Fundamentals exam — great for your CV even as a student. Then start the SC-200 Security Operations Analyst path. Security roles are everywhere and pay very well." },
+    ],
+    msResources: [
+      { name: "Defender for Cloud in the Field", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/mdc-in-the-field/", desc: "Microsoft Defender — real-world cloud security scenarios" },
+      { name: "Secure Future Initiative: Tech Tips", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/secure-future-initiative-tech-tips/", desc: "Microsoft's own security practices — insider knowledge" },
+      { name: "Exam Readiness Zone", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/exam-readiness-zone/", desc: "Official exam prep for SC-900, SC-200, AZ-500 & more" },
+      { name: "Azure Friday", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/azure-friday/", desc: "Security-focused episodes covering Defender, Sentinel & Entra" },
+    ],
+    learnStart: "https://learn.microsoft.com/en-us/training/paths/describe-concepts-of-security-compliance-identity/",
+    learnStartLabel: "Start: Security, compliance &amp; identity concepts",
+    browse: "https://learn.microsoft.com/en-us/training/browse/?roles=security-engineer",
+    meetupSearch: "https://www.meetup.com/find/?source=EVENTS&keywords=microsoft+azure+security+defender",
+    meetups: [
+      { name: "Microsoft Global Community", tag: "Official", url: "https://www.meetup.com/pro/microsoftglobal/" },
+      { name: "Find Azure Security Groups", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=microsoft+azure+security+sentinel" },
+      { name: "Find Microsoft Defender & Entra Groups", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=microsoft+defender+entra+sentinel" },
+      { name: "Microsoft Azure Topic Hub", tag: "Microsoft", url: "https://www.meetup.com/topics/microsoft-azure/" },
+    ],
+  },
+  {
+    id: "devops",
+    title: "DevOps Engineer",
+    color: "c-orange",
+    icon: "⚙️",
+    tagline: "Automate everything — from code commit to production deploy. DevOps Engineers build CI/CD pipelines and bridge the gap between dev and ops.",
+    matchTags: ["devops","automation","cloud","dev"],
+    jobs: ["DevOps Engineer","Platform Engineer","Site Reliability Engineer","Release Engineer"],
+    certifications: [
+      { name: "AZ-400: DevOps Engineer Expert", url: "https://learn.microsoft.com/en-us/credentials/certifications/devops-engineer/" },
+      { name: "GitHub Actions Certification", url: "https://learn.microsoft.com/en-us/credentials/certifications/github-actions/" },
+      { name: "GitHub Advanced Security", url: "https://learn.microsoft.com/en-us/credentials/certifications/github-advanced-security/" },
+    ],
+    certPath: [
+      { level: "Foundation", name: "GitHub Actions Certification", url: "https://learn.microsoft.com/en-us/credentials/certifications/github-actions/", tip: "Proves you can automate workflows with GitHub Actions — used in every DevOps role" },
+      { level: "Expert", name: "AZ-400: DevOps Engineer Expert", url: "https://learn.microsoft.com/en-us/credentials/certifications/devops-engineer/", tip: "The definitive DevOps cert — requires AZ-104 or AZ-204 as prerequisite" },
+      { level: "Specialist", name: "GitHub Advanced Security", url: "https://learn.microsoft.com/en-us/credentials/certifications/github-advanced-security/", tip: "Adds security to the pipeline — highly valued as DevSecOps continues to grow" },
+    ],
+    savillVideos: [
+      { name: "AZ-900 Study Cram — cloud fundamentals (start here)", url: "https://youtu.be/tQp1YkB2Tgs" },
+      { name: "AZ-400 DevOps Master Class — the full DevOps playlist", url: "https://youtube.com/playlist?list=PLlVtbbG169nFr8RzQ4GIxUEznpNR53ERq" },
+    ],
+    plan90: [
+      { period: "Days 1–30", title: "Learn Git & GitHub — the #1 DevOps skill", desc: "Every DevOps role starts with version control. Set up a free GitHub account, learn the basics of committing, branching, and pull requests. Earn the free GitHub Foundations certification." },
+      { period: "Days 31–60", title: "Automate something with GitHub Actions", desc: "Build a simple CI/CD pipeline using GitHub Actions — even something small like automatically running tests when you push code. This is the bread and butter of DevOps. John Savill's DevOps Master Class is pure gold here." },
+      { period: "Days 61–90", title: "Get cloud-certified & go further", desc: "Earn the AZ-900 Azure Fundamentals cert, then start on the AZ-400 DevOps Engineer path. DevOps engineers who also understand cloud infrastructure are extremely hireable." },
+    ],
+    msResources: [
+      { name: "Azure Friday", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/azure-friday/", desc: "DevOps topics — pipelines, containers, GitHub Actions & more" },
+      { name: "Visual Studio Code Show", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/visual-studio-code/", desc: "Deep dives on VS Code features every DevOps engineer uses" },
+      { name: "Azure Developers Show", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/azure-developers/", desc: "Cloud-native development and deployment patterns" },
+      { name: "Exam Readiness Zone", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/exam-readiness-zone/", desc: "Official prep for AZ-400 DevOps Engineer Expert" },
+    ],
+    learnStart: "https://learn.microsoft.com/en-us/training/paths/az-400-get-started-devops-transformation-journey/",
+    learnStartLabel: "Start: Get started with DevOps",
+    browse: "https://learn.microsoft.com/en-us/training/browse/?roles=devops-engineer",
+    meetupSearch: "https://www.meetup.com/find/?source=EVENTS&keywords=github+azure+devops+microsoft",
+    meetups: [
+      { name: "Microsoft Global Community", tag: "Official", url: "https://www.meetup.com/pro/microsoftglobal/" },
+      { name: "Find GitHub & Azure DevOps Groups", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=github+azure+devops+microsoft" },
+      { name: "Find Microsoft Reactor DevOps Events", tag: "Microsoft", url: "https://www.meetup.com/find/?source=EVENTS&keywords=microsoft+reactor+devops+github" },
+      { name: "Microsoft Azure Topic Hub", tag: "Microsoft", url: "https://www.meetup.com/topics/microsoft-azure/" },
+    ],
+  },
+  {
+    id: "lowcode",
+    title: "Power Platform / Low-Code Developer",
+    color: "c-teal",
+    icon: "🧩",
+    tagline: "Build powerful business applications without writing a single line of code — using Power Apps, Power Automate, and Copilot Studio.",
+    matchTags: ["lowcode","bizapps","power","ai"],
+    jobs: ["Power Platform Developer","App Maker","RPA Developer","Business Analyst","Citizen Developer"],
+    certifications: [
+      { name: "PL-900: Power Platform Fundamentals", url: "https://learn.microsoft.com/en-us/credentials/certifications/power-platform-fundamentals/" },
+      { name: "PL-100: Power Platform App Maker", url: "https://learn.microsoft.com/en-us/credentials/certifications/power-platform-app-maker/" },
+      { name: "Applied Skills: Copilot Studio Agents", url: "https://learn.microsoft.com/en-us/credentials/applied-skills/create-agents-in-microsoft-copilot-studio/" },
+    ],
+    certPath: [
+      { level: "Foundation", name: "PL-900: Power Platform Fundamentals", url: "https://learn.microsoft.com/en-us/credentials/certifications/power-platform-fundamentals/", tip: "No-code intro to Power Apps, Power Automate, Power BI, and Copilot Studio" },
+      { level: "Associate", name: "PL-100: Power Platform App Maker", url: "https://learn.microsoft.com/en-us/credentials/certifications/power-platform-app-maker/", tip: "Proves you can build real business apps — popular with hiring managers" },
+      { level: "Applied", name: "Applied Skills: Copilot Studio Agents", url: "https://learn.microsoft.com/en-us/credentials/applied-skills/create-agents-in-microsoft-copilot-studio/", tip: "Hands-on AI agents credential — extremely relevant as Copilot Studio grows" },
+    ],
+    savillVideos: [
+      { name: "PL-900 Study Cram — Power Platform from scratch", url: "https://youtu.be/lbPHM-MiEUA" },
+      { name: "MS-900 Study Cram — Microsoft 365 & the whole platform", url: "https://youtu.be/np9jfnwnO2c" },
+    ],
+    plan90: [
+      { period: "Days 1–30", title: "Build your first app — no code needed", desc: "Sign up for a free Power Apps account and follow Microsoft Learn's 'Create apps in Power Apps' path. Within a weekend you can have a working app. Seriously — no coding background required." },
+      { period: "Days 31–60", title: "Automate a boring task with Power Automate", desc: "Think of something repetitive — sending emails, copying data between systems — and automate it with Power Automate. This is genuinely useful and shows employers you solve real problems." },
+      { period: "Days 61–90", title: "Earn PL-900 & build a showcase app", desc: "Earn the PL-900 Power Platform Fundamentals cert. Then build one polished app that solves a real problem (for your uni club, a local business, etc.) and add it to your portfolio." },
+    ],
+    msResources: [
+      { name: "The Low Code Revolution", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/the-low-code-revolution/", desc: "Real stories of people building apps without writing code" },
+      { name: "Copilot Studio Agent Academy", tag: "Series", url: "https://learn.microsoft.com/en-us/shows/copilot-studio-agent-academy/", desc: "Build AI agents with Copilot Studio — step by step" },
+      { name: "Mastering Copilot Studio", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/mastering-copilot-studio/", desc: "Advanced Copilot Studio techniques once you've got the basics" },
+      { name: "Ask the Expert", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/ask-the-expert/", desc: "Live Q&A sessions with Microsoft Power Platform engineers" },
+    ],
+    learnStart: "https://learn.microsoft.com/en-us/training/paths/create-powerapps/",
+    learnStartLabel: "Start: Create apps in Power Apps",
+    browse: "https://learn.microsoft.com/en-us/training/browse/?roles=app-maker",
+    meetupSearch: "https://www.meetup.com/find/?source=EVENTS&keywords=microsoft+power+platform+power+apps",
+    meetups: [
+      { name: "Microsoft Global Community", tag: "Official", url: "https://www.meetup.com/pro/microsoftglobal/" },
+      { name: "Find Power Platform User Groups", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=microsoft+power+platform+power+apps" },
+      { name: "Find Microsoft 365 & Copilot Groups", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=microsoft+365+copilot+studio" },
+      { name: "Microsoft Azure Topic Hub", tag: "Microsoft", url: "https://www.meetup.com/topics/microsoft-azure/" },
+    ],
+  },
+  {
+    id: "architect",
+    title: "Solution Architect",
+    color: "c-darkblue",
+    icon: "🏗️",
+    tagline: "Design enterprise-scale cloud systems that are resilient, secure, and cost-effective. Architects translate business needs into technical blueprints.",
+    matchTags: ["architecture","design","cloud","infra","dev"],
+    jobs: ["Solution Architect","Cloud Architect","Enterprise Architect","Technical Lead"],
+    certifications: [
+      { name: "AZ-305: Azure Solutions Architect Expert", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-solutions-architect/" },
+      { name: "AZ-104: Azure Administrator", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-administrator/" },
+    ],
+    certPath: [
+      { level: "Associate", name: "AZ-104: Azure Administrator", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-administrator/", tip: "Required prerequisite — architects who've administered Azure are far better designers" },
+      { level: "Expert", name: "AZ-305: Azure Solutions Architect Expert", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-solutions-architect/", tip: "The top Azure certification — unlocks senior architect and principal engineer roles" },
+    ],
+    savillVideos: [
+      { name: "AZ-900 Study Cram — cloud fundamentals every architect needs", url: "https://youtu.be/tQp1YkB2Tgs" },
+      { name: "AZ-104 Study Cram v2 — how Azure works in practice", url: "https://youtu.be/0Knf9nub4-k" },
+      { name: "AZ-305 Study Cram — become a certified Solutions Architect", url: "https://youtu.be/vq9LuCM4YP4" },
+    ],
+    plan90: [
+      { period: "Days 1–30", title: "Understand cloud architecture from scratch", desc: "Watch John Savill's AZ-900 Study Cram and earn the Azure Fundamentals cert. Architects need to know how everything fits together — virtual networks, storage, security, compute. This cert covers it all at a beginner level." },
+      { period: "Days 31–60", title: "Learn how to administer Azure", desc: "Work through the AZ-104 Administrator learning path. Architects who've actually managed infrastructure are far better designers. Spin up resources, configure access controls, break things and fix them." },
+      { period: "Days 61–90", title: "Start thinking like an architect", desc: "Begin the AZ-305 Solutions Architect path and watch John Savill's AZ-305 Study Cram. Draw architecture diagrams for systems you use every day (your streaming service, your bank). Thinking in systems is the core skill." },
+    ],
+    msResources: [
+      { name: "Azure Friday", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/azure-friday/", desc: "Architecture topics — high availability, scaling, networking & security" },
+      { name: "Azure Essentials Show", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/azure-essentials-show/", desc: "Core Azure building blocks every architect must know" },
+      { name: "Exam Readiness Zone", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/exam-readiness-zone/", desc: "Official prep for AZ-305 Solutions Architect Expert" },
+      { name: "Sip & Sync with Azure", tag: "Show", url: "https://learn.microsoft.com/en-us/shows/sip-and-sync-with-azure/", desc: "Architecture conversations — approachable and practical" },
+    ],
+    learnStart: "https://learn.microsoft.com/en-us/training/paths/azure-fundamentals-describe-azure-architecture-services/",
+    learnStartLabel: "Start: Azure architecture &amp; services",
+    browse: "https://learn.microsoft.com/en-us/training/browse/?roles=solution-architect",
+    meetupSearch: "https://www.meetup.com/find/?source=EVENTS&keywords=microsoft+azure+solution+architect",
+    meetups: [
+      { name: "Microsoft Global Community", tag: "Official", url: "https://www.meetup.com/pro/microsoftglobal/" },
+      { name: "Microsoft Azure Topic Hub", tag: "Microsoft", url: "https://www.meetup.com/topics/microsoft-azure/" },
+      { name: "Find Azure Architect Groups", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=microsoft+azure+solution+architect" },
+      { name: "Find Microsoft Reactor Architecture Events", tag: "Microsoft", url: "https://www.meetup.com/find/?source=EVENTS&keywords=microsoft+reactor+architecture+azure" },
+    ],
+  },
+];
+
+// ─────────────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────────────
+let currentScreen = 0;
+const selectedTiles = new Set();
+let chatPinnedCareerId = null;
+
+// ─────────────────────────────────────────────
+//  NAVIGATION
+// ─────────────────────────────────────────────
+function goTo(screen) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  if (screen === 2) buildResults();
+  document.querySelectorAll('.screen')[screen].classList.add('active');
+  currentScreen = screen;
+  updateStepNav(screen);
+  // show/hide sticky nav
+  const nav = document.getElementById('career-nav');
+  if (screen === 2) nav.classList.add('visible');
+  else nav.classList.remove('visible');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateStepNav(s) {
+  for (let i = 0; i < 3; i++) {
+    const dot = document.getElementById('sdot-' + i);
+    dot.classList.remove('active', 'done');
+    if (i < s) dot.classList.add('done');
+    else if (i === s) dot.classList.add('active');
+  }
+  for (let i = 0; i < 2; i++) {
+    const line = document.getElementById('sline-' + i);
+    if (i < s) line.classList.add('done');
+    else line.classList.remove('done');
+  }
+}
+
+// ─────────────────────────────────────────────
+//  CHATBOT
+// ─────────────────────────────────────────────
+const CHAT_KEYWORDS = {
+  developer:    ['code','coding','program','programming','build','building','app','apps','application','website','web','software','develop','python','javascript','typescript','html','css','api','backend','frontend','fullstack','full-stack','creat','creating','making','script','github','dotnet','c#','react','node','java'],
+  ai_engineer:  ['ai','artificial intelligence','machine learning','ml','chatbot','chatbots','llm','gpt','neural','deep learning','nlp','language model','copilot','intelligent','smart','autonomous','agent','agents','generative','train','training','model','models','prediction','predictions','openai','cognitive','making','build','building'],
+  data_analyst: ['data','analytics','analytic','analysis','analyse','analysing','analyzed','analyzing','analyz','dashboard','dashboards','power bi','excel','spreadsheet','report','reporting','reports','chart','charts','graph','graphs','visual','visualis','visualiz','insight','insights','trend','trends','numbers','kpi','kpis','metric','metrics','measure','measures','business intelligence','bi','storytell','story','present','presenting','making','build','building','creat'],
+  data_scientist:['predict','prediction','predictions','algorithm','algorithms','research','experiment','modelling','modeling','notebook','maths','math','mathematics','science','regression','classification','hypothesis','pattern','patterns','scipy','sklearn','tensorflow','pytorch','making','build','building','train','training'],
+  data_engineer: ['pipeline','pipelines','etl','database','sql','storage','warehouse','data warehouse','fabric','spark','databricks','big data','ingest','transform','migration','data lake','lakehouse','streaming','kafka','synapse'],
+  cloud_admin:  ['cloud','server','servers','infrastructure','azure','virtual machine','vm','network','networking','manage','managing','admin','administration','it support','operations','deploy','deployment','configure','configuration','provision','sysadmin','azure portal','resource'],
+  security:     ['security','hack','hacking','hacker','cyber','cybersecurity','protect','protection','firewall','threat','threats','attack','attacks','defender','compliance','privacy','identity','authentication','secure','safety','vulnerability','pentest','penetration','forensics','soc','incident','breach','encryption'],
+  devops:       ['devops','automate','automation','pipeline','ci/cd','release','kubernetes','docker','container','containers','terraform','github actions','workflow','monitor','reliability','sre','infrastructure as code','iac','helm','jenkins','build and test'],
+  lowcode:      ['low-code','lowcode','no-code','nocode','power apps','power platform','power automate','business process','workflow','automate business','form','forms','dynamics','sharepoint','citizen','non-technical','without coding','power bi','click','drag','drop'],
+  architect:    ['design','designing','architecture','architect','systems design','blueprint','enterprise','plan','planning','strategy','scale','solve','problem solving','big picture','structure','complex','resilient','scalable','cloud native'],
+};
+
+let chatResults   = [];
+let chatResultIdx = 0;
+
+function chatScore(text) {
+  const lower = text.toLowerCase();
+  const scores = {};
+  CAREERS.forEach(c => { scores[c.id] = 0; });
+  Object.entries(CHAT_KEYWORDS).forEach(([id, keywords]) => {
+    keywords.forEach(kw => {
+      if (lower.includes(kw)) {
+        scores[id] = (scores[id] || 0) + (kw.includes(' ') ? 3 : kw.length > 5 ? 2 : 1);
+      }
+    });
+  });
+  return CAREERS
+    .map(c => ({ career: c, score: scores[c.id] || 0 }))
+    .filter(x => x.score > 0)
+    .sort((a, b) => b.score - a.score);
+}
+
+function chatAddMsg(html, role) {
+  const box = document.getElementById('chat-messages');
+  const row = document.createElement('div');
+  row.className = 'chat-msg ' + role;
+  const avatar = document.createElement('div');
+  avatar.className = 'chat-avatar';
+  avatar.textContent = role === 'bot' ? 'PF' : 'You';
+  const bubble = document.createElement('div');
+  bubble.className = 'chat-bubble';
+  bubble.innerHTML = html;
+  row.appendChild(avatar);
+  row.appendChild(bubble);
+  box.appendChild(row);
+  box.scrollTop = box.scrollHeight;
+  return bubble;
+}
+
+function chatShowTyping() {
+  return chatAddMsg('<div class="chat-typing-dots"><span></span><span></span><span></span></div>', 'bot');
+}
+
+function chatSetChips(chips) {
+  const el = document.getElementById('chat-chips');
+  el.innerHTML = '';
+  chips.forEach(({ label, fn, primary }) => {
+    const btn = document.createElement('button');
+    btn.className = 'chat-chip' + (primary ? ' primary' : '');
+    btn.textContent = label;
+    btn.onclick = fn;
+    el.appendChild(btn);
+  });
+}
+
+function chatJumpToCareer(careerId) {
+  chatPinnedCareerId = careerId;
+  goTo(2);
+}
+
+function certPathHTML(career) {
+  if (!career.certPath || !career.certPath.length) {
+    // Fallback: render flat cert list if no certPath defined
+    return '<div class="cert-path-diagram">' +
+      career.certifications.map((c, i) => {
+        const lc = ['level-0','level-1','level-2','level-3'][Math.min(i, 3)];
+        return `<div class="cert-path-step"><div class="cert-path-dot ${lc}">${i+1}</div><div class="cert-path-content"><a class="cert-path-link" href="${c.url}" target="_blank" rel="noopener">${c.name}</a></div></div>`;
+      }).join('') + '</div>';
+  }
+  const lcs = ['level-0','level-1','level-2','level-3'];
+  return '<div class="cert-path-diagram">' +
+    career.certPath.map((step, i) => {
+      const lc = lcs[Math.min(i, lcs.length - 1)];
+      return `<div class="cert-path-step"><div class="cert-path-dot ${lc}">${i+1}</div><div class="cert-path-content"><div class="cert-path-level ${lc}">${step.level}</div><a class="cert-path-link" href="${step.url}" target="_blank" rel="noopener">${step.name}</a>${step.tip ? `<div class="cert-path-tip">${step.tip}</div>` : ''}</div></div>`;
+    }).join('') + '</div>';
+}
+
+function chatShowRoadmap(career) {
+  chatSetChips([]);
+  const phases = career.plan90.map((p, i) =>
+    `<div class="chat-roadmap-phase">
+      <div class="chat-roadmap-dot">${i + 1}</div>
+      <div class="chat-roadmap-period">${p.period}</div>
+      <div class="chat-roadmap-title">${p.title}</div>
+      <div class="chat-roadmap-desc">${p.desc}</div>
+    </div>`
+  ).join('');
+  const jobs = career.jobs.map(j =>
+    `<span class="chat-roadmap-job">${j}</span>`
+  ).join('');
+  const bubble = chatAddMsg(
+    `Here's your <strong>${career.title}</strong> 90-day roadmap:
+    <div class="chat-roadmap">
+      <div class="chat-roadmap-header">${career.icon} ${career.title} — 90-Day Path</div>
+      <div class="chat-roadmap-phases">${phases}</div>
+      <div class="chat-roadmap-label">🎓 Certification path</div>
+      ${certPathHTML(career)}
+      <div class="chat-roadmap-label">💼 Job titles you could hold</div>
+      <div class="chat-roadmap-jobs">${jobs}</div>
+    </div>`,
+    'bot'
+  );
+  bubble.classList.add('wide');
+  chatSetChips([
+    { label: '✓ Open the full resource guide', primary: true, fn: () => { chatSetChips([]); chatAddMsg('Setting up your full guide now…', 'bot'); setTimeout(() => chatJumpToCareer(career.id), 700); } },
+    { label: '↩ Try a different path', fn: () => { chatSetChips([]); chatReset(); } },
+  ]);
+}
+
+function chatShowMatch(idx) {
+  const { career } = chatResults[idx];
+  chatSetChips([]);
+  const isFirst = idx === 0;
+  const moreLabel = chatResults.length > idx + 1 ? 'Show another option' : null;
+  const prefix = isFirst
+    ? `Based on what you said, I think you'd love:`
+    : `Another great fit could be:`;
+  chatAddMsg(
+    `${prefix}
+    <div class="chat-match-card">
+      <div class="chat-match-title">${career.icon} ${career.title}</div>
+      <div class="chat-match-desc">${career.tagline}</div>
+    </div>`,
+    'bot'
+  );
+  const chips = [
+    { label: '🗺 Show my roadmap', primary: true, fn: () => { chatSetChips([]); chatShowRoadmap(career); } },
+    { label: '→ Jump to full guide', fn: () => { chatSetChips([]); chatAddMsg('Great! Setting up your path now…', 'bot'); setTimeout(() => chatJumpToCareer(career.id), 700); } },
+  ];
+  if (moreLabel) chips.push({ label: moreLabel, fn: () => { chatResultIdx++; chatShowMatch(chatResultIdx); } });
+  chips.push({ label: 'Take the full quiz instead', fn: () => { chatSetChips([]); chatAddMsg('No problem! The quiz gives you the most personalised results.', 'bot'); setTimeout(() => goTo(1), 800); } });
+  chatSetChips(chips);
+}
+
+function chatRespond(userText) {
+  document.getElementById('chat-send-btn').disabled = true;
+  const typingBubble = chatShowTyping();
+  chatSetChips([]);
+
+  setTimeout(() => {
+    typingBubble.closest('.chat-msg').remove();
+    chatResults = chatScore(userText);
+    chatResultIdx = 0;
+
+    if (chatResults.length === 0) {
+      chatAddMsg(
+        `Hmm, I'm not quite sure yet! Could you tell me a bit more? For example:<br>
+        <em>"I like solving puzzles with data"</em>, <em>"I enjoy writing code"</em>, or <em>"I'm interested in keeping systems secure"</em>.`,
+        'bot'
+      );
+      chatSetChips([
+        { label: 'Take the full quiz instead', fn: () => { chatSetChips([]); chatAddMsg('Good idea! The quiz will nail it.', 'bot'); setTimeout(() => goTo(1), 700); } }
+      ]);
+    } else {
+      chatShowMatch(0);
+    }
+
+    document.getElementById('chat-send-btn').disabled = false;
+    document.getElementById('chat-input').focus();
+  }, 950);
+}
+
+function chatSend() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  chatAddMsg(text, 'user');
+  input.value = '';
+  chatSetChips([]);
+  chatRespond(text);
+}
+
+function chatGreet() {
+  chatAddMsg(
+    `Hi! Tell me what you enjoy and I'll suggest a Microsoft tech career that fits you.<br>
+    E.g. <em>"I love building apps"</em> or <em>"I find analysing data really satisfying"</em>.`,
+    'bot'
+  );
+  chatSetChips([
+    { label: '💻 I like coding', fn: () => { document.getElementById('chat-input').value = 'I love writing code and building apps'; chatSend(); } },
+    { label: '🤖 I\'m into AI', fn: () => { document.getElementById('chat-input').value = 'I\'m fascinated by AI and machine learning'; chatSend(); } },
+    { label: '📊 I love data', fn: () => { document.getElementById('chat-input').value = 'I enjoy analysing data and making charts'; chatSend(); } },
+    { label: '🔐 Security interests me', fn: () => { document.getElementById('chat-input').value = 'I\'m interested in cybersecurity and protecting systems'; chatSend(); } },
+    { label: '⚙️ DevOps / automation', fn: () => { document.getElementById('chat-input').value = 'I like automating things and DevOps pipelines'; chatSend(); } },
+  ]);
+}
+
+function chatReset() {
+  document.getElementById('chat-messages').innerHTML = '';
+  chatSetChips([]);
+  chatResults = [];
+  chatResultIdx = 0;
+  chatGreet();
+}
+
+// Init chatbot on page load
+(function chatInit() {
+  const input   = document.getElementById('chat-input');
+  const sendBtn = document.getElementById('chat-send-btn');
+  const resetBtn = document.getElementById('chat-reset-btn');
+  sendBtn.onclick  = chatSend;
+  resetBtn.onclick = chatReset;
+  input.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); chatSend(); } });
+  chatGreet();
+})();
+
+// ─────────────────────────────────────────────
+//  INTEREST TILE SELECTION
+// ─────────────────────────────────────────────
+document.getElementById('interests-grid').addEventListener('click', function(e) {
+  const tile = e.target.closest('.interest-tile');
+  if (!tile) return;
+  tile.classList.toggle('selected');
+  selectedTiles[tile.classList.contains('selected') ? 'add' : 'delete'](tile);
+  document.getElementById('btn-next-1').disabled = selectedTiles.size === 0;
+  const n = selectedTiles.size;
+  document.getElementById('tile-count').innerHTML =
+    n === 0 ? 'Pick at least one to continue'
+             : `<strong>${n}</strong> selected — the more you pick, the better your match`;
+});
+
+// ─────────────────────────────────────────────
+//  ACCORDION toggle
+// ─────────────────────────────────────────────
+function toggleBlock(blockEl) {
+  const isOpen = blockEl.classList.contains('open');
+  // close all others
+  document.querySelectorAll('.career-block.open').forEach(b => {
+    if (b !== blockEl) b.classList.remove('open');
+  });
+  blockEl.classList.toggle('open', !isOpen);
+}
+
+// ─────────────────────────────────────────────
+//  TAB switching within a block
+// ─────────────────────────────────────────────
+function switchTab(blockEl, tabName) {
+  blockEl.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tabName));
+  blockEl.querySelectorAll('.tab-pane').forEach(p => p.classList.toggle('active', p.dataset.tab === tabName));
+}
+
+// ─────────────────────────────────────────────
+//  RESULTS BUILDER
+// ─────────────────────────────────────────────
+function buildResults() {
+  let chosenTags = new Set();
+  selectedTiles.forEach(tile => tile.dataset.tags.split(',').forEach(t => chosenTags.add(t.trim())));
+
+  // When arriving from the chatbot, score against the pinned career's tags so
+  // all "X interests matched" badges reflect genuine similarity to that path.
+  const pinnedId = chatPinnedCareerId;
+  if (pinnedId) {
+    const pinned = CAREERS.find(c => c.id === pinnedId);
+    if (pinned) chosenTags = new Set(pinned.matchTags);
+    chatPinnedCareerId = null;
+  }
+
+  let scored = CAREERS.map(c => ({ career: c, overlap: c.matchTags.filter(t => chosenTags.has(t)).length }))
+    .filter(x => x.overlap > 0)
+    .sort((a, b) => b.overlap - a.overlap);
+
+  // Guarantee pinned career is first
+  if (pinnedId) {
+    scored = scored.filter(x => x.career.id !== pinnedId);
+    const pinned = CAREERS.find(c => c.id === pinnedId);
+    if (pinned) scored.unshift({ career: pinned, overlap: pinned.matchTags.length });
+  }
+
+  const noMatch = document.getElementById('no-match');
+  const container = document.getElementById('path-cards');
+  container.innerHTML = '';
+
+  if (scored.length === 0) { noMatch.style.display = 'block'; return; }
+  noMatch.style.display = 'none';
+
+  const top = scored[0].career;
+  document.getElementById('result-heading').textContent = 'Great news — here are your best-fit paths!';
+  document.getElementById('result-sub').textContent =
+    `Found ${scored.length} career path${scored.length > 1 ? 's' : ''} matching your interests. Your top match is ${top.title}. Click any card to explore certs, a 90-day plan, videos and more.`;
+
+  // build sticky nav pills
+  const nav = document.getElementById('nav-pills');
+  nav.innerHTML = '';
+  scored.slice(0, 5).forEach(({ career }) => {
+    const a = document.createElement('a');
+    a.className = 'nav-pill';
+    a.textContent = career.icon + ' ' + career.title;
+    a.href = '#career-' + career.id;
+    nav.appendChild(a);
+  });
+
+  scored.slice(0, 5).forEach(({ career, overlap }, idx) => {
+    const isTop = idx === 0;
+    const block = document.createElement('div');
+    block.className = `career-block ${career.color}`;
+    block.id = 'career-' + career.id;
+
+    block.innerHTML = `
+      <div class="career-header" onclick="toggleBlock(this.closest('.career-block'))">
+        <div class="career-color-bar"></div>
+        <div class="career-icon-wrap">${career.icon}</div>
+        <div class="career-header-text">
+          <span class="match-badge ${isTop ? 'top-match-badge' : 'other-match-badge'}">
+            ${isTop ? 'Top match' : overlap + ' interest' + (overlap > 1 ? 's' : '') + ' matched'}
+          </span>
+          <h3>${career.title}</h3>
+          <div class="tagline">${career.tagline}</div>
+        </div>
+        <span class="career-chevron">▼</span>
+      </div>
+      <div class="career-jobs-row">
+        ${career.jobs.map(j => `<span class="job-pill">${j}</span>`).join('')}
+      </div>
+      <div class="career-body">
+        <div class="tab-bar">
+          <button class="tab-btn active" data-tab="start" onclick="switchTab(this.closest('.career-block'),'start')">Get started</button>
+          <button class="tab-btn" data-tab="certs" onclick="switchTab(this.closest('.career-block'),'certs')">Certifications</button>
+          <button class="tab-btn" data-tab="plan" onclick="switchTab(this.closest('.career-block'),'plan')">90-day plan</button>
+          <button class="tab-btn" data-tab="videos" onclick="switchTab(this.closest('.career-block'),'videos')">MS videos</button>
+          <button class="tab-btn tab-btn-savill" data-tab="savill" onclick="switchTab(this.closest('.career-block'),'savill')">▶ John Savill</button>
+          <button class="tab-btn tab-btn-meetup" data-tab="meetups" onclick="switchTab(this.closest('.career-block'),'meetups')">&#9679; Meetups</button>
+        </div>
+
+        <div class="tab-pane active" data-tab="start">
+          <p style="font-size:.85rem;color:#5a6a7e;margin-bottom:16px;line-height:1.6;">${career.tagline}</p>
+          <div class="start-links">
+            <a class="start-link-btn start-link-primary" href="${career.learnStart}" target="_blank">${career.learnStartLabel}</a>
+            <a class="start-link-btn start-link-secondary" href="${career.browse}" target="_blank">Browse all courses</a>
+          </div>
+          <div class="savill-cta" onclick="switchTab(this.closest('.career-block'), 'savill')" title="View John Savill's free study videos">
+            <div class="savill-cta-avatar">JS</div>
+            <div class="savill-cta-text">
+              <strong>John Savill Videos</strong>
+              <p>If you want to watch and learn &mdash; John Savill's free study videos cover every Azure certification in plain English.</p>
+            </div>
+            <span class="savill-cta-arrow">&rsaquo;</span>
+          </div>
+        </div>
+
+        <div class="tab-pane" data-tab="certs">
+          <p style="font-size:.8rem;color:#5a6a7e;margin-bottom:14px;">Follow this path in order — each level builds on the last.</p>
+          ${certPathHTML(career)}
+          <p style="font-size:.7rem;font-weight:800;color:#9a8878;text-transform:uppercase;letter-spacing:.07em;margin:16px 0 7px;">All certifications</p>
+          <div class="cert-list">
+            ${career.certifications.map(c => `<a class="cert-badge" href="${c.url}" target="_blank">${c.name}</a>`).join('')}
+          </div>
+        </div>
+
+        <div class="tab-pane" data-tab="plan">
+          <div class="plan-steps">
+            ${career.plan90.map(s => `
+              <div class="plan-step">
+                <span class="step-badge">${s.period}</span>
+                <h5>${s.title}</h5>
+                <p>${s.desc}</p>
+              </div>`).join('')}
+          </div>
+        </div>
+
+        <div class="tab-pane" data-tab="videos">
+          <p style="font-size:.8rem;color:#5a6a7e;margin-bottom:14px;">All free on Microsoft Learn — shows and series made by the people who built the technology.</p>
+          <div class="ms-video-list">
+            ${career.msResources.map(r => `<a class="ms-badge" href="${r.url}" target="_blank" data-tag="${r.tag}"><div class="ms-badge-body"><div class="ms-badge-header"><span class="ms-badge-title">${r.name}</span><span class="tag">${r.tag}</span></div><div class="ms-badge-desc">${r.desc}</div></div></a>`).join('')}
+          </div>
+        </div>
+
+        <div class="tab-pane" data-tab="savill">
+          <div class="savill-profile">
+            <div class="savill-avatar">JS</div>
+            <div class="savill-profile-text">
+              <strong>John Savill</strong>
+              <span>Microsoft MVP &amp; Azure Master — free, plain-English study videos for every Azure certification. No jargon, just clear explanations.</span>
+            </div>
+            <a class="savill-yt-link" href="https://www.youtube.com/@NTFAQGuy" target="_blank">Channel</a>
+          </div>
+          <div class="savill-list">
+            ${career.savillVideos.map(v => `<a class="savill-badge" href="${v.url}" target="_blank">${v.name}</a>`).join('')}
+          </div>
+        </div>
+
+        <div class="tab-pane" data-tab="meetups">
+          <p class="meetup-intro">Find people in your city learning and working in this space. Meetup events are free or low-cost and a great way to build your network before you even graduate.</p>
+          <div class="ms-list" style="margin-bottom:16px;">
+            ${career.meetups.map(m => `<a class="meetup-badge" href="${m.url}" target="_blank">${m.name}<span class="m-tag">${m.tag}</span></a>`).join('')}
+          </div>
+          <a class="meetup-find-btn" href="${career.meetupSearch}" target="_blank">Find events near you on Meetup.com</a>
+        </div>
+      </div>
+    `;
+
+    // auto-open the top match
+    if (isTop) block.classList.add('open');
+
+    container.appendChild(block);
+  });
+}
+</script>
+</body>
+</html>
