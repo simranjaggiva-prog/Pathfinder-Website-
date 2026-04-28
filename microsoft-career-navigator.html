@@ -166,6 +166,55 @@
       border: 1.5px solid #d6cfc3;
     }
 
+    /* ─── Women in Tech welcome callout ────────────── */
+    .wit-callout {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: linear-gradient(135deg, #4a1060 0%, #721840 100%);
+      border-radius: 14px;
+      padding: 16px 22px;
+      margin: 28px 0 24px;
+      text-align: left;
+      text-decoration: none;
+      color: #fff;
+      cursor: pointer;
+      border: none;
+      width: 100%;
+      font-family: inherit;
+      transition: filter .18s, transform .18s;
+    }
+    .wit-callout:hover {
+      filter: brightness(1.08);
+      transform: translateY(-2px);
+    }
+    .wit-callout-icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    .wit-callout-text { flex: 1; min-width: 0; }
+    .wit-callout-text strong {
+      display: block;
+      font-size: .95rem;
+      font-weight: 800;
+      margin-bottom: 3px;
+    }
+    .wit-callout-text span {
+      font-size: .78rem;
+      color: rgba(255,255,255,.8);
+      line-height: 1.45;
+    }
+    .wit-callout-arrow {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      opacity: .75;
+    }
+    @media (max-width: 480px) {
+      .wit-callout { padding: 14px 16px; gap: 12px; }
+      .wit-callout-icon { font-size: 1.5rem; }
+    }
+
     /* ─── Chatbot widget ───────────────────────────── */
     .chat-divider {
       display: flex; align-items: center; gap: 12px;
@@ -596,6 +645,9 @@
     .tab-btn-meetup { color: #b51a2f !important; }
     .tab-btn-meetup.active { border-bottom-color: #b51a2f !important; color: #8a1020 !important; }
     .tab-btn-meetup:hover:not(.active) { color: #8a1020 !important; }
+    .tab-btn-wit { color: #721840 !important; }
+    .tab-btn-wit.active { border-bottom-color: #721840 !important; color: #4a0828 !important; }
+    .tab-btn-wit:hover:not(.active) { color: #4a0828 !important; }
 
     .tab-pane { display: none; padding: 20px 24px 24px; }
     .tab-pane.active { display: block; animation: fadeUp .25s ease; }
@@ -890,21 +942,22 @@
     .section-heading .dot {
       width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
     }
-    .community-intro { font-size: .85rem; color: #5a5048; line-height: 1.6; margin-bottom: 20px; }
+    .community-intro { font-size: .82rem; color: #5a5048; line-height: 1.5; margin-bottom: 16px; }
     .community-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 8px;
     }
     .community-card {
       background: #f5f0e8;
       border: 1.5px solid #d6cfc3;
-      border-radius: 14px;
-      padding: 16px 18px;
+      border-radius: 12px;
+      padding: 12px 14px;
       text-decoration: none;
       color: inherit;
       transition: all .18s;
       display: block;
+      position: relative;
     }
     .community-card:hover {
       border-color: #3c1e68;
@@ -912,15 +965,230 @@
       transform: translateY(-2px);
       box-shadow: 0 4px 16px rgba(60,30,104,.10);
     }
-    .community-card .c-icon { font-size: 1.4rem; margin-bottom: 8px; display: block; }
-    .community-card .c-name { font-size: .84rem; font-weight: 800; color: var(--dark); }
+    .community-card .c-icon { font-size: 1.25rem; margin-bottom: 6px; display: block; }
+    .community-card .c-name { font-size: .8rem; font-weight: 800; color: var(--dark); }
     .community-card .c-tag {
-      font-size: .62rem; font-weight: 700;
+      font-size: .58rem; font-weight: 700;
       background: #3c1e68; color: #fff;
+      border-radius: 99px; padding: 1px 7px;
+      margin-left: 5px; vertical-align: middle;
+    }
+    .community-card .c-desc {
+      font-size: .72rem; color: #5a5048; line-height: 1.4;
+      margin-top: 6px;
+    }
+
+    /* ─── Women in Tech section ─────────────────────── */
+    .wit-section {
+      background: linear-gradient(135deg, #fdf4f8 0%, #f5f0fa 100%);
+      border-radius: 20px;
+      box-shadow: var(--sh);
+      padding: 32px 28px;
+      margin-top: 24px;
+      border: 1.5px solid #e0cce8;
+    }
+    .wit-banner {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: linear-gradient(135deg, #4a1060 0%, #721840 100%);
+      border-radius: 14px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      color: #fff;
+      flex-wrap: wrap;
+    }
+    .wit-banner-icon {
+      font-size: 2.4rem;
+      flex-shrink: 0;
+    }
+    .wit-banner-text { flex: 1; min-width: 180px; }
+    .wit-banner-text strong {
+      display: block;
+      font-size: 1rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .wit-banner-text span {
+      font-size: .8rem;
+      color: rgba(255,255,255,.8);
+      line-height: 1.5;
+    }
+    .wit-banner-stat {
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 12px;
+      padding: 10px 20px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .wit-banner-stat .stat-num {
+      font-size: 1.6rem;
+      font-weight: 900;
+      display: block;
+      line-height: 1;
+    }
+    .wit-banner-stat .stat-label {
+      font-size: .65rem;
+      font-weight: 700;
+      color: rgba(255,255,255,.75);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-top: 3px;
+      display: block;
+    }
+    .wit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 12px;
+    }
+    .wit-card {
+      background: #fdf9f4;
+      border: 1.5px solid #e0cce8;
+      border-radius: 14px;
+      padding: 16px 18px;
+      text-decoration: none;
+      color: inherit;
+      transition: all .18s;
+      display: block;
+    }
+    .wit-card:hover {
+      border-color: #721840;
+      background: #fde8f0;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(114,24,64,.12);
+    }
+    .wit-card .c-icon { font-size: 1.4rem; margin-bottom: 8px; display: block; }
+    .wit-card .c-name { font-size: .84rem; font-weight: 800; color: var(--dark); }
+    .wit-card .c-tag {
+      font-size: .62rem; font-weight: 700;
+      background: #721840; color: #fff;
       border-radius: 99px; padding: 1px 8px;
       margin-left: 6px; vertical-align: middle;
     }
-    .community-card .c-desc { font-size: .75rem; color: #5a5048; line-height: 1.45; margin-top: 7px; }
+    .wit-card .c-desc { font-size: .75rem; color: #5a5048; line-height: 1.45; margin-top: 7px; }
+
+    /* ─── Remote badge ──────────────────────────────── */
+    .remote-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: #e6f4ec; border: 1.5px solid #a8d4b4;
+      border-radius: 99px; padding: 3px 10px;
+      font-size: .66rem; font-weight: 700; color: #1a5a30;
+      margin-left: 6px; vertical-align: middle; flex-shrink: 0;
+    }
+    .remote-badge::before { content: '🌐'; font-size: .7rem; }
+
+    /* ─── Women tab pane ────────────────────────────── */
+    .wit-field-grid { display: flex; flex-direction: column; gap: 10px; }
+    .wit-field-card {
+      display: flex; align-items: center; gap: 14px;
+      background: #fdf4f8; border: 1.5px solid #e0cce8;
+      border-radius: 12px; padding: 12px 16px;
+      text-decoration: none; color: inherit; transition: all .18s;
+    }
+    .wit-field-card:hover { border-color: #721840; background: #fde8f0; transform: translateX(3px); }
+    .wit-field-card-icon { font-size: 1.4rem; flex-shrink: 0; }
+    .wit-field-card-text { flex: 1; min-width: 0; }
+    .wit-field-card-name { font-size: .84rem; font-weight: 800; color: #721840; display: block; margin-bottom: 2px; }
+    .wit-field-card-desc { font-size: .74rem; color: #5a5048; line-height: 1.4; }
+    .wit-field-tag {
+      font-size: .6rem; font-weight: 800; flex-shrink: 0;
+      background: #721840; color: #fff;
+      border-radius: 99px; padding: 2px 8px;
+    }
+
+    /* ─── Role model strip ──────────────────────────── */
+    .rolemodel-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 12px;
+      margin-top: 4px;
+    }
+    .rolemodel-card {
+      background: linear-gradient(135deg, #fdf4f8, #f5f0fa);
+      border: 1.5px solid #e0cce8;
+      border-radius: 14px;
+      padding: 18px 18px 14px;
+      position: relative;
+    }
+    .rolemodel-quote {
+      font-size: .82rem; font-style: italic; color: #3a1a30;
+      line-height: 1.55; margin-bottom: 12px;
+    }
+    .rolemodel-quote::before { content: '\201C'; font-size: 1.6rem; color: #c06090; line-height: 0; vertical-align: -.4em; margin-right: 2px; }
+    .rolemodel-quote::after  { content: '\201D'; font-size: 1.6rem; color: #c06090; line-height: 0; vertical-align: -.4em; margin-left: 2px; }
+    .rolemodel-name { font-size: .78rem; font-weight: 800; color: #721840; }
+    .rolemodel-role { font-size: .72rem; color: #8a6070; margin-top: 2px; }
+
+    /* ─── Scholarship cards ─────────────────────────── */
+    .scholarship-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 12px;
+      margin-top: 4px;
+    }
+    .scholarship-card {
+      background: #fffdf0; border: 1.5px solid #e8d890;
+      border-radius: 14px; padding: 16px 18px;
+      text-decoration: none; color: inherit; transition: all .18s;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .scholarship-card:hover { border-color: #b08824; background: #fdf5cc; transform: translateY(-2px); box-shadow: 0 4px 16px rgba(176,136,36,.15); }
+    .scholarship-card .sc-title { font-size: .84rem; font-weight: 800; color: #6a4800; display: flex; align-items: center; gap: 6px; }
+    .scholarship-card .sc-desc { font-size: .74rem; color: #5a5048; line-height: 1.45; }
+    .scholarship-card .sc-tag {
+      font-size: .6rem; font-weight: 800;
+      background: #b08824; color: #fff;
+      border-radius: 99px; padding: 2px 8px; align-self: flex-start;
+    }
+
+    /* ─── Imposter syndrome card ────────────────────── */
+    .imposter-card {
+      background: linear-gradient(135deg, #1a3060 0%, #4a1060 100%);
+      border-radius: 14px; padding: 22px 26px;
+      color: #fff; margin-top: 4px;
+    }
+    .imposter-card h4 { font-size: 1rem; font-weight: 800; margin-bottom: 12px; }
+    .imposter-tips { display: flex; flex-direction: column; gap: 10px; }
+    .imposter-tip {
+      display: flex; align-items: flex-start; gap: 12px;
+      font-size: .82rem; line-height: 1.5; color: rgba(255,255,255,.9);
+    }
+    .imposter-tip-num {
+      background: rgba(255,255,255,.2); border-radius: 50%;
+      width: 24px; height: 24px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .72rem; font-weight: 900;
+    }
+    .imposter-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.3);
+      border-radius: 8px; padding: 8px 16px;
+      color: #fff; text-decoration: none; font-size: .78rem; font-weight: 700;
+      margin-top: 14px; transition: background .18s;
+    }
+    .imposter-link:hover { background: rgba(255,255,255,.25); }
+
+    /* ─── Podcast cards ─────────────────────────────── */
+    /* ─── Persona tile ──────────────────────────────── */
+    .interest-tile.persona-wit {
+      border: 2px solid #c060a0;
+      background: linear-gradient(135deg, #fdf4f8 0%, #f5f0fa 100%);
+      grid-column: 1 / -1;
+    }
+    .interest-tile.persona-wit .icon { background: #fde8f4; border-color: #c060a0; }
+    .interest-tile.persona-wit:hover, .interest-tile.persona-wit.selected {
+      border-color: #721840; background: linear-gradient(135deg, #fde8f4, #ede0f5);
+    }
+
+    /* ─── Wit sub-section headings ──────────────────── */
+    .wit-sub-heading {
+      display: flex; align-items: center; gap: 8px;
+      font-size: .9rem; font-weight: 800; color: #721840;
+      margin: 28px 0 10px;
+      padding-top: 20px; border-top: 1px solid #e8d0e0;
+    }
+    .wit-sub-heading:first-of-type { border-top: none; padding-top: 0; margin-top: 24px; }
 
     /* ─── Footer ────────────────────────────────────── */
     footer {
@@ -972,6 +1240,15 @@
       <div class="actions" style="justify-content:center;">
         <button class="btn btn-primary" onclick="goTo(1)">Take the quiz →</button>
       </div>
+
+      <button class="wit-callout" onclick="showWomenInTech()" aria-label="Jump to Women in Tech resources">
+        <span class="wit-callout-icon">👩‍💻</span>
+        <div class="wit-callout-text">
+          <strong>Women in tech — resources, communities &amp; support</strong>
+          <span>Only 26% of tech roles are held by women. Discover programmes, scholarships and communities to help you get started and thrive.</span>
+        </div>
+        <span class="wit-callout-arrow">→</span>
+      </button>
 
       <div class="chat-divider"><span>✦ or just tell me what you enjoy</span></div>
       <div class="chatbot-widget" id="chatbot-widget">
@@ -1073,6 +1350,12 @@
           <span class="desc">Maths meets real‑world data</span>
         </div>
 
+        <div class="interest-tile persona-wit" data-tags="dev,web,software,ai,data,analytics,cloud,infra,lowcode,power" style="--tc:#721840;--tc-bg:#fde8f4">
+          <span class="icon">👩‍💻</span>
+          <span class="label">I'm a woman entering or returning to tech</span>
+          <span class="desc">Show me beginner-friendly paths with women's communities highlighted</span>
+        </div>
+
       </div>
 
       <div class="actions">
@@ -1154,6 +1437,161 @@
       </div>
     </div>
 
+    <!-- ── Women in Tech ── -->
+    <div class="wit-section">
+      <div class="section-heading">
+        <span class="dot" style="background:#721840"></span>
+        Women in tech — communities, programmes &amp; support
+      </div>
+      <p class="community-intro">Only around 26% of tech roles are held by women — but that's changing, and you can be part of the shift. These communities, scholarships and Microsoft programmes are here to support you every step of the way.</p>
+
+      <div class="wit-banner">
+        <div class="wit-banner-icon">👩‍💻</div>
+        <div class="wit-banner-text">
+          <strong>The tech industry needs you.</strong>
+          <span>Women who work in tech report higher job satisfaction, stronger salaries and incredible career progression. These resources are designed to make that path more accessible.</span>
+        </div>
+        <div class="wit-banner-stat">
+          <span class="stat-num">26%</span>
+          <span class="stat-label">of tech roles<br>held by women</span>
+        </div>
+        <div class="wit-banner-stat">
+          <span class="stat-num">3×</span>
+          <span class="stat-label">higher demand<br>than supply</span>
+        </div>
+      </div>
+
+      <div class="wit-grid">
+
+        <a class="wit-card" href="https://www.womenwhocode.com/" target="_blank" rel="noopener">
+          <span class="c-icon">💜</span>
+          <div><span class="c-name">Women Who Code</span><span class="c-tag">Free</span></div>
+          <p class="c-desc">Global community of 300,000+ women in tech. Free membership gives you access to events, a jobs board, study groups, and a network of engineers at top companies.</p>
+        </a>
+
+        <a class="wit-card" href="https://anitab.org/" target="_blank" rel="noopener">
+          <span class="c-icon">🌟</span>
+          <div><span class="c-name">AnitaB.org &amp; Grace Hopper</span><span class="c-tag">Community</span></div>
+          <p class="c-desc">Home of the Grace Hopper Celebration — the world's largest gathering of women technologists. AnitaB.org also has scholarships, mentorship and career programmes.</p>
+        </a>
+
+        <a class="wit-card" href="https://leap.microsoft.com/" target="_blank" rel="noopener">
+          <span class="c-icon">🚀</span>
+          <div><span class="c-name">Microsoft LEAP</span><span class="c-tag">Microsoft</span></div>
+          <p class="c-desc">Microsoft's apprenticeship programme designed for people from non-traditional backgrounds — including a strong focus on women returning to or entering tech. Paid and leads to full-time roles.</p>
+        </a>
+
+        <a class="wit-card" href="https://girlsintech.org/" target="_blank" rel="noopener">
+          <span class="c-icon">💡</span>
+          <div><span class="c-name">Girls in Tech</span><span class="c-tag">Free</span></div>
+          <p class="c-desc">A global non-profit focused on education and engagement for women and girls in tech. Events, hackathons, mentorship and a global community across 57 countries.</p>
+        </a>
+
+        <a class="wit-card" href="https://ncwit.org/" target="_blank" rel="noopener">
+          <span class="c-icon">🎓</span>
+          <div><span class="c-name">NCWIT</span><span class="c-tag">Scholarships</span></div>
+          <p class="c-desc">National Center for Women &amp; IT — offers the Aspirations in Computing Award and connects women with scholarships, internships and employers committed to diversity in tech.</p>
+        </a>
+
+        <a class="wit-card" href="https://careers.microsoft.com/students" target="_blank" rel="noopener">
+          <span class="c-icon">🏢</span>
+          <div><span class="c-name">Microsoft Careers for Students</span><span class="c-tag">Microsoft</span></div>
+          <p class="c-desc">Microsoft's student internship and new-grad programmes — including dedicated pathways and scholarships for underrepresented groups. Apply for internships and explore early-in-career roles.</p>
+        </a>
+
+        <a class="wit-card" href="https://womenincloud.com/" target="_blank" rel="noopener">
+          <span class="c-icon">☁️</span>
+          <div><span class="c-name">Women in Cloud</span><span class="c-tag">Free</span></div>
+          <p class="c-desc">Global community dedicated to the economic empowerment of women through cloud technology. Events, mentorship, job opportunities and career programmes — perfect if you're heading into Azure, DevOps or data engineering.</p>
+        </a>
+
+      </div>
+
+      <!-- Role models -->
+      <div class="wit-sub-heading">💬 Real women, real paths</div>
+      <p class="community-intro" style="margin-bottom:14px;">You don't need a CS degree, a perfect background, or to have always known you wanted to work in tech. These stories reflect the kinds of paths women take into Microsoft tech roles every day.</p>
+      <div class="rolemodel-strip">
+        <div class="rolemodel-card">
+          <p class="rolemodel-quote">I started with PL-900 during my lunch breaks. Within 18 months I was a Power Platform Developer at a global firm. No prior coding experience.</p>
+          <div class="rolemodel-name">Priya S.</div>
+          <div class="rolemodel-role">Power Platform Developer — career change from HR</div>
+        </div>
+        <div class="rolemodel-card">
+          <p class="rolemodel-quote">WiCyS gave me my first security mentor. I earned SC-900, then SC-200, and now I work in a SOC. Two years ago I didn't know what a firewall was.</p>
+          <div class="rolemodel-name">Aisha T.</div>
+          <div class="rolemodel-role">Security Operations Analyst — degree in biology</div>
+        </div>
+        <div class="rolemodel-card">
+          <p class="rolemodel-quote">I used Azure for Students to build my first cloud project. That project got me an internship. The internship got me a full-time role. Free credits literally changed my life.</p>
+          <div class="rolemodel-name">Mei-Lin C.</div>
+          <div class="rolemodel-role">Cloud Administrator — first-generation university student</div>
+        </div>
+        <div class="rolemodel-card">
+          <p class="rolemodel-quote">I applied for Microsoft LEAP after 8 years out of the workforce. They trained me, paid me, and offered me a permanent role. It's never too late to come back.</p>
+          <div class="rolemodel-name">Sarah K.</div>
+          <div class="rolemodel-role">AI Engineer — Microsoft LEAP graduate, returning to tech</div>
+        </div>
+      </div>
+
+      <!-- Imposter syndrome -->
+      <div class="wit-sub-heading">🧠 Feeling like you don't belong? You do.</div>
+      <div class="imposter-card">
+        <h4>Imposter syndrome is real — here's how to push through it</h4>
+        <div class="imposter-tips">
+          <div class="imposter-tip">
+            <span class="imposter-tip-num">1</span>
+            <span>Studies show women apply for jobs only when they meet 100% of requirements. Men apply at 60%. You don't need to tick every box — apply anyway.</span>
+          </div>
+          <div class="imposter-tip">
+            <span class="imposter-tip-num">2</span>
+            <span>Every expert in this field Googles things constantly. Knowing how to find answers is the skill, not memorising them.</span>
+          </div>
+          <div class="imposter-tip">
+            <span class="imposter-tip-num">3</span>
+            <span>One certification, one project, one community connection at a time. Momentum beats perfection. The first cert is always the hardest.</span>
+          </div>
+          <div class="imposter-tip">
+            <span class="imposter-tip-num">4</span>
+            <span>Find your people. Join one community from this page — even just lurking in a Discord or LinkedIn group normalises seeing women in these roles.</span>
+          </div>
+        </div>
+        <a class="imposter-link" href="https://leanin.org/" target="_blank" rel="noopener">Lean In — research and resources on women in the workplace →</a>
+      </div>
+
+      <!-- Scholarships -->
+      <div class="wit-sub-heading">🏆 Scholarships &amp; financial support</div>
+      <p class="community-intro" style="margin-bottom:14px;">These scholarships are specifically for women in tech — covering education costs, certifications, and conference attendance.</p>
+      <div class="scholarship-grid">
+        <a class="scholarship-card" href="https://ncwit.org/program/aspirations-in-computing/" target="_blank" rel="noopener">
+          <div class="sc-title">🎓 NCWIT Aspirations in Computing</div>
+          <span class="sc-tag">Award + Scholarship</span>
+          <div class="sc-desc">National award recognising women in computing studies. Opens doors to internships, scholarships and employer connections.</div>
+        </a>
+        <a class="scholarship-card" href="https://www.google.com/about/careers/applications/buildyourfuture/" target="_blank" rel="noopener">
+          <div class="sc-title">🌐 Google Women Techmakers Scholars</div>
+          <span class="sc-tag">Scholarship</span>
+          <div class="sc-desc">Financial award for women studying CS or tech-related degrees, plus access to a global Google mentorship network.</div>
+        </a>
+        <a class="scholarship-card" href="https://www.wicys.org/benefits/scholarship/" target="_blank" rel="noopener">
+          <div class="sc-title">🔐 WiCyS Scholarship Program</div>
+          <span class="sc-tag">Cybersecurity</span>
+          <div class="sc-desc">Scholarships specifically for women pursuing cybersecurity education — covering tuition, training, and WiCyS conference attendance.</div>
+        </a>
+        <a class="scholarship-card" href="https://careers.microsoft.com/students" target="_blank" rel="noopener">
+          <div class="sc-title">🏢 Microsoft Scholarship Program</div>
+          <span class="sc-tag">Microsoft</span>
+          <div class="sc-desc">Microsoft offers scholarships for students from underrepresented groups including women — check the student careers page for current offerings.</div>
+        </a>
+        <a class="scholarship-card" href="https://ghc.anitab.org/awards-programs" target="_blank" rel="noopener">
+          <div class="sc-title">🌟 AnitaB.org Grants &amp; Awards</div>
+          <span class="sc-tag">Multiple</span>
+          <div class="sc-desc">AnitaB.org offers multiple grants and awards for women in tech, including Grace Hopper Celebration scholarships covering full registration and travel.</div>
+        </a>
+
+      </div>
+
+    </div>
+
     <div style="margin-top:28px;" class="actions">
       <button class="btn btn-secondary" onclick="goTo(1)">← Change my answers</button>
       <button class="btn btn-primary" onclick="goTo(0)">Start over</button>
@@ -1215,6 +1653,12 @@ const CAREERS = [
       { name: "Find Azure Developer Groups", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=microsoft+azure+developer" },
       { name: "Find .NET & GitHub Groups", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=dotnet+microsoft+github" },
     ],
+    remote: "Highly remote-friendly",
+    witCommunity: [
+      { name: "Women Who Code", tag: "Free", url: "https://www.womenwhocode.com/", desc: "Global network of women developers — events, jobs board and study groups." },
+      { name: "Write/Speak/Code", tag: "Community", url: "https://www.writespeakcode.com/", desc: "Helping women and non-binary engineers build technical visibility through writing, speaking and contributing to open source." },
+      { name: "SheCanCode", tag: "Jobs & Community", url: "https://shecancode.io/", desc: "Job board, podcast and community specifically for women in software development." },
+    ],
   },
   {
     id: "ai_engineer",
@@ -1258,6 +1702,12 @@ const CAREERS = [
       { name: "Find Azure AI & Copilot Groups", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=microsoft+azure+AI+copilot" },
       { name: "Find Microsoft Reactor AI Events", tag: "Microsoft", url: "https://www.meetup.com/find/?source=EVENTS&keywords=microsoft+reactor+AI" },
       { name: "Microsoft Azure Topic Hub", tag: "Microsoft", url: "https://www.meetup.com/topics/microsoft-azure/" },
+    ],
+    remote: "Highly remote-friendly",
+    witCommunity: [
+      { name: "Women in AI", tag: "Free", url: "https://womeninai.co/", desc: "Global non-profit promoting responsible AI development led by women — events, research and a worldwide network." },
+      { name: "Women in Data Science (WiDS)", tag: "Community", url: "https://www.widsworldwide.org/", desc: "Annual worldwide conference and podcast series focused on women in data science and AI." },
+      { name: "Women Who Code", tag: "Free", url: "https://www.womenwhocode.com/", desc: "Active AI/ML study groups and a jobs board for women in technical roles." },
     ],
   },
   {
@@ -1303,6 +1753,12 @@ const CAREERS = [
       { name: "Find Microsoft Fabric Groups", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=microsoft+fabric" },
       { name: "Microsoft Azure Topic Hub", tag: "Microsoft", url: "https://www.meetup.com/topics/microsoft-azure/" },
     ],
+    remote: "Remote-friendly",
+    witCommunity: [
+      { name: "Women in Data", tag: "Free", url: "https://www.womenindata.org/", desc: "Community of 8,000+ women in data roles — events, mentorship and career resources." },
+      { name: "Women in Data Science (WiDS)", tag: "Community", url: "https://www.widsworldwide.org/", desc: "Worldwide conference and podcast showcasing women doing impactful data science work." },
+      { name: "Power BI Women", tag: "Community", url: "https://www.linkedin.com/groups/12469430/", desc: "LinkedIn group for women using and teaching Power BI — share tips, jobs and support." },
+    ],
   },
   {
     id: "data_scientist",
@@ -1344,6 +1800,12 @@ const CAREERS = [
       { name: "Find Azure Machine Learning Groups", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=azure+machine+learning+microsoft" },
       { name: "Find Microsoft AI & Data Science Events", tag: "Microsoft", url: "https://www.meetup.com/find/?source=EVENTS&keywords=microsoft+AI+data+science" },
       { name: "Microsoft Azure Topic Hub", tag: "Microsoft", url: "https://www.meetup.com/topics/microsoft-azure/" },
+    ],
+    remote: "Highly remote-friendly",
+    witCommunity: [
+      { name: "Women in Data Science (WiDS)", tag: "Community", url: "https://www.widsworldwide.org/", desc: "Worldwide conference and network for women in data science, ML and analytics." },
+      { name: "Women in Data", tag: "Free", url: "https://www.womenindata.org/", desc: "Community for women in data roles — events, mentorship and a supportive network." },
+      { name: "Women in AI", tag: "Free", url: "https://womeninai.co/", desc: "Global non-profit bridging the gender gap in AI and data — research, networking, events." },
     ],
   },
   {
@@ -1388,6 +1850,12 @@ const CAREERS = [
       { name: "Find Microsoft Fabric Groups", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=microsoft+fabric+data+engineering" },
       { name: "Find Azure Synapse & Data Groups", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=azure+synapse+microsoft+data" },
       { name: "Microsoft Azure Topic Hub", tag: "Microsoft", url: "https://www.meetup.com/topics/microsoft-azure/" },
+    ],
+    remote: "Remote-friendly",
+    witCommunity: [
+      { name: "Women in Data", tag: "Free", url: "https://www.womenindata.org/", desc: "Broad community for women in technical data and engineering roles." },
+      { name: "Women in Data Science (WiDS)", tag: "Community", url: "https://www.widsworldwide.org/", desc: "Global conference and network for women working with data at scale." },
+      { name: "SheCanCode", tag: "Jobs & Community", url: "https://shecancode.io/", desc: "Jobs board and podcast community for women in technical roles." },
     ],
   },
   {
@@ -1434,6 +1902,12 @@ const CAREERS = [
       { name: "Find Azure Administrator Groups", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=microsoft+azure+administrator" },
       { name: "Find Microsoft Reactor Events", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=microsoft+reactor+azure" },
     ],
+    remote: "Remote-friendly",
+    witCommunity: [
+      { name: "Women in Cloud", tag: "Free", url: "https://womenincloud.com/", desc: "Global community focused on economic empowerment of women through cloud technology — events, mentorship and career programmes." },
+      { name: "Women Who Code", tag: "Free", url: "https://www.womenwhocode.com/", desc: "Cloud and infrastructure study groups, events and a jobs board for women in tech." },
+      { name: "SheCanCode", tag: "Jobs & Community", url: "https://shecancode.io/", desc: "Job board and community for women in cloud and infrastructure roles." },
+    ],
   },
   {
     id: "security",
@@ -1479,6 +1953,12 @@ const CAREERS = [
       { name: "Find Microsoft Defender & Entra Groups", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=microsoft+defender+entra+sentinel" },
       { name: "Microsoft Azure Topic Hub", tag: "Microsoft", url: "https://www.meetup.com/topics/microsoft-azure/" },
     ],
+    remote: "Remote-friendly",
+    witCommunity: [
+      { name: "Women in CyberSecurity (WiCyS)", tag: "Free", url: "https://www.wicys.org/", desc: "The leading organisation for women in cybersecurity — conferences, mentorship, scholarships and a 7,000+ member network." },
+      { name: "Women in Security & Privacy (WISP)", tag: "Community", url: "https://www.wisporg.com/", desc: "Community connecting women in security and privacy roles — events, mentorship and job opportunities." },
+      { name: "She Secures", tag: "Community", url: "https://shesecures.org/", desc: "Resources and community for women entering and growing in cybersecurity careers." },
+    ],
   },
   {
     id: "devops",
@@ -1522,6 +2002,12 @@ const CAREERS = [
       { name: "Find GitHub & Azure DevOps Groups", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=github+azure+devops+microsoft" },
       { name: "Find Microsoft Reactor DevOps Events", tag: "Microsoft", url: "https://www.meetup.com/find/?source=EVENTS&keywords=microsoft+reactor+devops+github" },
       { name: "Microsoft Azure Topic Hub", tag: "Microsoft", url: "https://www.meetup.com/topics/microsoft-azure/" },
+    ],
+    remote: "Highly remote-friendly",
+    witCommunity: [
+      { name: "SheCanCode", tag: "Jobs & Community", url: "https://shecancode.io/", desc: "Podcast, job board and community specifically for women in DevOps, engineering and tech roles." },
+      { name: "Women Who Code", tag: "Free", url: "https://www.womenwhocode.com/", desc: "DevOps and automation study groups — plus a jobs board and global events network." },
+      { name: "Women in Cloud", tag: "Free", url: "https://womenincloud.com/", desc: "Cloud-native community for women — great overlap with DevOps, platform engineering and SRE." },
     ],
   },
   {
@@ -1567,6 +2053,12 @@ const CAREERS = [
       { name: "Find Microsoft 365 & Copilot Groups", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=microsoft+365+copilot+studio" },
       { name: "Microsoft Azure Topic Hub", tag: "Microsoft", url: "https://www.meetup.com/topics/microsoft-azure/" },
     ],
+    remote: "Remote-friendly",
+    witCommunity: [
+      { name: "Women Who Code", tag: "Free", url: "https://www.womenwhocode.com/", desc: "Low-code and app development study groups, career resources and a supportive global community." },
+      { name: "Power Platform Women", tag: "Community", url: "https://www.linkedin.com/groups/12469430/", desc: "LinkedIn community for women building with Power Platform — share tips, jobs and support each other." },
+      { name: "Girls in Tech", tag: "Free", url: "https://girlsintech.org/", desc: "Events, hackathons and mentorship — low-code is a brilliant entry point they actively champion." },
+    ],
   },
   {
     id: "architect",
@@ -1610,6 +2102,12 @@ const CAREERS = [
       { name: "Find Azure Architect Groups", tag: "Microsoft", url: "https://www.meetup.com/find/?source=GROUPS&keywords=microsoft+azure+solution+architect" },
       { name: "Find Microsoft Reactor Architecture Events", tag: "Microsoft", url: "https://www.meetup.com/find/?source=EVENTS&keywords=microsoft+reactor+architecture+azure" },
     ],
+    remote: "Remote-friendly",
+    witCommunity: [
+      { name: "Women in Cloud", tag: "Free", url: "https://womenincloud.com/", desc: "Community for women in cloud architecture and engineering — the perfect fit for Azure architects." },
+      { name: "Women Who Code", tag: "Free", url: "https://www.womenwhocode.com/", desc: "Architecture and systems design tracks, plus mentorship from senior women engineers." },
+      { name: "AnitaB.org", tag: "Community", url: "https://anitab.org/", desc: "Connecting women with senior tech roles including architecture — mentorship and the Grace Hopper Celebration." },
+    ],
   },
 ];
 
@@ -1623,6 +2121,28 @@ let chatPinnedCareerId = null;
 // ─────────────────────────────────────────────
 //  NAVIGATION
 // ─────────────────────────────────────────────
+function showWomenInTech() {
+  chatPinnedCareerId = null;
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const screens = document.querySelectorAll('.screen');
+  screens[2].classList.add('active');
+  currentScreen = 2;
+  updateStepNav(2);
+  const nav = document.getElementById('career-nav');
+  nav.classList.add('visible');
+  // Set a welcoming heading for direct arrivals
+  document.getElementById('result-heading').textContent = 'Women in tech — resources, communities & support';
+  document.getElementById('result-sub').textContent =
+    'Below you\'ll find dedicated programmes, communities and scholarships for women entering and growing in tech. Scroll past the career cards to see them all.';
+  // Build results (path cards use existing selection or show no-match)
+  buildResults();
+  // Scroll to the women in tech section after render
+  setTimeout(() => {
+    const witSection = document.querySelector('.wit-section');
+    if (witSection) witSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 150);
+}
+
 function goTo(screen) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   if (screen === 2) buildResults();
@@ -1836,6 +2356,48 @@ function chatSend() {
   chatRespond(text);
 }
 
+function chatShowWomenInTech() {
+  chatSetChips([]);
+  const bubble = chatAddMsg(
+    `Here are some brilliant communities and programmes specifically for women in tech — all free or low-cost to join:
+    <div class="chat-roadmap" style="margin-top:10px;">
+      <div class="chat-roadmap-header">👩‍💻 Women in Tech — Key Resources</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:2px;">
+        <a href="https://www.womenwhocode.com/" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block;background:#fdf4f8;border:1.5px solid #e0cce8;border-radius:10px;padding:10px 12px;">
+          <div style="font-size:.82rem;font-weight:800;color:#721840;margin-bottom:3px;">💜 Women Who Code</div>
+          <div style="font-size:.74rem;color:#5a5048;">Free global community of 300,000+ women — events, jobs board, and study groups.</div>
+        </a>
+        <a href="https://anitab.org/" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block;background:#fdf4f8;border:1.5px solid #e0cce8;border-radius:10px;padding:10px 12px;">
+          <div style="font-size:.82rem;font-weight:800;color:#721840;margin-bottom:3px;">🌟 AnitaB.org &amp; Grace Hopper Celebration</div>
+          <div style="font-size:.74rem;color:#5a5048;">World's largest gathering of women technologists. Scholarships and mentorship too.</div>
+        </a>
+        <a href="https://leap.microsoft.com/" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block;background:#fdf4f8;border:1.5px solid #e0cce8;border-radius:10px;padding:10px 12px;">
+          <div style="font-size:.82rem;font-weight:800;color:#721840;margin-bottom:3px;">🚀 Microsoft LEAP</div>
+          <div style="font-size:.74rem;color:#5a5048;">Paid apprenticeship programme for non-traditional backgrounds — leads to full-time Microsoft roles.</div>
+        </a>
+        <a href="https://girlsintech.org/" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block;background:#fdf4f8;border:1.5px solid #e0cce8;border-radius:10px;padding:10px 12px;">
+          <div style="font-size:.82rem;font-weight:800;color:#721840;margin-bottom:3px;">💡 Girls in Tech</div>
+          <div style="font-size:.74rem;color:#5a5048;">Global non-profit — hackathons, mentorship and events across 57 countries.</div>
+        </a>
+        <a href="https://ncwit.org/" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block;background:#fdf4f8;border:1.5px solid #e0cce8;border-radius:10px;padding:10px 12px;">
+          <div style="font-size:.82rem;font-weight:800;color:#721840;margin-bottom:3px;">🎓 NCWIT — Aspirations in Computing</div>
+          <div style="font-size:.74rem;color:#5a5048;">Scholarships and internship connections for women in computing.</div>
+        </a>
+        <a href="https://www.builtbygirls.com/" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block;background:#fdf4f8;border:1.5px solid #e0cce8;border-radius:10px;padding:10px 12px;">
+          <div style="font-size:.82rem;font-weight:800;color:#721840;margin-bottom:3px;">🛠️ Built By Girls — WAVE Mentorship</div>
+          <div style="font-size:.74rem;color:#5a5048;">Free 1:1 mentorship matching with tech professionals for a day of shadowing and real advice.</div>
+        </a>
+      </div>
+    </div>`,
+    'bot'
+  );
+  bubble.classList.add('wide');
+  chatSetChips([
+    { label: '🎯 Find my career path', primary: true, fn: () => { chatSetChips([]); chatReset(); } },
+    { label: '📋 Take the full quiz', fn: () => { chatSetChips([]); chatAddMsg('Let\'s find your perfect path!', 'bot'); setTimeout(() => goTo(1), 700); } },
+  ]);
+}
+
 function chatGreet() {
   chatAddMsg(
     `Hi! Tell me what you enjoy and I'll suggest a Microsoft tech career that fits you.<br>
@@ -1848,6 +2410,7 @@ function chatGreet() {
     { label: '📊 I love data', fn: () => { document.getElementById('chat-input').value = 'I enjoy analysing data and making charts'; chatSend(); } },
     { label: '🔐 Security interests me', fn: () => { document.getElementById('chat-input').value = 'I\'m interested in cybersecurity and protecting systems'; chatSend(); } },
     { label: '⚙️ DevOps / automation', fn: () => { document.getElementById('chat-input').value = 'I like automating things and DevOps pipelines'; chatSend(); } },
+    { label: '👩‍💻 Women in tech resources', fn: () => { chatSetChips([]); chatAddMsg('Great question! Here are the best resources for women in tech 👇', 'bot'); setTimeout(chatShowWomenInTech, 600); } },
   ]);
 }
 
@@ -1969,7 +2532,7 @@ function buildResults() {
           <span class="match-badge ${isTop ? 'top-match-badge' : 'other-match-badge'}">
             ${isTop ? 'Top match' : overlap + ' interest' + (overlap > 1 ? 's' : '') + ' matched'}
           </span>
-          <h3>${career.title}</h3>
+          <h3>${career.title}${career.remote ? `<span class="remote-badge">${career.remote}</span>` : ''}</h3>
           <div class="tagline">${career.tagline}</div>
         </div>
         <span class="career-chevron">▼</span>
@@ -1985,6 +2548,7 @@ function buildResults() {
           <button class="tab-btn" data-tab="videos" onclick="switchTab(this.closest('.career-block'),'videos')">MS videos</button>
           <button class="tab-btn tab-btn-savill" data-tab="savill" onclick="switchTab(this.closest('.career-block'),'savill')">▶ John Savill</button>
           <button class="tab-btn tab-btn-meetup" data-tab="meetups" onclick="switchTab(this.closest('.career-block'),'meetups')">&#9679; Meetups</button>
+          <button class="tab-btn tab-btn-wit" data-tab="wit" onclick="switchTab(this.closest('.career-block'),'wit')">👩‍💻 Women</button>
         </div>
 
         <div class="tab-pane active" data-tab="start">
@@ -2050,6 +2614,22 @@ function buildResults() {
             ${career.meetups.map(m => `<a class="meetup-badge" href="${m.url}" target="_blank">${m.name}<span class="m-tag">${m.tag}</span></a>`).join('')}
           </div>
           <a class="meetup-find-btn" href="${career.meetupSearch}" target="_blank">Find events near you on Meetup.com</a>
+        </div>
+
+        <div class="tab-pane" data-tab="wit">
+          <p style="font-size:.82rem;color:#721840;font-weight:700;margin-bottom:14px;">👩‍💻 Women-specific communities for <strong>${career.title}</strong></p>
+          <div class="wit-field-grid">
+            ${(career.witCommunity || []).map(c => `
+              <a class="wit-field-card" href="${c.url}" target="_blank" rel="noopener">
+                <span class="wit-field-card-icon">💜</span>
+                <div class="wit-field-card-text">
+                  <span class="wit-field-card-name">${c.name}</span>
+                  <span class="wit-field-card-desc">${c.desc}</span>
+                </div>
+                <span class="wit-field-tag">${c.tag}</span>
+              </a>`).join('')}
+          </div>
+          <p style="font-size:.76rem;color:#8a6070;margin-top:14px;line-height:1.5;">More resources in the <button onclick="showWomenInTech()" style="background:none;border:none;color:#721840;font-weight:800;cursor:pointer;font-size:.76rem;padding:0;text-decoration:underline;">Women in Tech section →</button></p>
         </div>
       </div>
     `;
