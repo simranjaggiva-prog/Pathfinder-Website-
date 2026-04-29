@@ -83,53 +83,53 @@
       line-height: 1.6;
     }
 
-    /* ─── Step nav ─────────────────────────────────── */
-    .step-nav {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0;
-      margin-top: 32px;
-    }
-    .step-dot {
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      background: rgba(255,255,255,.12);
-      border: 2px solid rgba(255,255,255,.25);
-      display: flex; align-items: center; justify-content: center;
-      font-size: .75rem; font-weight: 700; color: rgba(255,255,255,.5);
-      transition: all .35s;
-      position: relative; z-index: 1;
-    }
-    .step-dot.active { background: var(--yellow); border-color: var(--yellow); color: #1a1410; }
-    .step-dot.done { background: #2a5424; border-color: #2a5424; color: #fff; }
-    .step-line {
-      width: 60px; height: 2px;
-      background: rgba(255,255,255,.15);
+    /* ─── Step nav — replaced by progress bar ───────── */
+    .step-nav { display: none; } /* kept in DOM for JS compat, hidden visually */
+    .step-dot { display: none; }
+    .step-line { display: none; }
+    .step-label-row { display: none; }
+    .step-label-item { display: none; }
+    .step-label-gap { display: none; }
+
+    /* ─── Progress bar ────────────────────────────────── */
+    .progress-bar-wrap {
+      width: 100%; max-width: 340px;
+      margin: 28px auto 0;
       position: relative;
     }
-    .step-line::after {
-      content: '';
-      position: absolute; left: 0; top: 0; bottom: 0;
-      background: #2a5424;
-      width: 0%;
-      transition: width .45s ease;
+    .progress-bar-track {
+      height: 6px; background: rgba(255,255,255,.15);
+      border-radius: 99px; overflow: hidden;
     }
-    .step-line.done::after { width: 100%; }
-    .step-label-row {
-      display: flex;
-      justify-content: center;
-      gap: 0;
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #b08824 0%, #e8d49a 100%);
+      border-radius: 99px;
+      width: 0%;
+      transition: width .55s cubic-bezier(.4,0,.2,1);
+    }
+    .progress-bar-labels {
+      display: flex; justify-content: space-between;
       margin-top: 8px;
     }
-    .step-label-item {
-      width: 32px;
-      text-align: center;
-      font-size: .65rem;
+    .progress-bar-label {
+      font-size: .65rem; font-weight: 700;
       color: rgba(255,255,255,.45);
-      font-weight: 600;
+      text-transform: uppercase; letter-spacing: .08em;
+      transition: color .3s;
     }
-    .step-label-gap { width: 60px; }
+    .progress-bar-label.active { color: rgba(255,255,255,.9); }
+    .progress-bar-label.done { color: #b0d4a0; }
+
+    /* ─── Typewriter cursor ───────────────────────── */
+    .typewriter-word {
+      color: #e8d49a;
+      border-right: 2px solid #e8d49a;
+      padding-right: 2px;
+      animation: blinkCaret .75s step-end infinite;
+      white-space: nowrap;
+    }
+    @keyframes blinkCaret { 0%,100%{border-color:transparent} 50%{border-color:#e8d49a} }
 
     /* ─── Main ─────────────────────────────────────── */
     main { max-width: 880px; margin: 0 auto; padding: 36px 20px 80px; }
@@ -1198,15 +1198,258 @@
     }
     footer a { color: #1c3d6e; text-decoration: none; }
     footer a:hover { text-decoration: underline; }
+
+    /* ─── Persona selector ───────────────────────────── */
+    .persona-selector {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      justify-content: center; margin-bottom: 28px;
+    }
+    .persona-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #f5f0e8; border: 2px solid #d6cfc3;
+      border-radius: 99px; padding: 9px 20px;
+      font-size: .82rem; font-weight: 700; color: #2a2018;
+      cursor: pointer; transition: all .18s; font-family: inherit;
+    }
+    .persona-btn:hover { border-color: #1c3d6e; background: #e8eef6; color: #1c3d6e; }
+    .persona-btn.active { background: #1c3d6e; border-color: #1c3d6e; color: #fff; }
+    .persona-label {
+      font-size: .7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .1em; color: #8a8070; margin-bottom: 10px;
+      text-align: center;
+    }
+
+    /* ─── Filter/search bar ──────────────────────────── */
+    .filter-bar {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 16px;
+    }
+    .filter-input-wrap {
+      position: relative; flex: 1;
+    }
+    .filter-input-wrap::before {
+      content: '🔍'; position: absolute; left: 12px; top: 50%;
+      transform: translateY(-50%); font-size: .85rem; pointer-events: none;
+    }
+    .filter-input {
+      width: 100%; border: 1.5px solid #d6cfc3;
+      border-radius: 10px; padding: 10px 14px 10px 36px;
+      font-size: .88rem; font-family: inherit; color: #1e1a14;
+      background: #fff; outline: none; transition: border-color .18s;
+    }
+    .filter-input:focus { border-color: #1c3d6e; }
+    .filter-clear {
+      background: #ece7db; border: none; border-radius: 8px;
+      padding: 10px 14px; font-size: .8rem; font-weight: 700;
+      color: #5a5048; cursor: pointer; font-family: inherit;
+      transition: background .16s; white-space: nowrap;
+    }
+    .filter-clear:hover { background: #d6cfc3; }
+    .filter-empty {
+      text-align: center; padding: 32px 0;
+      color: #8a8070; font-size: .9rem; display: none;
+    }
+
+    /* ─── Plan checklist ─────────────────────────────── */
+    .plan-step { position: relative; }
+    .plan-check-label {
+      display: flex; align-items: center; gap: 10px;
+      cursor: pointer; margin-top: 8px;
+    }
+    .plan-check-label input[type=checkbox] { display: none; }
+    .plan-check-box {
+      width: 20px; height: 20px; border-radius: 6px; flex-shrink: 0;
+      border: 2px solid #a8c4a0; background: #fff;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .16s;
+    }
+    .plan-check-label input:checked ~ .plan-check-box {
+      background: #2a5424; border-color: #2a5424;
+    }
+    .plan-check-label input:checked ~ .plan-check-box::after {
+      content: ''; display: block;
+      width: 5px; height: 9px;
+      border: 2px solid #fff; border-top: none; border-left: none;
+      transform: rotate(45deg) translate(-1px, -1px);
+    }
+    .plan-check-text { font-size: .74rem; color: #2a2018; font-weight: 600; }
+    .plan-step.done { opacity: .65; }
+    .plan-step.done h5 { text-decoration: line-through; }
+
+    /* progress ring */
+    .plan-ring-wrap {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 14px;
+    }
+    .plan-ring { flex-shrink: 0; }
+    .plan-ring circle { transition: stroke-dashoffset .4s ease; }
+    .plan-ring-pct { font-size: .68rem; font-weight: 800; fill: #2a5424; }
+    .plan-export-btn {
+      margin-left: auto; display: inline-flex; align-items: center; gap: 6px;
+      background: #1c3d6e; color: #fff; border: none;
+      border-radius: 8px; padding: 7px 14px;
+      font-size: .76rem; font-weight: 700; cursor: pointer;
+      font-family: inherit; transition: background .16s;
+    }
+    .plan-export-btn:hover { background: #122a52; }
+
+    /* ─── Time-to-ready badge ────────────────────────── */
+    .time-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: #e8f4ec; border: 1.5px solid #a8d4b4;
+      border-radius: 99px; padding: 2px 10px;
+      font-size: .62rem; font-weight: 800; color: #1a5a30;
+      margin-left: 6px; vertical-align: middle; flex-shrink: 0;
+    }
+    .time-badge::before { content: '⏱'; font-size: .7rem; }
+
+    /* ─── Skip link ───────────────────────────── */
+    .skip-link {
+      position: absolute; top: -100%; left: 8px; z-index: 9999;
+      background: #1c3d6e; color: #fff; padding: 10px 18px;
+      border-radius: 0 0 8px 8px; font-size: .85rem; font-weight: 700;
+      text-decoration: none; transition: top .18s;
+    }
+    .skip-link:focus { top: 0; }
+
+    /* ─── Share button ────────────────────────── */
+    .share-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: #ece7db; border: 1.5px solid #d6cfc3;
+      border-radius: 10px; padding: 8px 16px;
+      font-size: .82rem; font-weight: 700; color: #2a2018;
+      cursor: pointer; transition: all .18s; font-family: inherit;
+      margin-top: 12px;
+    }
+    .share-btn:hover { background: #e0d9cc; }
+    .share-btn.copied { background: #e8f4ec; border-color: #a8d4b4; color: #1a5a30; }
+
+    /* ─── Interest tile keyboard focus ──────────── */
+    .interest-tile:focus-visible {
+      outline: 2.5px solid #1c3d6e; outline-offset: 3px; border-radius: 16px;
+    }
+
+    /* ─── Compare pin button ─────────────────────── */
+    .compare-pin-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(255,255,255,.75); border: 1.5px solid #d6cfc3;
+      border-radius: 99px; padding: 5px 12px;
+      font-size: .7rem; font-weight: 700; color: #5a5048;
+      cursor: pointer; flex-shrink: 0; margin-right: 6px;
+      transition: all .18s; font-family: inherit; white-space: nowrap;
+    }
+    .compare-pin-btn:hover { background: #e8eef6; border-color: #1c3d6e; color: #1c3d6e; }
+    .compare-pin-btn.pinned { background: #1c3d6e; color: #fff; border-color: #1c3d6e; }
+
+    /* ─── Compare bar (fixed bottom) ─────────────── */
+    #compare-bar {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: #1c3d6e; color: #fff;
+      display: none; align-items: center; justify-content: center;
+      gap: 16px; padding: 12px 24px; z-index: 200;
+      box-shadow: 0 -4px 20px rgba(0,0,0,.2);
+    }
+    #compare-bar.visible { display: flex; }
+    .compare-bar-info { display: flex; flex-direction: column; }
+    .compare-bar-text { font-size: .85rem; font-weight: 700; }
+    .compare-bar-names { font-size: .72rem; color: rgba(255,255,255,.7); margin-top: 1px; }
+    .compare-bar-btn {
+      background: #fff; color: #1c3d6e; border: none;
+      border-radius: 8px; padding: 8px 18px;
+      font-size: .82rem; font-weight: 800; cursor: pointer;
+      transition: background .16s; font-family: inherit;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .compare-bar-btn:hover { background: #e8eef6; }
+    .compare-bar-close {
+      background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.3);
+      color: #fff; border-radius: 8px; padding: 8px 12px;
+      font-size: .82rem; font-weight: 700; cursor: pointer; font-family: inherit;
+    }
+
+    /* ─── Compare modal ───────────────────────────── */
+    #compare-modal {
+      position: fixed; inset: 0; z-index: 300;
+      background: rgba(0,0,0,.5);
+      display: none; align-items: flex-end; justify-content: center;
+    }
+    #compare-modal.open { display: flex; }
+    .compare-sheet {
+      background: #fdf9f4; border-radius: 20px 20px 0 0;
+      width: 100%; max-height: 88vh; overflow-y: auto;
+      padding: 28px 24px 40px;
+      box-shadow: 0 -8px 40px rgba(0,0,0,.22);
+    }
+    .compare-sheet-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .compare-sheet-title { font-size: 1.1rem; font-weight: 800; color: #1e1a14; }
+    .compare-close-btn {
+      background: #ece7db; border: none; border-radius: 8px;
+      width: 34px; height: 34px; font-size: 1rem;
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+    }
+    .compare-cols {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+    }
+    @media (max-width: 620px) { .compare-cols { grid-template-columns: 1fr; } }
+    .compare-col-head {
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px 16px; border-radius: 12px;
+      margin-bottom: 10px; color: #fff; font-weight: 800; font-size: .95rem;
+    }
+    .compare-section-label {
+      font-size: .62rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: .08em; color: #9a8878; margin: 12px 0 5px;
+    }
+
+    /* ─── Print stylesheet ───────────────────────────── */
+    @media print {
+      body * { visibility: hidden; }
+      #print-area, #print-area * { visibility: visible; }
+      #print-area {
+        position: fixed; top: 0; left: 0; right: 0;
+        padding: 32px 40px; background: #fff; color: #1e1a14;
+        font-family: 'Segoe UI', system-ui, sans-serif;
+      }
+      .print-title { font-size: 1.4rem; font-weight: 800; margin-bottom: 6px; color: #1c3d6e; }
+      .print-career { font-size: .9rem; color: #5a5048; margin-bottom: 20px; }
+      .print-step {
+        border: 1px solid #d6cfc3; border-radius: 10px;
+        padding: 14px 18px; margin-bottom: 12px; break-inside: avoid;
+      }
+      .print-period {
+        font-size: .62rem; font-weight: 800; text-transform: uppercase;
+        letter-spacing: .07em; color: #2a5424; margin-bottom: 4px;
+      }
+      .print-step-title { font-size: .95rem; font-weight: 800; margin-bottom: 4px; }
+      .print-step-desc { font-size: .8rem; color: #2a2018; line-height: 1.55; }
+      .print-footer { margin-top: 24px; font-size: .7rem; color: #8a8070; border-top: 1px solid #d6cfc3; padding-top: 12px; }
+    }
   </style>
 </head>
 <body>
 
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
 <header>
   <div class="header-inner">
     <h1>Discover Your Microsoft Tech Path</h1>
-    <p class="tagline">Not sure which tech career is for you? Pick your interests and we'll match you to the right Microsoft path — free videos, certs, and a 90-day plan included.</p>
-    <nav class="step-nav" id="step-nav" aria-label="Progress">
+    <p class="tagline">Not sure which tech career is for you? Become a <span id="typewriter-word" class="typewriter-word">Data Engineer</span><br>Pick your interests and we'll match you to the right path.</p>
+    <!-- Progress bar replaces dot step nav -->
+    <div class="progress-bar-wrap" id="progress-bar-wrap">
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="progress-bar-fill"></div>
+      </div>
+      <div class="progress-bar-labels">
+        <span class="progress-bar-label active" id="pbl-0">Start</span>
+        <span class="progress-bar-label" id="pbl-1">Interests</span>
+        <span class="progress-bar-label" id="pbl-2">Results</span>
+      </div>
+    </div>
+    <!-- Hidden step nav kept for JS backward compat -->
+    <nav class="step-nav" id="step-nav" aria-label="Progress" aria-hidden="true">
       <div class="step-dot active" id="sdot-0">1</div>
       <div class="step-line" id="sline-0"></div>
       <div class="step-dot" id="sdot-1">2</div>
@@ -1221,13 +1464,21 @@
   <button class="nav-home-btn" onclick="goTo(0)" title="Back to home">&#8962; Home</button><span class="nav-divider"></span><span id="nav-pills"></span>
 </div>
 
-<main>
+<main id="main-content">
 
   <!-- ══════════════ SCREEN 0: Welcome ══════════════ -->
   <div class="screen active" id="screen-start">
     <div class="welcome-card">
       <h2>Where does your path begin?</h2>
       <p class="sub">Microsoft is behind some of the world's biggest tech — AI, cloud, security, data and more. This 2-minute quiz figures out which corner of that world suits you and what you could become.</p>
+
+      <div class="persona-label">I am…</div>
+      <div class="persona-selector" id="persona-selector">
+        <button class="persona-btn" data-persona="beginner" onclick="applyPersona(this)">&#x1F331; Just starting out</button>
+        <button class="persona-btn" data-persona="changer" onclick="applyPersona(this)">&#x1F504; Changing careers</button>
+        <button class="persona-btn" data-persona="returner" onclick="applyPersona(this)">&#x1F44B; Returning to tech</button>
+      </div>
+
       <div class="pill-grid">
         <span class="pill">AI &amp; Machine Learning</span>
         <span class="pill">Cloud &amp; Infrastructure</span>
@@ -1369,7 +1620,16 @@
     <div class="results-header">
       <h2 id="result-heading">Your recommended career paths</h2>
       <p id="result-sub">Based on your interests, here are the Microsoft career paths that fit you best.</p>
+      <button class="share-btn" id="share-btn" onclick="shareResults()">🔗 Share results</button>
     </div>
+
+    <div class="filter-bar">
+      <div class="filter-input-wrap">
+        <input class="filter-input" id="filter-input" placeholder="Filter by career name…" oninput="filterCards(this.value)" autocomplete="off" />
+      </div>
+      <button class="filter-clear" onclick="clearFilter()">Clear</button>
+    </div>
+    <div class="filter-empty" id="filter-empty">No careers match your search. <button style="background:none;border:none;color:#1c3d6e;font-weight:700;cursor:pointer;" onclick="clearFilter()">Clear filter</button></div>
 
     <div id="no-match">
       ⚠️ We couldn't find a specific match — try selecting a few more interests, or jump straight to <a href="https://learn.microsoft.com/en-us/training/career-paths/" target="_blank">Microsoft Learn Career Paths</a>.
@@ -1479,12 +1739,6 @@
           <span class="c-icon">🚀</span>
           <div><span class="c-name">Microsoft LEAP</span><span class="c-tag">Microsoft</span></div>
           <p class="c-desc">Microsoft's apprenticeship programme designed for people from non-traditional backgrounds — including a strong focus on women returning to or entering tech. Paid and leads to full-time roles.</p>
-        </a>
-
-        <a class="wit-card" href="https://girlsintech.org/" target="_blank" rel="noopener">
-          <span class="c-icon">💡</span>
-          <div><span class="c-name">Girls in Tech</span><span class="c-tag">Free</span></div>
-          <p class="c-desc">A global non-profit focused on education and engagement for women and girls in tech. Events, hackathons, mentorship and a global community across 57 countries.</p>
         </a>
 
         <a class="wit-card" href="https://ncwit.org/" target="_blank" rel="noopener">
@@ -1605,6 +1859,30 @@
   <a href="https://learn.microsoft.com/en-us/credentials/browse/" target="_blank">Browse all certifications</a>
 </footer>
 
+<!-- ── Hidden print area ── -->
+<div id="print-area" style="display:none;"></div>
+
+<!-- ── Compare bar ── -->
+<div id="compare-bar">
+  <div class="compare-bar-info">
+    <div class="compare-bar-text" id="compare-bar-text">Pin one more path to compare</div>
+    <div class="compare-bar-names" id="compare-bar-names"></div>
+  </div>
+  <button class="compare-bar-btn" id="compare-bar-compare-btn" onclick="openCompare()" style="display:none;">Compare now →</button>
+  <button class="compare-bar-close" onclick="clearCompare()">✕ Clear</button>
+</div>
+
+<!-- ── Compare modal ── -->
+<div id="compare-modal" onclick="closeCompare()">
+  <div class="compare-sheet" onclick="event.stopPropagation()">
+    <div class="compare-sheet-header">
+      <div class="compare-sheet-title">Comparing paths</div>
+      <button class="compare-close-btn" onclick="closeCompare()">✕</button>
+    </div>
+    <div id="compare-content"></div>
+  </div>
+</div>
+
 <script>
 // ─────────────────────────────────────────────
 //  DATA: career path definitions
@@ -1613,6 +1891,7 @@ const CAREERS = [
   {
     id: "developer",
     title: "Software Developer",
+    timeToReady: "~6 months",
     color: "c-blue",
     icon: "💻",
     tagline: "Build the apps, APIs, and services that power the modern world. Developers write code every day using .NET, Python, JavaScript and more.",
@@ -1663,6 +1942,7 @@ const CAREERS = [
   {
     id: "ai_engineer",
     title: "AI Engineer",
+    timeToReady: "~5 months",
     color: "c-purple",
     icon: "🤖",
     tagline: "Design and build intelligent systems — from vision APIs to large language models. AI Engineers turn research into real-world products.",
@@ -1713,6 +1993,7 @@ const CAREERS = [
   {
     id: "data_analyst",
     title: "Data Analyst",
+    timeToReady: "~4 months",
     color: "c-teal",
     icon: "📊",
     tagline: "Turn raw data into decisions. Data Analysts build dashboards, clean datasets and discover trends that drive business strategy.",
@@ -1763,6 +2044,7 @@ const CAREERS = [
   {
     id: "data_scientist",
     title: "Data Scientist",
+    timeToReady: "~8 months",
     color: "c-pink",
     icon: "📈",
     tagline: "Build predictive models and extract deep insights from data using Python, statistics, and Azure Machine Learning.",
@@ -1811,6 +2093,7 @@ const CAREERS = [
   {
     id: "data_engineer",
     title: "Data Engineer",
+    timeToReady: "~6 months",
     color: "c-green",
     icon: "🔧",
     tagline: "Design the plumbing of the data world — pipelines, lakehouses, and streaming architectures using Azure Synapse, Fabric and Databricks.",
@@ -1861,6 +2144,7 @@ const CAREERS = [
   {
     id: "cloud_admin",
     title: "Cloud / Azure Administrator",
+    timeToReady: "~4 months",
     color: "c-darkblue",
     icon: "☁️",
     tagline: "Keep cloud infrastructure running, secure, and cost-efficient. Administrators provision resources, set policies and manage access at scale.",
@@ -1912,6 +2196,7 @@ const CAREERS = [
   {
     id: "security",
     title: "Cybersecurity / Security Engineer",
+    timeToReady: "~5 months",
     color: "c-red",
     icon: "🔐",
     tagline: "Defend organisations from cyber attacks, build secure architectures and respond to incidents — one of the fastest-growing tech disciplines.",
@@ -1963,6 +2248,7 @@ const CAREERS = [
   {
     id: "devops",
     title: "DevOps Engineer",
+    timeToReady: "~5 months",
     color: "c-orange",
     icon: "⚙️",
     tagline: "Automate everything — from code commit to production deploy. DevOps Engineers build CI/CD pipelines and bridge the gap between dev and ops.",
@@ -2013,6 +2299,7 @@ const CAREERS = [
   {
     id: "lowcode",
     title: "Power Platform / Low-Code Developer",
+    timeToReady: "~2 months",
     color: "c-teal",
     icon: "🧩",
     tagline: "Build powerful business applications without writing a single line of code — using Power Apps, Power Automate, and Copilot Studio.",
@@ -2057,12 +2344,12 @@ const CAREERS = [
     witCommunity: [
       { name: "Women Who Code", tag: "Free", url: "https://www.womenwhocode.com/", desc: "Low-code and app development study groups, career resources and a supportive global community." },
       { name: "Power Platform Women", tag: "Community", url: "https://www.linkedin.com/groups/12469430/", desc: "LinkedIn community for women building with Power Platform — share tips, jobs and support each other." },
-      { name: "Girls in Tech", tag: "Free", url: "https://girlsintech.org/", desc: "Events, hackathons and mentorship — low-code is a brilliant entry point they actively champion." },
     ],
   },
   {
     id: "architect",
     title: "Solution Architect",
+    timeToReady: "~12 months",
     color: "c-darkblue",
     icon: "🏗️",
     tagline: "Design enterprise-scale cloud systems that are resilient, secure, and cost-effective. Architects translate business needs into technical blueprints.",
@@ -2154,6 +2441,7 @@ function goTo(screen) {
   if (screen === 2) nav.classList.add('visible');
   else nav.classList.remove('visible');
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  saveProgress();
 }
 
 function updateStepNav(s) {
@@ -2167,6 +2455,21 @@ function updateStepNav(s) {
     const line = document.getElementById('sline-' + i);
     if (i < s) line.classList.add('done');
     else line.classList.remove('done');
+  }
+  updateProgressBar(s);
+}
+
+function updateProgressBar(s) {
+  const fill = document.getElementById('progress-bar-fill');
+  if (!fill) return;
+  const pcts = [0, 50, 100];
+  fill.style.width = pcts[s] + '%';
+  for (let i = 0; i < 3; i++) {
+    const lbl = document.getElementById('pbl-' + i);
+    if (!lbl) continue;
+    lbl.classList.remove('active', 'done');
+    if (i < s) lbl.classList.add('done');
+    else if (i === s) lbl.classList.add('active');
   }
 }
 
@@ -2375,10 +2678,6 @@ function chatShowWomenInTech() {
           <div style="font-size:.82rem;font-weight:800;color:#721840;margin-bottom:3px;">🚀 Microsoft LEAP</div>
           <div style="font-size:.74rem;color:#5a5048;">Paid apprenticeship programme for non-traditional backgrounds — leads to full-time Microsoft roles.</div>
         </a>
-        <a href="https://girlsintech.org/" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block;background:#fdf4f8;border:1.5px solid #e0cce8;border-radius:10px;padding:10px 12px;">
-          <div style="font-size:.82rem;font-weight:800;color:#721840;margin-bottom:3px;">💡 Girls in Tech</div>
-          <div style="font-size:.74rem;color:#5a5048;">Global non-profit — hackathons, mentorship and events across 57 countries.</div>
-        </a>
         <a href="https://ncwit.org/" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block;background:#fdf4f8;border:1.5px solid #e0cce8;border-radius:10px;padding:10px 12px;">
           <div style="font-size:.82rem;font-weight:800;color:#721840;margin-bottom:3px;">🎓 NCWIT — Aspirations in Computing</div>
           <div style="font-size:.74rem;color:#5a5048;">Scholarships and internship connections for women in computing.</div>
@@ -2433,6 +2732,9 @@ function chatReset() {
   chatGreet();
 })();
 
+// Restore saved progress (or URL share params) on page load
+restoreProgress();
+
 // ─────────────────────────────────────────────
 //  INTEREST TILE SELECTION
 // ─────────────────────────────────────────────
@@ -2441,11 +2743,13 @@ document.getElementById('interests-grid').addEventListener('click', function(e) 
   if (!tile) return;
   tile.classList.toggle('selected');
   selectedTiles[tile.classList.contains('selected') ? 'add' : 'delete'](tile);
+  tile.setAttribute('aria-checked', tile.classList.contains('selected') ? 'true' : 'false');
   document.getElementById('btn-next-1').disabled = selectedTiles.size === 0;
   const n = selectedTiles.size;
   document.getElementById('tile-count').innerHTML =
     n === 0 ? 'Pick at least one to continue'
              : `<strong>${n}</strong> selected — the more you pick, the better your match`;
+  saveProgress();
 });
 
 // ─────────────────────────────────────────────
@@ -2532,9 +2836,11 @@ function buildResults() {
           <span class="match-badge ${isTop ? 'top-match-badge' : 'other-match-badge'}">
             ${isTop ? 'Top match' : overlap + ' interest' + (overlap > 1 ? 's' : '') + ' matched'}
           </span>
+          ${career.timeToReady ? `<span class="time-badge">${career.timeToReady}</span>` : ''}
           <h3>${career.title}${career.remote ? `<span class="remote-badge">${career.remote}</span>` : ''}</h3>
           <div class="tagline">${career.tagline}</div>
         </div>
+        <button class="compare-pin-btn" data-career-id="${career.id}" onclick="event.stopPropagation();toggleComparePin('${career.id}',this)">⊕ Compare</button>
         <span class="career-chevron">▼</span>
       </div>
       <div class="career-jobs-row">
@@ -2577,12 +2883,32 @@ function buildResults() {
         </div>
 
         <div class="tab-pane" data-tab="plan">
+          <div class="plan-ring-wrap">
+            <svg class="plan-ring" width="54" height="54" viewBox="0 0 54 54">
+              <circle cx="27" cy="27" r="22" fill="none" stroke="#e0d9cc" stroke-width="5"/>
+              <circle cx="27" cy="27" r="22" fill="none" stroke="#2a5424" stroke-width="5"
+                stroke-dasharray="138.2" stroke-dashoffset="138.2"
+                stroke-linecap="round" transform="rotate(-90 27 27)"
+                class="plan-ring-progress" id="ring-${career.id}"/>
+              <text x="27" y="32" text-anchor="middle" class="plan-ring-pct" id="ring-pct-${career.id}">0%</text>
+            </svg>
+            <div style="font-size:.8rem;color:#5a5048;line-height:1.4;">
+              <strong style="color:#2a5424;" id="ring-label-${career.id}">0 of ${career.plan90.length} steps complete</strong><br>
+              <span style="font-size:.72rem;">Tick each step as you go — saved automatically</span>
+            </div>
+            <button class="plan-export-btn" onclick="exportPlan('${career.id}')">🖨 Export PDF</button>
+          </div>
           <div class="plan-steps">
-            ${career.plan90.map(s => `
-              <div class="plan-step">
+            ${career.plan90.map((s, si) => `
+              <div class="plan-step" id="pstep-${career.id}-${si}">
                 <span class="step-badge">${s.period}</span>
                 <h5>${s.title}</h5>
                 <p>${s.desc}</p>
+                <label class="plan-check-label">
+                  <input type="checkbox" onchange="togglePlanStep('${career.id}',${si},this.checked)">
+                  <span class="plan-check-box"></span>
+                  <span class="plan-check-text">Mark as complete</span>
+                </label>
               </div>`).join('')}
           </div>
         </div>
@@ -2637,9 +2963,445 @@ function buildResults() {
     // auto-open the top match
     if (isTop) block.classList.add('open');
 
+    // restore checklist state from localStorage
+    restorePlanChecks(career.id, career.plan90.length);
+
     container.appendChild(block);
   });
+
+  // Confetti on first results render
+  if (!confettiFired) {
+    confettiFired = true;
+    setTimeout(fireConfetti, 200);
+  }
 }
+
+// ─────────────────────────────────────────────
+//  LOCALSTORAGE PERSISTENCE
+// ─────────────────────────────────────────────
+function saveProgress() {
+  const tiles = document.querySelectorAll('#interests-grid .interest-tile');
+  const indices = [];
+  tiles.forEach((t, i) => { if (t.classList.contains('selected')) indices.push(i); });
+  try {
+    localStorage.setItem('mcn_selected', JSON.stringify(indices));
+    localStorage.setItem('mcn_screen', currentScreen);
+  } catch(e) {}
+}
+
+function restoreProgress() {
+  // URL share params take priority
+  const params = new URLSearchParams(window.location.search);
+  const pathIds = params.get('paths');
+  if (pathIds) {
+    const ids = pathIds.split(',').filter(Boolean);
+    const tagsToSelect = new Set();
+    ids.forEach(id => {
+      const c = CAREERS.find(x => x.id === id);
+      if (c) c.matchTags.forEach(t => tagsToSelect.add(t));
+    });
+    document.querySelectorAll('#interests-grid .interest-tile').forEach(tile => {
+      const tileTags = tile.dataset.tags.split(',').map(t => t.trim());
+      if (tileTags.some(t => tagsToSelect.has(t))) {
+        tile.classList.add('selected');
+        selectedTiles.add(tile);
+        tile.setAttribute('aria-checked', 'true');
+      }
+    });
+    if (selectedTiles.size > 0) {
+      document.getElementById('btn-next-1').disabled = false;
+      const n = selectedTiles.size;
+      document.getElementById('tile-count').innerHTML =
+        `<strong>${n}</strong> selected — the more you pick, the better your match`;
+    }
+    goTo(2);
+    return;
+  }
+  // Restore from localStorage
+  try {
+    const raw = localStorage.getItem('mcn_selected');
+    const savedScreen = parseInt(localStorage.getItem('mcn_screen') || '0', 10);
+    if (raw) {
+      const indices = JSON.parse(raw);
+      const tiles = document.querySelectorAll('#interests-grid .interest-tile');
+      indices.forEach(i => {
+        if (tiles[i]) {
+          tiles[i].classList.add('selected');
+          selectedTiles.add(tiles[i]);
+          tiles[i].setAttribute('aria-checked', 'true');
+        }
+      });
+      if (selectedTiles.size > 0) {
+        document.getElementById('btn-next-1').disabled = false;
+        const n = selectedTiles.size;
+        document.getElementById('tile-count').innerHTML =
+          `<strong>${n}</strong> selected — the more you pick, the better your match`;
+        if (savedScreen === 2) goTo(2);
+        else if (savedScreen === 1) goTo(1);
+      }
+    }
+  } catch(e) {}
+}
+
+// ─────────────────────────────────────────────
+//  SHARE RESULTS
+// ─────────────────────────────────────────────
+function shareResults() {
+  const cards = document.querySelectorAll('#path-cards .career-block');
+  const ids = [...cards].map(c => c.id.replace('career-', '')).filter(Boolean);
+  if (!ids.length) return;
+  const url = location.origin + location.pathname + '?paths=' + ids.join(',');
+  const btn = document.getElementById('share-btn');
+  const original = btn.innerHTML;
+  const success = () => {
+    btn.innerHTML = '✓ Link copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.innerHTML = original; btn.classList.remove('copied'); }, 2500);
+  };
+  const fallback = () => {
+    const ta = document.createElement('textarea');
+    ta.value = url;
+    ta.style.cssText = 'position:fixed;opacity:0;pointer-events:none;';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    success();
+  };
+  if (navigator.clipboard) navigator.clipboard.writeText(url).then(success).catch(fallback);
+  else fallback();
+}
+
+// ─────────────────────────────────────────────
+//  COMPARE PATHS
+// ─────────────────────────────────────────────
+const pinnedCompare = [];
+
+function toggleComparePin(careerId, btn) {
+  const idx = pinnedCompare.indexOf(careerId);
+  if (idx > -1) {
+    pinnedCompare.splice(idx, 1);
+    btn.textContent = '⊕ Compare';
+    btn.classList.remove('pinned');
+  } else {
+    if (pinnedCompare.length >= 2) {
+      const oldId = pinnedCompare.shift();
+      document.querySelectorAll('.compare-pin-btn').forEach(b => {
+        if (b.dataset.careerId === oldId) { b.textContent = '⊕ Compare'; b.classList.remove('pinned'); }
+      });
+    }
+    pinnedCompare.push(careerId);
+    btn.textContent = '✓ Pinned';
+    btn.classList.add('pinned');
+  }
+  updateCompareBar();
+}
+
+function updateCompareBar() {
+  const bar = document.getElementById('compare-bar');
+  const textEl = document.getElementById('compare-bar-text');
+  const namesEl = document.getElementById('compare-bar-names');
+  const compareBtn = document.getElementById('compare-bar-compare-btn');
+  if (!pinnedCompare.length) { bar.classList.remove('visible'); return; }
+  bar.classList.add('visible');
+  const names = pinnedCompare.map(id => {
+    const c = CAREERS.find(x => x.id === id);
+    return c ? c.icon + ' ' + c.title : id;
+  });
+  if (pinnedCompare.length === 1) {
+    textEl.textContent = 'Pin one more path to compare';
+    namesEl.textContent = names[0] + ' pinned';
+    compareBtn.style.display = 'none';
+  } else {
+    textEl.textContent = 'Ready to compare!';
+    namesEl.textContent = names.join(' vs ');
+    compareBtn.style.display = 'inline-flex';
+  }
+}
+
+function clearCompare() {
+  pinnedCompare.length = 0;
+  document.querySelectorAll('.compare-pin-btn').forEach(b => {
+    b.textContent = '⊕ Compare'; b.classList.remove('pinned');
+  });
+  document.getElementById('compare-bar').classList.remove('visible');
+}
+
+function openCompare() {
+  if (pinnedCompare.length < 2) return;
+  const colorMap = {
+    'c-blue':'#1c3d6e','c-purple':'#3c1e68','c-teal':'#1a5450','c-green':'#2a5424',
+    'c-orange':'#7a3e0a','c-red':'#6e1e22','c-darkblue':'#0e2444','c-pink':'#721840'
+  };
+  const cols = pinnedCompare.map(id => {
+    const c = CAREERS.find(x => x.id === id);
+    if (!c) return '';
+    const bg = colorMap[c.color] || '#1c3d6e';
+    const certItems = (c.certPath || c.certifications).map((cert, i) => {
+      const level = cert.level || ('Step ' + (i + 1));
+      return `<div style="font-size:.74rem;padding:5px 0;border-bottom:1px solid #e8e3da;line-height:1.4;">
+        <span style="font-size:.58rem;font-weight:800;color:#9a8878;text-transform:uppercase;">${level}</span><br>
+        <a href="${cert.url}" target="_blank" rel="noopener" style="color:#1c3d6e;font-weight:700;text-decoration:none;">${cert.name}</a>
+      </div>`;
+    }).join('');
+    const planItems = c.plan90.map(p =>
+      `<div style="font-size:.74rem;padding:5px 0;border-bottom:1px solid #e8e3da;">
+        <span style="font-weight:800;color:#2a5424;font-size:.65rem;text-transform:uppercase;letter-spacing:.04em;">${p.period}</span><br>
+        <strong style="font-size:.77rem;">${p.title}</strong>
+      </div>`
+    ).join('');
+    const jobItems = c.jobs.map(j => `<span class="job-pill" style="margin:2px 2px;">${j}</span>`).join('');
+    return `
+      <div>
+        <div class="compare-col-head" style="background:${bg};">
+          <span style="font-size:1.5rem;">${c.icon}</span>
+          <div>
+            <div>${c.title}</div>
+            ${c.remote ? `<div style="font-size:.62rem;font-weight:400;opacity:.8;">${c.remote}</div>` : ''}
+          </div>
+        </div>
+        <p style="font-size:.75rem;color:#5a5048;line-height:1.5;margin-bottom:6px;">${c.tagline}</p>
+        <div class="compare-section-label">Job titles</div>
+        <div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:4px;">${jobItems}</div>
+        <div class="compare-section-label">Certification path</div>
+        ${certItems}
+        <div class="compare-section-label">90-day plan</div>
+        ${planItems}
+      </div>`;
+  });
+  document.getElementById('compare-content').innerHTML =
+    `<div class="compare-cols">${cols.join('')}</div>`;
+  document.getElementById('compare-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCompare() {
+  document.getElementById('compare-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ─────────────────────────────────────────────
+//  KEYBOARD NAVIGATION — INTEREST TILES
+// ─────────────────────────────────────────────
+(function initTileKeyboard() {
+  const grid = document.getElementById('interests-grid');
+  grid.querySelectorAll('.interest-tile').forEach(t => {
+    t.setAttribute('tabindex', '0');
+    t.setAttribute('role', 'checkbox');
+    t.setAttribute('aria-checked', t.classList.contains('selected') ? 'true' : 'false');
+  });
+  grid.addEventListener('keydown', function(e) {
+    const all = [...grid.querySelectorAll('.interest-tile')];
+    const idx = all.indexOf(document.activeElement);
+    if (idx === -1) return;
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      all[idx].click();
+    } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      all[(idx + 1) % all.length].focus();
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      all[(idx - 1 + all.length) % all.length].focus();
+    }
+  });
+})();
+
+// ─────────────────────────────────────────────
+//  PERSONA SELECTOR
+// ─────────────────────────────────────────────
+// Persona → tags to PRE-SELECT on screen 1
+const PERSONA_TAGS = {
+  beginner: ['lowcode','bizapps','power','cloud','infra','admin'],
+  changer:  ['dev','web','software','data','analytics','bi','ai','ml'],
+  returner: ['cloud','infra','admin','lowcode','bizapps','power','dev','web'],
+};
+
+function applyPersona(btn) {
+  // Toggle off if already active
+  const already = btn.classList.contains('active');
+  document.querySelectorAll('.persona-btn').forEach(b => b.classList.remove('active'));
+  if (already) return; // just deactivate
+
+  btn.classList.add('active');
+  const persona = btn.dataset.persona;
+  const tags = PERSONA_TAGS[persona] || [];
+
+  // Deselect all tiles first
+  document.querySelectorAll('#interests-grid .interest-tile').forEach(t => {
+    t.classList.remove('selected');
+    t.setAttribute('aria-checked', 'false');
+    selectedTiles.delete(t);
+  });
+
+  // Select tiles whose tags overlap with persona tags
+  document.querySelectorAll('#interests-grid .interest-tile').forEach(t => {
+    const tileTags = t.dataset.tags.split(',').map(x => x.trim());
+    if (tileTags.some(tag => tags.includes(tag))) {
+      t.classList.add('selected');
+      t.setAttribute('aria-checked', 'true');
+      selectedTiles.add(t);
+    }
+  });
+
+  const n = selectedTiles.size;
+  document.getElementById('btn-next-1') && (document.getElementById('btn-next-1').disabled = n === 0);
+  saveProgress();
+
+  // Move straight to screen 1 after a short pause so the user sees the selection
+  setTimeout(() => goTo(1), 320);
+}
+
+// ─────────────────────────────────────────────
+//  FILTER / SEARCH
+// ─────────────────────────────────────────────
+function filterCards(query) {
+  const q = query.trim().toLowerCase();
+  const cards = document.querySelectorAll('#path-cards .career-block');
+  let visible = 0;
+  cards.forEach(card => {
+    const title = card.querySelector('h3') ? card.querySelector('h3').textContent.toLowerCase() : '';
+    const show = !q || title.includes(q);
+    card.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  const empty = document.getElementById('filter-empty');
+  if (empty) empty.style.display = (q && visible === 0) ? 'block' : 'none';
+}
+
+function clearFilter() {
+  const input = document.getElementById('filter-input');
+  if (input) { input.value = ''; filterCards(''); input.focus(); }
+}
+
+// ─────────────────────────────────────────────
+//  PLAN CHECKLIST — per-step toggle + ring
+// ─────────────────────────────────────────────
+function getPlanKey(careerId) { return 'mcn_plan_' + careerId; }
+
+function loadPlanChecks(careerId) {
+  try { return JSON.parse(localStorage.getItem(getPlanKey(careerId)) || '[]'); } catch(e) { return []; }
+}
+
+function savePlanChecks(careerId, checked) {
+  try { localStorage.setItem(getPlanKey(careerId), JSON.stringify(checked)); } catch(e) {}
+}
+
+function updateRing(careerId, total) {
+  const checked = loadPlanChecks(careerId);
+  const done = checked.filter(Boolean).length;
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  const circumference = 2 * Math.PI * 22; // r=22 → ~138.2
+
+  const ringEl = document.getElementById('ring-' + careerId);
+  const pctEl  = document.getElementById('ring-pct-' + careerId);
+  const lblEl  = document.getElementById('ring-label-' + careerId);
+  if (ringEl) ringEl.style.strokeDashoffset = circumference * (1 - pct / 100);
+  if (pctEl)  pctEl.textContent = pct + '%';
+  if (lblEl)  lblEl.textContent = done + ' of ' + total + ' steps complete';
+}
+
+function togglePlanStep(careerId, stepIdx, isChecked) {
+  const career = CAREERS.find(c => c.id === careerId);
+  const total = career ? career.plan90.length : 3;
+  const checked = loadPlanChecks(careerId);
+  while (checked.length < total) checked.push(false);
+  checked[stepIdx] = isChecked;
+  savePlanChecks(careerId, checked);
+  updateRing(careerId, total);
+  // Strike through completed step
+  const stepEl = document.getElementById('pstep-' + careerId + '-' + stepIdx);
+  if (stepEl) stepEl.classList.toggle('done', isChecked);
+}
+
+function restorePlanChecks(careerId, total) {
+  const checked = loadPlanChecks(careerId);
+  checked.forEach((isDone, i) => {
+    if (!isDone) return;
+    const stepEl = document.getElementById('pstep-' + careerId + '-' + i);
+    if (stepEl) {
+      stepEl.classList.add('done');
+      const cb = stepEl.querySelector('input[type=checkbox]');
+      if (cb) cb.checked = true;
+    }
+  });
+  updateRing(careerId, total);
+}
+
+// ─────────────────────────────────────────────
+//  PDF EXPORT — 90-day plan
+// ─────────────────────────────────────────────
+function exportPlan(careerId) {
+  const career = CAREERS.find(c => c.id === careerId);
+  if (!career) return;
+  const checked = loadPlanChecks(careerId);
+  const stepsHTML = career.plan90.map((s, i) => `
+    <div class="print-step">
+      <div class="print-period">${s.period}${checked[i] ? ' ✓ Complete' : ''}</div>
+      <div class="print-step-title">${s.title}</div>
+      <div class="print-step-desc">${s.desc}</div>
+    </div>`).join('');
+  const area = document.getElementById('print-area');
+  area.innerHTML = `
+    <div class="print-title">90-Day Plan: ${career.icon} ${career.title}</div>
+    <div class="print-career">${career.tagline}</div>
+    ${stepsHTML}
+    <div class="print-footer">
+      Generated from Microsoft Career Navigator &nbsp;·&nbsp; simranjaggiva-prog.github.io/Pathfinder-Website-
+    </div>`;
+  window.print();
+}
+</script>
+
+<!-- Canvas confetti -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<script>
+// ─────────────────────────────────────────────
+//  CONFETTI
+// ─────────────────────────────────────────────
+let confettiFired = false;
+function fireConfetti() {
+  if (typeof confetti !== 'function') return;
+  confetti({ particleCount: 130, spread: 80, origin: { y: 0.55 },
+    colors: ['#1c3d6e','#b08824','#e8d49a','#2a5424','#3c1e68','#ffffff'] });
+}
+
+// ─────────────────────────────────────────────
+//  TYPEWRITER EFFECT
+// ─────────────────────────────────────────────
+(function initTypewriter() {
+  const words = [
+    'Data Engineer', 'Cloud Architect', 'AI Developer',
+    'Security Analyst', 'DevOps Engineer', 'Power Platform Developer',
+    'Data Scientist', 'Software Developer'
+  ];
+  const el = document.getElementById('typewriter-word');
+  if (!el) return;
+  let wordIdx = 0, charIdx = 0, deleting = false;
+  const TYPE_SPEED = 70, DEL_SPEED = 40, PAUSE = 1800;
+
+  function tick() {
+    const current = words[wordIdx];
+    if (!deleting) {
+      el.textContent = current.slice(0, charIdx + 1);
+      charIdx++;
+      if (charIdx === current.length) {
+        deleting = true;
+        setTimeout(tick, PAUSE);
+        return;
+      }
+    } else {
+      el.textContent = current.slice(0, charIdx - 1);
+      charIdx--;
+      if (charIdx === 0) {
+        deleting = false;
+        wordIdx = (wordIdx + 1) % words.length;
+      }
+    }
+    setTimeout(tick, deleting ? DEL_SPEED : TYPE_SPEED);
+  }
+  setTimeout(tick, 600);
+})();
 </script>
 </body>
 </html>

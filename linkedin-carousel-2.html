@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LinkedIn Carousel 2 – Women in Tech Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #111;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding: 40px 20px;
+  }
+
+  .print-hint {
+    color: #aaa; font-size: 14px; text-align: center;
+    background: #222; padding: 12px 24px;
+    border-radius: 8px; border: 1px solid #444;
+  }
+  .print-hint strong { color: #fff; }
+
+  .slide {
+    width: 1080px;
+    height: 1080px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .badge {
+    position: absolute;
+    top: 44px; right: 50px;
+    font-size: 15px; font-weight: 700;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 1px;
+  }
+
+  .logo-strip {
+    position: absolute;
+    bottom: 42px; left: 54px;
+    font-size: 15px; font-weight: 700;
+    opacity: .6; letter-spacing: .3px;
+  }
+
+  /* ══ SLIDE 1 — Hook ══ */
+  #s1 {
+    background: linear-gradient(135deg, #ff6b9d 0%, #c44569 40%, #6c1c4f 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 90px;
+  }
+  #s1 .eyebrow {
+    font-size: 20px; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; color: rgba(255,255,255,0.7);
+    margin-bottom: 32px;
+  }
+  #s1 h1 {
+    font-size: 82px; font-weight: 900; line-height: 1.05;
+    color: #fff; margin-bottom: 40px;
+  }
+  #s1 .underline-box {
+    display: inline-block;
+    background: rgba(255,255,255,0.18);
+    border-radius: 12px;
+    padding: 4px 20px;
+  }
+  #s1 .sub {
+    font-size: 26px; color: rgba(255,255,255,0.78);
+    line-height: 1.55; max-width: 720px;
+  }
+  #s1 .swipe {
+    position: absolute; bottom: 50px; right: 54px;
+    font-size: 19px; color: rgba(255,255,255,0.45);
+  }
+  #s1 .logo-strip { color: #fff; }
+
+  /* ══ SLIDE 2 — Myth 1 ══ */
+  #s2 {
+    background: #0d0d0d;
+    display: flex; flex-direction: column;
+    justify-content: center; padding: 80px 90px;
+  }
+  #s2 .step-label {
+    font-size: 17px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: #ff6b9d; margin-bottom: 28px;
+  }
+  #s2 .myth {
+    font-size: 28px; font-weight: 700;
+    color: rgba(255,255,255,0.35);
+    text-decoration: line-through;
+    margin-bottom: 18px;
+  }
+  #s2 .truth-label {
+    font-size: 17px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: #4ade80;
+    margin-bottom: 18px;
+  }
+  #s2 h2 {
+    font-size: 62px; font-weight: 900;
+    color: #fff; line-height: 1.1; margin-bottom: 36px;
+  }
+  #s2 h2 span { color: #4ade80; }
+  #s2 .body {
+    font-size: 23px; color: rgba(255,255,255,0.65);
+    line-height: 1.65; max-width: 880px;
+  }
+  #s2 .logo-strip { color: #ff6b9d; }
+
+  /* ══ SLIDE 3 — Myth 2 ══ */
+  #s3 {
+    background: linear-gradient(160deg, #0a1628 0%, #0d2644 100%);
+    display: flex; flex-direction: column;
+    justify-content: center; padding: 80px 90px;
+  }
+  #s3 .step-label {
+    font-size: 17px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: #60a5fa; margin-bottom: 28px;
+  }
+  #s3 .myth {
+    font-size: 28px; font-weight: 700;
+    color: rgba(255,255,255,0.3);
+    text-decoration: line-through;
+    margin-bottom: 18px;
+  }
+  #s3 .truth-label {
+    font-size: 17px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: #34d399;
+    margin-bottom: 18px;
+  }
+  #s3 h2 {
+    font-size: 62px; font-weight: 900;
+    color: #fff; line-height: 1.1; margin-bottom: 36px;
+  }
+  #s3 h2 span { color: #60a5fa; }
+  #s3 .body {
+    font-size: 23px; color: rgba(255,255,255,0.65);
+    line-height: 1.65; max-width: 880px;
+  }
+  #s3 .logo-strip { color: #60a5fa; }
+
+  /* ══ SLIDE 4 — Free resources ══ */
+  #s4 {
+    background: #0d0d0d;
+    display: flex; flex-direction: column;
+    justify-content: center; padding: 72px 90px;
+  }
+  #s4 .step-label {
+    font-size: 17px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: #f9a8d4; margin-bottom: 28px;
+  }
+  #s4 h2 {
+    font-size: 56px; font-weight: 900;
+    color: #fff; line-height: 1.1; margin-bottom: 44px;
+  }
+  #s4 h2 span { color: #f9a8d4; }
+  .resource-list { display: flex; flex-direction: column; gap: 18px; }
+  .res-item {
+    display: flex; align-items: center; gap: 24px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 16px; padding: 18px 26px;
+    border-left: 4px solid #f9a8d4;
+  }
+  .res-emoji { font-size: 28px; flex-shrink: 0; width: 40px; text-align: center; }
+  .res-right {}
+  .res-name { font-size: 21px; font-weight: 800; color: #f9a8d4; margin-bottom: 3px; }
+  .res-desc { font-size: 17px; color: rgba(255,255,255,0.55); }
+  #s4 .logo-strip { color: #f9a8d4; }
+
+  /* ══ SLIDE 5 — Imposter syndrome ══ */
+  #s5 {
+    background: linear-gradient(145deg, #1a0030 0%, #2d0050 60%, #0d001a 100%);
+    display: flex; flex-direction: column;
+    justify-content: center; padding: 80px 90px;
+  }
+  #s5 .step-label {
+    font-size: 17px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: #c084fc; margin-bottom: 28px;
+  }
+  #s5 h2 {
+    font-size: 64px; font-weight: 900;
+    color: #fff; line-height: 1.1; margin-bottom: 44px;
+  }
+  #s5 h2 span { color: #c084fc; }
+  .tip-list { display: flex; flex-direction: column; gap: 22px; }
+  .tip-item {
+    display: flex; gap: 22px; align-items: flex-start;
+  }
+  .tip-num {
+    width: 42px; height: 42px; flex-shrink: 0;
+    background: #c084fc; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 900; color: #1a0030;
+  }
+  .tip-text {
+    font-size: 21px; color: rgba(255,255,255,0.78);
+    line-height: 1.55; padding-top: 6px;
+  }
+  #s5 .logo-strip { color: #c084fc; }
+
+  /* ══ SLIDE 6 — CTA ══ */
+  #s6 {
+    background: linear-gradient(145deg, #be185d 0%, #9d174d 40%, #500724 100%);
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center; padding: 80px 100px;
+  }
+  #s6 .big-emoji { font-size: 90px; margin-bottom: 36px; display: block; }
+  #s6 h2 {
+    font-size: 60px; font-weight: 900;
+    color: #fff; line-height: 1.1; margin-bottom: 26px;
+  }
+  #s6 .cta-desc {
+    font-size: 24px; color: rgba(255,255,255,0.78);
+    line-height: 1.6; margin-bottom: 50px; max-width: 780px;
+  }
+  #s6 .url-pill {
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.35);
+    border-radius: 99px;
+    padding: 18px 52px;
+    font-size: 20px; font-weight: 800;
+    color: #fff; letter-spacing: .3px;
+    margin-bottom: 32px;
+  }
+  #s6 .tag {
+    font-size: 19px; color: rgba(255,255,255,0.45);
+  }
+  #s6 .logo-strip { color: rgba(255,255,255,0.6); }
+
+  @media print {
+    body { background: white; padding: 0; gap: 0; }
+    .print-hint { display: none; }
+    .slide { page-break-after: always; margin: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="print-hint">
+  💡 <strong>To export:</strong> File → Print → Save as PDF → Upload PDF to LinkedIn
+</div>
+
+<!-- ══ SLIDE 1 ══ -->
+<div class="slide" id="s1">
+  <div class="badge">1 / 6</div>
+  <div class="eyebrow">For every woman considering tech</div>
+  <h1>Things nobody<br>tells you before<br>you <span class="underline-box">start</span>.</h1>
+  <p class="sub">The myths, the free resources,<br>and the confidence boost you actually need.</p>
+  <div class="swipe">swipe →</div>
+  <div class="logo-strip">Simran Jaggiva · Microsoft Career Navigator</div>
+</div>
+
+<!-- ══ SLIDE 2 ══ -->
+<div class="slide" id="s2">
+  <div class="badge">2 / 6</div>
+  <div class="step-label">Myth #1</div>
+  <div class="myth">"You need a computer science degree."</div>
+  <div class="truth-label">✓ The truth</div>
+  <h2>You need a<br><span>plan</span>, not<br>a degree.</h2>
+  <p class="body">Some of the best engineers and cloud architects came from nursing, law, HR, and teaching. Microsoft certifications are skills-based — they test what you can <em>do</em>, not where you studied. AZ-900 takes 6–8 weeks to prepare for. Anyone can start today.</p>
+  <div class="logo-strip">Simran Jaggiva · Microsoft Career Navigator</div>
+</div>
+
+<!-- ══ SLIDE 3 ══ -->
+<div class="slide" id="s3">
+  <div class="badge">3 / 6</div>
+  <div class="step-label">Myth #2</div>
+  <div class="myth">"It's too competitive / too late / not for me."</div>
+  <div class="truth-label">✓ The truth</div>
+  <h2>The industry<br>has a<br><span>talent gap</span>.</h2>
+  <p class="body">By 2025, there were millions of unfilled cloud and AI roles globally. Companies are actively recruiting women, career changers and returners — not because it's charity, but because McKinsey found gender-diverse teams are 25% more profitable. They need you more than you think.</p>
+  <div class="logo-strip">Simran Jaggiva · Microsoft Career Navigator</div>
+</div>
+
+<!-- ══ SLIDE 4 ══ -->
+<div class="slide" id="s4">
+  <div class="badge">4 / 6</div>
+  <div class="step-label">Free resources built for women</div>
+  <h2>Your<br><span>community</span><br>is waiting.</h2>
+  <div class="resource-list">
+    <div class="res-item">
+      <span class="res-emoji">💜</span>
+      <div class="res-right">
+        <div class="res-name">Women Who Code</div>
+        <div class="res-desc">300,000+ members · events, jobs, study groups · free</div>
+      </div>
+    </div>
+    <div class="res-item">
+      <span class="res-emoji">🌟</span>
+      <div class="res-right">
+        <div class="res-name">AnitaB.org & Grace Hopper</div>
+        <div class="res-desc">World's largest women in tech gathering · scholarships & mentorship</div>
+      </div>
+    </div>
+    <div class="res-item">
+      <span class="res-emoji">🚀</span>
+      <div class="res-right">
+        <div class="res-name">Microsoft LEAP</div>
+        <div class="res-desc">Paid 16-week apprenticeship · no traditional background needed</div>
+      </div>
+    </div>
+    <div class="res-item">
+      <span class="res-emoji">☁️</span>
+      <div class="res-right">
+        <div class="res-name">Women in Cloud</div>
+        <div class="res-desc">120,000 members in 80 countries · certifications, events, jobs</div>
+      </div>
+    </div>
+  </div>
+  <div class="logo-strip">Simran Jaggiva · Microsoft Career Navigator</div>
+</div>
+
+<!-- ══ SLIDE 5 ══ -->
+<div class="slide" id="s5">
+  <div class="badge">5 / 6</div>
+  <div class="step-label">On imposter syndrome</div>
+  <h2>You're not<br>behind.<br>You're just<br><span>getting started.</span></h2>
+  <div class="tip-list">
+    <div class="tip-item">
+      <div class="tip-num">1</div>
+      <div class="tip-text">Women apply when they meet 100% of job requirements. Men apply at 60%. Apply anyway.</div>
+    </div>
+    <div class="tip-item">
+      <div class="tip-num">2</div>
+      <div class="tip-text">Every engineer Googles things constantly. Finding answers <em>is</em> the skill.</div>
+    </div>
+    <div class="tip-item">
+      <div class="tip-num">3</div>
+      <div class="tip-text">One cert. One community. One step. Momentum beats perfection every time.</div>
+    </div>
+  </div>
+  <div class="logo-strip">Simran Jaggiva · Microsoft Career Navigator</div>
+</div>
+
+<!-- ══ SLIDE 6 ══ -->
+<div class="slide" id="s6">
+  <div class="badge">6 / 6</div>
+  <span class="big-emoji">👩‍💻</span>
+  <h2>Ready to find<br>your path?</h2>
+  <p class="cta-desc">A free tool built for students — and especially for women who want a clear, supported route into Microsoft tech careers. Communities, scholarships and real stories included.</p>
+  <div class="url-pill">simranjaggiva-prog.github.io/Pathfinder-Website-</div>
+  <p class="tag">Free · No signup · Built by a student · Link in comments ↓</p>
+  <div class="logo-strip">Simran Jaggiva</div>
+</div>
+
+</body>
+</html>

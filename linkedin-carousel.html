@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LinkedIn Carousel – Microsoft Career Navigator</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;700;900&family=Inter:wght@400;700;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: #1a1a2e;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding: 40px 20px;
+  }
+
+  .print-hint {
+    color: #aaa;
+    font-size: 14px;
+    text-align: center;
+    background: #222;
+    padding: 12px 24px;
+    border-radius: 8px;
+    border: 1px solid #444;
+  }
+  .print-hint strong { color: #fff; }
+
+  /* ─── Each slide is 1080×1080 ─── */
+  .slide {
+    width: 1080px;
+    height: 1080px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    border-radius: 4px;
+  }
+
+  /* ── Slide counter badge ── */
+  .badge {
+    position: absolute;
+    top: 44px;
+    right: 44px;
+    font-size: 15px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 1px;
+  }
+
+  /* ── Logo strip ── */
+  .logo {
+    position: absolute;
+    bottom: 44px;
+    left: 54px;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: .5px;
+    opacity: .75;
+  }
+
+  /* ══════════════════════════════
+     SLIDE 1 — Hook
+  ══════════════════════════════ */
+  #s1 {
+    background: linear-gradient(145deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 90px;
+  }
+  #s1 .eyebrow {
+    font-size: 22px;
+    font-weight: 700;
+    color: #c084fc;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  #s1 h1 {
+    font-size: 88px;
+    font-weight: 900;
+    line-height: 1.0;
+    color: #fff;
+    margin-bottom: 36px;
+  }
+  #s1 h1 span { color: #a78bfa; }
+  #s1 .sub {
+    font-size: 28px;
+    color: rgba(255,255,255,0.72);
+    line-height: 1.5;
+    max-width: 740px;
+  }
+  #s1 .swipe-hint {
+    position: absolute;
+    bottom: 52px;
+    right: 54px;
+    font-size: 20px;
+    color: rgba(255,255,255,0.5);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  #s1 .logo { color: #a78bfa; }
+
+  /* ══════════════════════════════
+     SLIDE 2 — The problem (stats)
+  ══════════════════════════════ */
+  #s2 {
+    background: #0a0a0a;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 90px;
+    gap: 0;
+  }
+  #s2 .label {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #f472b6;
+    margin-bottom: 48px;
+  }
+  .stat-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+    margin-bottom: 52px;
+    padding-bottom: 52px;
+    border-bottom: 1px solid #1f1f1f;
+  }
+  .stat-row:last-of-type { border-bottom: none; margin-bottom: 0; }
+  .stat-num-big {
+    font-size: 100px;
+    font-weight: 900;
+    line-height: 1;
+    color: #f472b6;
+    min-width: 280px;
+  }
+  .stat-detail { padding-top: 14px; }
+  .stat-detail strong {
+    display: block;
+    font-size: 26px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .stat-detail span {
+    font-size: 19px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.5;
+  }
+  #s2 .logo { color: #f472b6; }
+
+  /* ══════════════════════════════
+     SLIDE 3 — What I built
+  ══════════════════════════════ */
+  #s3 {
+    background: linear-gradient(160deg, #1e3a5f 0%, #0d1b2a 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 90px;
+  }
+  #s3 .label {
+    font-size: 20px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: #38bdf8; margin-bottom: 40px;
+  }
+  #s3 h2 {
+    font-size: 64px; font-weight: 900;
+    color: #fff; line-height: 1.1; margin-bottom: 54px;
+  }
+  #s3 h2 span { color: #38bdf8; }
+  .feature-list { display: flex; flex-direction: column; gap: 24px; }
+  .feature-item {
+    display: flex; align-items: center; gap: 24px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 16px; padding: 20px 28px;
+    border-left: 4px solid #38bdf8;
+  }
+  .feature-icon { font-size: 30px; flex-shrink: 0; width: 44px; text-align: center; }
+  .feature-text { font-size: 21px; font-weight: 600; color: #e2e8f0; }
+  #s3 .logo { color: #38bdf8; }
+
+  /* ══════════════════════════════
+     SLIDE 4 — Women in Tech focus
+  ══════════════════════════════ */
+  #s4 {
+    background: linear-gradient(145deg, #2d0036 0%, #4a0050 40%, #1a0020 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 90px;
+  }
+  #s4 .label {
+    font-size: 20px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: #f9a8d4; margin-bottom: 40px;
+  }
+  #s4 h2 {
+    font-size: 62px; font-weight: 900;
+    color: #fff; line-height: 1.1; margin-bottom: 50px;
+  }
+  #s4 h2 span { color: #f9a8d4; }
+  .wit-feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .wit-feat {
+    background: rgba(255,255,255,0.08);
+    border-radius: 18px; padding: 26px 28px;
+    border: 1px solid rgba(249,168,212,0.2);
+  }
+  .wit-feat-icon { font-size: 32px; margin-bottom: 10px; display: block; }
+  .wit-feat-title { font-size: 20px; font-weight: 800; color: #f9a8d4; margin-bottom: 6px; }
+  .wit-feat-desc { font-size: 16px; color: rgba(255,255,255,0.6); line-height: 1.45; }
+  #s4 .logo { color: #f9a8d4; }
+
+  /* ══════════════════════════════
+     SLIDE 5 — CTA
+  ══════════════════════════════ */
+  #s5 {
+    background: linear-gradient(145deg, #0078d4 0%, #005a9e 50%, #003870 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 80px 100px;
+  }
+  #s5 .big-emoji { font-size: 100px; margin-bottom: 40px; display: block; }
+  #s5 h2 {
+    font-size: 64px; font-weight: 900;
+    color: #fff; line-height: 1.1; margin-bottom: 28px;
+  }
+  #s5 .cta-desc {
+    font-size: 26px; color: rgba(255,255,255,0.8);
+    line-height: 1.6; margin-bottom: 56px;
+  }
+  #s5 .url-box {
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 20px;
+    padding: 22px 48px;
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: .5px;
+    margin-bottom: 40px;
+  }
+  #s5 .tagline {
+    font-size: 20px;
+    color: rgba(255,255,255,0.55);
+  }
+  #s5 .logo { color: rgba(255,255,255,0.6); }
+
+  /* ── Print ── */
+  @media print {
+    body { background: white; padding: 0; gap: 0; }
+    .print-hint { display: none; }
+    .slide {
+      page-break-after: always;
+      border-radius: 0;
+      margin: 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="print-hint">
+  💡 <strong>To create the LinkedIn carousel:</strong> File → Print → Save as PDF → Upload PDF to LinkedIn post
+</div>
+
+<!-- ══ SLIDE 1 ══ -->
+<div class="slide" id="s1">
+  <div class="badge">1 / 5</div>
+  <div class="eyebrow">Microsoft Career Navigator</div>
+  <h1>Only <span>26%</span><br>of tech roles<br>are held by<br>women.</h1>
+  <p class="sub">I built something to help change that.<br>Swipe to see what →</p>
+  <div class="swipe-hint">swipe →</div>
+  <div class="logo">Simran Jaggiva · github.io/Pathfinder-Website-</div>
+</div>
+
+<!-- ══ SLIDE 2 ══ -->
+<div class="slide" id="s2">
+  <div class="badge">2 / 5</div>
+  <div class="label">The numbers</div>
+
+  <div class="stat-row">
+    <div class="stat-num-big">26%</div>
+    <div class="stat-detail">
+      <strong>Women in computing workforce</strong>
+      <span>NCWIT, "Women in Tech: The Facts", 2020</span>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-num-big">35%</div>
+    <div class="stat-detail">
+      <strong>Women among global STEM students</strong>
+      <span>UNESCO Science Report, 2021</span>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-num-big">25%</div>
+    <div class="stat-detail">
+      <strong>More profitable with gender-diverse teams</strong>
+      <span>McKinsey "Diversity Wins", 2020</span>
+    </div>
+  </div>
+
+  <div class="logo">Simran Jaggiva · Sources: NCWIT / UNESCO / McKinsey</div>
+</div>
+
+<!-- ══ SLIDE 3 ══ -->
+<div class="slide" id="s3">
+  <div class="badge">3 / 5</div>
+  <div class="label">What I built</div>
+  <h2>A free Microsoft<br><span>Career Navigator</span><br>for students</h2>
+  <div class="feature-list">
+    <div class="feature-item">
+      <span class="feature-icon">🎯</span>
+      <span class="feature-text">Pick your interests — get matched to a Microsoft career path</span>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon">📋</span>
+      <span class="feature-text">90-day learning plan + certifications to aim for</span>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon">🤖</span>
+      <span class="feature-text">Built-in chatbot to answer career questions</span>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon">🎓</span>
+      <span class="feature-text">Student communities, free tools & Azure credits</span>
+    </div>
+  </div>
+  <div class="logo">Simran Jaggiva · github.io/Pathfinder-Website-</div>
+</div>
+
+<!-- ══ SLIDE 4 ══ -->
+<div class="slide" id="s4">
+  <div class="badge">4 / 5</div>
+  <div class="label">Built for women in tech</div>
+  <h2>Because <span>every career path</span><br>should come with<br>a support network</h2>
+  <div class="wit-feature-grid">
+    <div class="wit-feat">
+      <span class="wit-feat-icon">💜</span>
+      <div class="wit-feat-title">Women's communities</div>
+      <div class="wit-feat-desc">Per-career networks — WiCyS, Women in Cloud, AnitaB.org & more</div>
+    </div>
+    <div class="wit-feat">
+      <span class="wit-feat-icon">🏆</span>
+      <div class="wit-feat-title">Scholarships</div>
+      <div class="wit-feat-desc">NCWIT, WiCyS, Google, Microsoft — all verified & linked</div>
+    </div>
+    <div class="wit-feat">
+      <span class="wit-feat-icon">💬</span>
+      <div class="wit-feat-title">Real stories</div>
+      <div class="wit-feat-desc">Career changers, returning mums, first-gen students who made it</div>
+    </div>
+    <div class="wit-feat">
+      <span class="wit-feat-icon">🧠</span>
+      <div class="wit-feat-title">Imposter syndrome</div>
+      <div class="wit-feat-desc">Practical tips — because the stats say women wait too long to apply</div>
+    </div>
+  </div>
+  <div class="logo">Simran Jaggiva · github.io/Pathfinder-Website-</div>
+</div>
+
+<!-- ══ SLIDE 5 ══ -->
+<div class="slide" id="s5">
+  <div class="badge">5 / 5</div>
+  <span class="big-emoji">🚀</span>
+  <h2>Free. No signup.<br>Built by a student.</h2>
+  <p class="cta-desc">Try it, share it, or send it to someone<br>who's figuring out where to start.</p>
+  <div class="url-box">simranjaggiva-prog.github.io/Pathfinder-Website-</div>
+  <p class="tagline">Link in the comments ↓</p>
+  <div class="logo">Simran Jaggiva</div>
+</div>
+
+</body>
+</html>
